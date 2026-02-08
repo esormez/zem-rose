@@ -57,7 +57,7 @@ export default function HorizontalScroll({ children, onScroll }: HorizontalScrol
 
         // Scroll continuously while key is held
         let scrollAmount = 0;
-        const targetScroll = 880; // One card width + gap
+        const targetScroll = 905; // One card width + gap
         keyScrollInterval = setInterval(() => {
           if (scrollAmount >= targetScroll) {
             if (keyScrollInterval) clearInterval(keyScrollInterval);
@@ -99,12 +99,12 @@ export default function HorizontalScroll({ children, onScroll }: HorizontalScrol
       className="horizontal-scroll-container"
       style={{
         display: 'flex',
-        gap: '80px',
+        gap: '30px',
         overflowX: 'auto',
         overflowY: 'hidden',
         scrollSnapType: 'x proximity',
         scrollBehavior: 'auto',
-        padding: '0 max(calc((100vw - 800px) / 2), 80px)',
+        padding: '0 max(calc((100vw - 875px) / 2), 80px)',
         minHeight: '100vh',
         alignItems: 'center',
         transition: 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',

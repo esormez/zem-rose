@@ -14,8 +14,8 @@ interface CardProps {
 export default function Card({ children, href, isActive = true, className = '', isOutlineMode = false }: CardProps) {
   const cardClasses = `
     relative
-    w-[800px] min-w-[800px]
-    h-[500px]
+    w-[875px] min-w-[875px]
+    h-[525px]
     p-12
     transition-all duration-300
     ${isActive ? 'opacity-100' : 'opacity-70'}
