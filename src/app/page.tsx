@@ -14,91 +14,38 @@ export default function Home() {
       <HorizontalScroll onScroll={setScrollProgress}>
         {/* Card 1: Home/Intro */}
         <Card isOutlineMode={isOutlineMode}>
-          <div className="h-full flex flex-col items-center justify-center text-center">
-            <h1
-              className="text-6xl font-bold tracking-tight mb-4"
-              style={isOutlineMode ? {
-                color: 'transparent',
-                WebkitTextStroke: '1px var(--text-secondary)',
-              } : { color: 'var(--text-primary)' }}
-            >
-              John Zemrose
-            </h1>
-            <p
-              className="text-lg mb-12"
-              style={isOutlineMode ? {
-                color: 'transparent',
-                WebkitTextStroke: '1px var(--text-secondary)',
-              } : { color: 'var(--text-secondary)' }}
-            >
-              Dynamic Technical Professional
-            </p>
-
-            {/* Metrics */}
-            <div className="flex justify-center gap-8">
-              <div className="text-center">
-                <div
-                  className="text-4xl font-bold font-mono mb-2"
-                  style={isOutlineMode ? {
-                    color: 'transparent',
-                    WebkitTextStroke: '1px var(--text-secondary)',
-                  } : { color: 'var(--text-accent)' }}
-                >
-                  Expertise 
-                </div>
-                <div
-                  className="text-xs uppercase tracking-wider"
-                  style={isOutlineMode ? {
-                    color: 'transparent',
-                    WebkitTextStroke: '1px var(--text-secondary)',
-                  } : { color: 'var(--text-secondary)' }}
-                >
-                  BIE • DE • MLE • GenAI • TPM • SA
-                </div>
-              </div>
-
-              <div className="text-center">
-                <div
-                  className="text-4xl font-bold font-mono mb-2"
-                  style={isOutlineMode ? {
-                    color: 'transparent',
-                    WebkitTextStroke: '1px var(--text-secondary)',
-                  } : { color: 'var(--text-accent)' }}
-                >
-                  12+ yrs
-                </div>
-                <div
-                  className="text-xs uppercase tracking-wider"
-                  style={isOutlineMode ? {
-                    color: 'transparent',
-                    WebkitTextStroke: '1px var(--text-secondary)',
-                  } : { color: 'var(--text-secondary)' }}
-                >
-                  Amazon/AWS Tenure
-                </div>
-              </div>
-
-              <div className="text-center">
-                <div
-                  className="text-4xl font-bold font-mono mb-2"
-                  style={isOutlineMode ? {
-                    color: 'transparent',
-                    WebkitTextStroke: '1px var(--text-secondary)',
-                  } : { color: 'var(--text-accent)' }}
-                >
-                  4x 
-                </div>
-                <div
-                  className="text-xs uppercase tracking-wider"
-                  style={isOutlineMode ? {
-                    color: 'transparent',
-                    WebkitTextStroke: '1px var(--text-secondary)',
-                  } : { color: 'var(--text-secondary)' }}
-                >
-                  AWS Certified
-                </div>
-              </div>
+          <div
+            className="h-full flex items-center"
+            style={{
+              paddingLeft: '48px'
+            }}
+          >
+            {/* Left-aligned content - large bold text */}
+            <div className="relative z-10 max-w-[400px]">
+              <h1
+                className="text-[3rem] font-medium leading-[1.1] tracking-tight"
+                style={isOutlineMode ? {
+                  color: 'transparent',
+                  WebkitTextStroke: '1px var(--text-secondary)',
+                } : { color: 'var(--text-primary)' }}
+              >
+                John Zemrose is a data professional building AI-native engineering organizations through leadership and deep technical fluency
+              </h1>
             </div>
+
+            {/* Right-side visual element - burgundy circle (touches edges) */}
+            <div
+              className="absolute"
+              style={{
+                width: '500px',
+                height: '500px',
+                borderRadius: '50%',
+                backgroundColor: isOutlineMode ? 'transparent' : 'var(--color-3)',
+                border: isOutlineMode ? '1px solid var(--text-secondary)' : 'none',
+                right: '0',
+                top: '0',
+              }}
+            />
           </div>
         </Card>
 
@@ -451,7 +398,7 @@ export default function Home() {
             position: 'absolute',
             width: '20px',
             height: '1px',
-            backgroundColor: 'var(--text-secondary)',
+            backgroundColor: 'var(--text-primary)',
             top: '50%',
             left: '0',
             transform: 'translateY(-50%)',
@@ -463,7 +410,7 @@ export default function Home() {
             position: 'absolute',
             width: '1px',
             height: '20px',
-            backgroundColor: 'var(--text-secondary)',
+            backgroundColor: 'var(--text-primary)',
             left: '50%',
             top: '0',
             transform: 'translateX(-50%)',

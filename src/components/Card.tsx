@@ -15,7 +15,7 @@ export default function Card({ children, href, isActive = true, className = '', 
   const cardClasses = `
     relative
     w-[800px] min-w-[800px]
-    h-[400px]
+    h-[500px]
     p-12
     transition-all duration-300
     ${isActive ? 'opacity-100' : 'opacity-70'}
