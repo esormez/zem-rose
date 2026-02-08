@@ -19,7 +19,7 @@ export default function Home() {
               className="text-6xl font-bold tracking-tight mb-4"
               style={isOutlineMode ? {
                 color: 'transparent',
-                WebkitTextStroke: '1px #B2BAC2',
+                WebkitTextStroke: '1px var(--text-secondary)',
               } : { color: 'var(--text-primary)' }}
             >
               John Zemrose
@@ -28,7 +28,7 @@ export default function Home() {
               className="text-lg mb-12"
               style={isOutlineMode ? {
                 color: 'transparent',
-                WebkitTextStroke: '1px #B2BAC2',
+                WebkitTextStroke: '1px var(--text-secondary)',
               } : { color: 'var(--text-secondary)' }}
             >
               Dynamic Technical Professional
@@ -41,7 +41,7 @@ export default function Home() {
                   className="text-4xl font-bold font-mono mb-2"
                   style={isOutlineMode ? {
                     color: 'transparent',
-                    WebkitTextStroke: '1px #B2BAC2',
+                    WebkitTextStroke: '1px var(--text-secondary)',
                   } : { color: 'var(--text-accent)' }}
                 >
                   Expertise 
@@ -50,7 +50,7 @@ export default function Home() {
                   className="text-xs uppercase tracking-wider"
                   style={isOutlineMode ? {
                     color: 'transparent',
-                    WebkitTextStroke: '1px #B2BAC2',
+                    WebkitTextStroke: '1px var(--text-secondary)',
                   } : { color: 'var(--text-secondary)' }}
                 >
                   BIE • DE • MLE • GenAI • TPM • SA
@@ -62,7 +62,7 @@ export default function Home() {
                   className="text-4xl font-bold font-mono mb-2"
                   style={isOutlineMode ? {
                     color: 'transparent',
-                    WebkitTextStroke: '1px #B2BAC2',
+                    WebkitTextStroke: '1px var(--text-secondary)',
                   } : { color: 'var(--text-accent)' }}
                 >
                   12+ yrs
@@ -71,7 +71,7 @@ export default function Home() {
                   className="text-xs uppercase tracking-wider"
                   style={isOutlineMode ? {
                     color: 'transparent',
-                    WebkitTextStroke: '1px #B2BAC2',
+                    WebkitTextStroke: '1px var(--text-secondary)',
                   } : { color: 'var(--text-secondary)' }}
                 >
                   Amazon/AWS Tenure
@@ -83,7 +83,7 @@ export default function Home() {
                   className="text-4xl font-bold font-mono mb-2"
                   style={isOutlineMode ? {
                     color: 'transparent',
-                    WebkitTextStroke: '1px #B2BAC2',
+                    WebkitTextStroke: '1px var(--text-secondary)',
                   } : { color: 'var(--text-accent)' }}
                 >
                   4x 
@@ -92,7 +92,7 @@ export default function Home() {
                   className="text-xs uppercase tracking-wider"
                   style={isOutlineMode ? {
                     color: 'transparent',
-                    WebkitTextStroke: '1px #B2BAC2',
+                    WebkitTextStroke: '1px var(--text-secondary)',
                   } : { color: 'var(--text-secondary)' }}
                 >
                   AWS Certified
@@ -110,7 +110,7 @@ export default function Home() {
                 className="text-3xl font-bold mb-4"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-primary)' }}
               >
                 AI-Native Engineering
@@ -119,7 +119,7 @@ export default function Home() {
                 className="text-base mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Leading organization-wide AI transformation across 210+ engineers.
@@ -131,7 +131,7 @@ export default function Home() {
                 className="text-4xl font-mono font-bold mb-2"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 88% AI Adoption Increase
@@ -140,7 +140,7 @@ export default function Home() {
                 className="text-xs uppercase tracking-wider mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '0.3px #B2BAC2',
+                  WebkitTextStroke: '0.3px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 (43.9% → 82.7%)
@@ -150,7 +150,7 @@ export default function Home() {
                 className="text-sm"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 View Case Study →
@@ -167,7 +167,7 @@ export default function Home() {
                 className="text-3xl font-bold mb-4"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-primary)' }}
               >
                 Machine Learning
@@ -176,7 +176,7 @@ export default function Home() {
                 className="text-base mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Production ML systems and model lifecycle management at scale.
@@ -188,7 +188,7 @@ export default function Home() {
                 className="text-4xl font-mono font-bold mb-2"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 [Key Metric]
@@ -197,7 +197,7 @@ export default function Home() {
                 className="text-xs uppercase tracking-wider mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '0.3px #B2BAC2',
+                  WebkitTextStroke: '0.3px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 ML Platform Performance
@@ -207,7 +207,7 @@ export default function Home() {
                 className="text-sm"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 View Case Study →
@@ -224,7 +224,7 @@ export default function Home() {
                 className="text-3xl font-bold mb-4"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-primary)' }}
               >
                 Data Engineering
@@ -233,7 +233,7 @@ export default function Home() {
                 className="text-base mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Analytics decoupling and data pipeline optimization.
@@ -245,7 +245,7 @@ export default function Home() {
                 className="text-4xl font-mono font-bold mb-2"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 [Key Metric]
@@ -254,7 +254,7 @@ export default function Home() {
                 className="text-xs uppercase tracking-wider mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '0.3px #B2BAC2',
+                  WebkitTextStroke: '0.3px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Platform Modernization
@@ -264,7 +264,7 @@ export default function Home() {
                 className="text-sm"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 View Case Study →
@@ -281,7 +281,7 @@ export default function Home() {
                 className="text-3xl font-bold mb-4"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-primary)' }}
               >
                 Business Intelligence
@@ -290,7 +290,7 @@ export default function Home() {
                 className="text-base mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Self-service analytics and data democratization.
@@ -302,7 +302,7 @@ export default function Home() {
                 className="text-4xl font-mono font-bold mb-2"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 [Key Metric]
@@ -311,7 +311,7 @@ export default function Home() {
                 className="text-xs uppercase tracking-wider mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '0.3px #B2BAC2',
+                  WebkitTextStroke: '0.3px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Enterprise BI Transformation
@@ -321,7 +321,7 @@ export default function Home() {
                 className="text-sm"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 View Case Study →
@@ -338,7 +338,7 @@ export default function Home() {
                 className="text-3xl font-bold mb-4"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-primary)' }}
               >
                 About
@@ -347,7 +347,7 @@ export default function Home() {
                 className="text-base mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 12+ years at Amazon. Principal TPM specializing in AI and data platforms.
@@ -359,7 +359,7 @@ export default function Home() {
                 className="text-4xl font-mono font-bold mb-2"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 4 AWS Certifications
@@ -368,7 +368,7 @@ export default function Home() {
                 className="text-xs uppercase tracking-wider mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '0.3px #B2BAC2',
+                  WebkitTextStroke: '0.3px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Professional & Associate Levels
@@ -378,7 +378,7 @@ export default function Home() {
                 className="text-sm"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 View Details →
@@ -395,7 +395,7 @@ export default function Home() {
                 className="text-3xl font-bold mb-4"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-primary)' }}
               >
                 Let's Connect
@@ -404,7 +404,7 @@ export default function Home() {
                 className="text-base mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Get in touch for opportunities or collaboration.
@@ -416,7 +416,7 @@ export default function Home() {
                 className="text-lg mb-8"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-secondary)' }}
               >
                 Email · LinkedIn
@@ -426,7 +426,7 @@ export default function Home() {
                 className="text-sm"
                 style={isOutlineMode ? {
                   color: 'transparent',
-                  WebkitTextStroke: '1px #B2BAC2',
+                  WebkitTextStroke: '1px var(--text-secondary)',
                 } : { color: 'var(--text-accent)' }}
               >
                 View Contact Info →

@@ -24,10 +24,10 @@ export default function Card({ children, href, isActive = true, className = '', 
 
   const cardStyle = {
     backgroundColor: isOutlineMode ? 'transparent' : 'var(--bg-mid)',
-    border: isOutlineMode ? '1px solid #B2BAC2' : 'none',
+    border: isOutlineMode ? '1px solid var(--text-secondary)' : 'none',
   };
 
-  const hoverClasses = href ? 'hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(100,181,246,0.3)] cursor-pointer' : '';
+  const hoverClasses = href ? 'hover:-translate-y-1 hover:shadow-[0_0_30px_var(--hover-glow)] cursor-pointer' : '';
 
   const content = (
     <div

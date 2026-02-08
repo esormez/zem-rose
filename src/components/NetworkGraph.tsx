@@ -64,8 +64,8 @@ export default function NetworkGraph() {
     const nodes: Node[] = [];
     const totalNodes = 800;
 
-    // Consistent blueprint blue color
-    const nodeColor = '#2E7CB8';
+    // Rose palette - burgundy nodes
+    const nodeColor = '#8D152C';
 
     for (let i = 0; i < totalNodes; i++) {
       const cluster = Math.floor(Math.random() * numClusters);
@@ -157,7 +157,7 @@ export default function NetworkGraph() {
           const targetX = target.x + Math.sin(time + target.driftOffset) * 0.3;
           const targetY = target.y + Math.cos(time + target.driftOffset) * 0.3;
 
-          ctx.strokeStyle = `rgba(46, 124, 184, ${link.opacity})`;
+          ctx.strokeStyle = `rgba(83, 76, 68, ${link.opacity})`;
           ctx.lineWidth = 0.5;
           ctx.beginPath();
           ctx.moveTo(sourceX, sourceY);

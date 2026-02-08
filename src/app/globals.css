@@ -1,24 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  /* Blueprint-inspired blue palette */
-  --bg-base: #0A1929;
-  --bg-mid: #1A3A52;
+  /* Rose-inspired palette */
+  --color-1: #000;        /* Main text, scroll, negative border */
+  --color-2: #D5CBBA;     /* Main background */
+  --color-3: #8D152C;     /* Nodes */
+  --color-4: #42784F;     /* Accent */
+  --color-5: #534C44;     /* Edges */
 
-  /* Network graph nodes (depth layers) */
-  --node-distant: #1E4976;
-  --node-mid: #2E7CB8;
-  --node-close: #64B5F6;
-  --node-active: #90CAF9;
+  /* Semantic mappings */
+  --bg-base: var(--color-2);
+  --bg-mid: #C4B9A5;      /* Slightly darker variant of color-2 */
+
+  /* Network graph nodes (depth layers using color-3 variants) */
+  --node-distant: #5A0D1C;    /* Darker burgundy */
+  --node-mid: #8D152C;        /* Base burgundy (color-3) */
+  --node-close: #B01D38;      /* Lighter burgundy */
+  --node-active: #D42C4A;     /* Brightest burgundy */
 
   /* Text colors */
-  --text-primary: #FFFFFF;
-  --text-secondary: #B2BAC2;
-  --text-accent: #64B5F6;
+  --text-primary: var(--color-1);
+  --text-secondary: var(--color-5);
+  --text-accent: var(--color-4);
 
   /* Interactive states */
-  --hover-glow: rgba(100, 181, 246, 0.4);
-  --border-subtle: rgba(100, 181, 246, 0.2);
+  --hover-glow: rgba(141, 21, 44, 0.4);      /* color-3 with opacity */
+  --border-subtle: rgba(83, 76, 68, 0.3);     /* color-5 with opacity */
 }
 
 * {

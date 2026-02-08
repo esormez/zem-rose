@@ -10,11 +10,19 @@ export default function ProgressIndicator({
   totalLines = 20
 }: ProgressIndicatorProps) {
   // Calculate smooth position for the box based on progress
-  const boxPosition = progress * (totalLines - 1);
   const gapSize = 8; // gap-2 = 8px
   const lineWidth = 1; // w-px
-  const totalWidth = totalLines * lineWidth + (totalLines - 1) * gapSize;
-  const boxLeftOffset = (boxPosition / (totalLines - 1)) * totalWidth;
+  const lineSpacing = lineWidth + gapSize; // 9px between line starts
+  const boxWidth = 30; // Total box width (with box-sizing: border-box, includes border)
+
+  // Total width from first line's left edge to last line's right edge
+  const totalWidth = (totalLines - 1) * lineSpacing; // 171px (distance between first and last line centers)
+
+  // At progress=0: box left edge aligns with first line's left edge (0px)
+  //   → box center at 12px (half of 24px box width)
+  // At progress=1: box right edge aligns with last line's right edge
+  //   → box center at 159px
+  const boxLeftOffset = (boxWidth / 2) + progress * (totalWidth - boxWidth);
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
@@ -26,9 +34,9 @@ export default function ProgressIndicator({
           style={{
             borderColor: 'var(--text-secondary)',
             backgroundColor: 'var(--bg-base)',
-            width: '24px',
+            width: '30px',
             height: '20px',
-            left: `calc(1rem + ${boxLeftOffset}px)`, // 1rem = px-4 padding
+            left: `${boxLeftOffset}px`,
             top: '50%',
             transform: 'translate(-50%, -50%)',
           }}
