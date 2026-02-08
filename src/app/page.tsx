@@ -81,7 +81,7 @@ export default function Home() {
                 </svg>
               </div>
 
-              {/* Git Logo */}
+              {/* Turborepo Logo */}
               <div
                 style={{
                   width: '100px',
@@ -90,12 +90,14 @@ export default function Home() {
                   opacity: isOutlineMode ? 0.6 : 0.4,
                 }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
-                  <g fill="#534c44" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" style={{ mixBlendMode: 'normal' }}>
-                    <g transform="scale(5.12,5.12)">
-                      <path d="M46.79297,22.08984l-18.88281,-18.88281c-0.80078,-0.80469 -1.85547,-1.20703 -2.91016,-1.20703c-1.05469,0 -2.10937,0.40234 -2.91016,1.20703l-3.73437,3.73437l4.62109,4.62109c1.53516,-0.90234 3.53516,-0.70703 4.85156,0.60938c1.31641,1.31641 1.50781,3.31641 0.60547,4.84766l4.54297,4.54297c1.53516,-0.90234 3.53516,-0.70703 4.85156,0.60938c1.5625,1.5625 1.5625,4.09375 0,5.65625c-1.5625,1.5625 -4.09375,1.5625 -5.65625,0c-1.31641,-1.31641 -1.51172,-3.31641 -0.60937,-4.85156l-4.54297,-4.54297c-0.32422,0.19141 -0.66406,0.33203 -1.01953,0.42188v12.28516c1.72266,0.44531 3,1.99609 3,3.85938c0,2.21094 -1.78906,4 -4,4c-2.21094,0 -4,-1.78906 -4,-4c0,-1.86328 1.27734,-3.41406 3,-3.85937v-12.28516c-0.66797,-0.17187 -1.30469,-0.50391 -1.82812,-1.02734c-1.31641,-1.31641 -1.50781,-3.31641 -0.60547,-4.84766l-4.625,-4.625l-13.73437,13.73438c-1.60938,1.60547 -1.60938,4.21484 0,5.82031l18.88281,18.88281c0.80078,0.80469 1.85547,1.20703 2.91016,1.20703c1.05469,0 2.10938,-0.40234 2.91016,-1.20703l18.88281,-18.88281c1.60938,-1.60547 1.60938,-4.21484 0,-5.82031z"></path>
-                    </g>
-                  </g>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 318" width="100%" height="100%">
+                  <path fill="#534c44" d="M103.41.095C66.837-1.166 30.268 10.183 0 34.144l20.177 11.35c23.962-17.656 54.226-25.222 83.233-23.961z"/>
+                  <path fill="#534c44" d="M210.6 48.016c-25.222-26.483-58.01-42.877-93.319-46.66v21.438c30.268 5.044 56.75 18.916 78.188 40.355z"/>
+                  <path fill="#534c44" d="M256 151.424c-1.26-32.788-13.871-65.576-35.309-93.32l-15.136 15.133c17.657 23.96 27.747 50.444 29.008 78.187z"/>
+                  <path fill="#534c44" d="M220.691 259.877c21.438-27.744 34.049-60.532 35.309-93.32h-21.437c-1.26 27.744-11.351 54.227-29.008 78.187z"/>
+                  <path fill="#534c44" d="M117.281 316.626c34.049-3.783 68.097-20.178 93.32-46.66l-15.132-15.133c-21.437 22.7-49.185 36.571-78.188 40.354z"/>
+                  <path fill="#534c44" d="M0 283.838c30.268 23.96 66.837 35.31 103.41 34.049v-21.439c-29.007 1.262-58.01-6.305-83.233-23.96z"/>
+                  <path fill="#534c44" d="M97.651 71.344c13.479 0 25.919 2.295 37.321 6.886c11.402 4.443 21.177 10.663 29.324 18.66c8.292 7.998 14.734 17.402 19.326 28.214c4.593 10.663 6.887 22.214 6.887 34.655c0 12.44-2.294 24.066-6.887 34.877c-4.592 10.663-11.034 19.993-19.326 27.99c-8.147 7.998-17.922 14.292-29.324 18.883c-11.402 4.443-23.842 6.665-37.32 6.665c-13.625 0-26.142-2.222-37.544-6.665c-11.257-4.591-20.954-10.885-29.101-18.882c-8.147-7.998-14.513-17.328-19.105-27.991c-4.592-10.811-6.887-22.437-6.887-34.877c0-12.44 2.295-23.992 6.887-34.655c4.592-10.812 10.958-20.216 19.105-28.213c8.147-7.998 17.844-14.218 29.101-18.66c11.402-4.592 23.92-6.887 37.543-6.887m0 42.208c-6.37 0-12.44 1.184-18.216 3.554c-5.626 2.222-10.59 5.406-14.884 9.553c-4.293 4.146-7.702 9.034-10.219 14.661c-2.516 5.628-3.776 11.774-3.776 18.439c0 6.664 1.26 12.81 3.776 18.438c2.517 5.628 5.926 10.515 10.22 14.662c4.293 4.147 9.257 7.404 14.883 9.774c5.776 2.222 11.846 3.332 18.216 3.332c6.37 0 12.368-1.11 17.994-3.332c5.776-2.37 10.813-5.627 15.106-9.774c4.443-4.147 7.925-9.034 10.441-14.662c2.516-5.628 3.777-11.774 3.777-18.438c0-6.665-1.26-12.811-3.777-18.439c-2.516-5.627-5.998-10.515-10.44-14.661c-4.294-4.147-9.331-7.331-15.107-9.553c-5.626-2.37-11.624-3.554-17.994-3.554"/>
                 </svg>
               </div>
 
@@ -137,7 +139,7 @@ export default function Home() {
             </div>
 
             {/* Content - top section */}
-            <div className="relative z-10 mb-10">
+            <div className="relative z-10">
               <h2
                 className="text-[2.75rem] font-bold leading-tight mb-5 max-w-[550px]"
                 style={isOutlineMode ? {
@@ -148,67 +150,58 @@ export default function Home() {
               >
                 AI-Native Engineering
               </h2>
-              <p
-                className="text-sm leading-relaxed max-w-[520px] mb-6"
-                style={isOutlineMode ? {
-                  color: '#D5CBBA',
-                  textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
-                  WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-secondary)' }}
-              >
-                Monorepo architecture with Kubernetes deployments, E2E testing in local stacks, and Claude-powered development workflows
-              </p>
 
-              {/* Architecture Highlights */}
-              <div className="space-y-2 max-w-[600px]">
+              {/* Key Deliverables */}
+              <div className="space-y-3 max-w-[600px]">
                 <div
-                  className="text-xs font-medium"
+                  className="text-sm font-medium"
                   style={isOutlineMode ? {
                     color: '#D5CBBA',
                     textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                     WebkitFontSmoothing: 'antialiased',
-                  } : { color: 'var(--text-accent)' }}
+                  } : { color: 'var(--text-primary)' }}
                 >
-                  → Monorepo + Kubernetes: Shift-left testing with local E2E stacks
+                  Claude Agents & Skills: Context-aware development acceleration
                 </div>
                 <div
-                  className="text-xs font-medium"
+                  className="text-sm font-medium"
                   style={isOutlineMode ? {
                     color: '#D5CBBA',
                     textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                     WebkitFontSmoothing: 'antialiased',
-                  } : { color: 'var(--text-accent)' }}
+                  } : { color: 'var(--text-primary)' }}
                 >
-                  → Claude Agents & Skills: Context-aware development acceleration
+                  Rearchitecture for Scale: Performance-optimized pipelines
                 </div>
                 <div
-                  className="text-xs font-medium"
+                  className="text-sm font-medium"
                   style={isOutlineMode ? {
                     color: '#D5CBBA',
                     textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                     WebkitFontSmoothing: 'antialiased',
-                  } : { color: 'var(--text-accent)' }}
+                  } : { color: 'var(--text-primary)' }}
                 >
-                  → Rearchitecture for Scale: Performance-optimized pipelines
+                  Monorepo + Kubernetes: Shift-left testing with local E2E stacks
                 </div>
               </div>
             </div>
 
             {/* Content - metrics section */}
-            <div className="relative z-10 mt-auto">
+            <div className="relative z-10 mt-auto" style={{ paddingTop: '180px' }}>
               {/* Primary metric */}
               <div
-                className="text-[4.5rem] font-mono font-bold leading-none mb-3"
+                className="text-[4.5rem] font-mono font-bold leading-none"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-accent)' }}
+                  marginBottom: '16px',
+                } : { color: 'var(--text-accent)', marginBottom: '16px' }}
               >
                 2,600+
               </div>
               <div
-                className="text-xs uppercase tracking-widest mb-10"
+                className="text-xs uppercase tracking-widest mb-14"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
@@ -225,20 +218,23 @@ export default function Home() {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-accent)' }}
+                } : { color: 'var(--text-primary)' }}
               >
-                → Measurement Frameworks Quantify Impact
+                Measurement Frameworks Quantify Impact
               </div>
 
               <div
-                className="text-sm"
+                className="text-sm flex items-center gap-2"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-accent)' }}
+                } : { color: 'var(--text-primary)' }}
               >
-                View Case Study →
+                View Case Study
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M 6 3 L 6 5 L 17.59375 5 L 3.75 18.84375 L 5.15625 20.25 L 19 6.40625 L 19 18 L 21 18 L 21 3 Z"/>
+                </svg>
               </div>
             </div>
           </div>
