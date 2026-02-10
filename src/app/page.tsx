@@ -817,12 +817,13 @@ export default function Home() {
           </div>
         </Card>
 
-        {/* Card 6: About/Certifications */}
-        <Card href="/about" isOutlineMode={isOutlineMode}>
-          <div className="h-full flex flex-col justify-between">
-            <div>
+        {/* Card 6: About */}
+        <Card isOutlineMode={isOutlineMode}>
+          <div className="h-full flex flex-col relative overflow-hidden" style={{ padding: '60px' }}>
+            {/* Header and description */}
+            <div className="relative z-10">
               <h2
-                className="text-3xl font-bold mb-4"
+                className="text-[2.75rem] font-bold leading-tight mb-3 max-w-[550px]"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
@@ -831,49 +832,31 @@ export default function Home() {
               >
                 About
               </h2>
+
               <p
-                className="text-base mb-8"
+                className="text-base font-medium mb-8 max-w-[550px]"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
                 } : { color: 'var(--text-secondary)' }}
               >
-                12+ years at Amazon. Principal TPM specializing in AI and data platforms.
+                9 years driving data & AI transformation at AWS
               </p>
-            </div>
 
-            <div>
-              <div
-                className="text-4xl font-mono font-bold mb-2"
-                style={isOutlineMode ? {
-                  color: '#D5CBBA',
-                  textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
-                  WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-accent)' }}
-              >
-                4 AWS Certifications
-              </div>
-              <div
-                className="text-xs uppercase tracking-wider mb-8"
-                style={isOutlineMode ? {
-                  color: '#D5CBBA',
-                  textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
-                  WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-secondary)' }}
-              >
-                Professional & Associate Levels
+              {/* AWS Career Timeline */}
+              <div className="mb-8">
+                {/* Placeholder for career timeline content */}
               </div>
 
-              <div
-                className="text-sm"
-                style={isOutlineMode ? {
-                  color: '#D5CBBA',
-                  textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
-                  WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-accent)' }}
-              >
-                View Details →
+              {/* AWS Certifications */}
+              <div className="mb-8">
+                {/* Placeholder for Credly badges */}
+              </div>
+
+              {/* Education */}
+              <div className="mb-8">
+                {/* Placeholder for education content */}
               </div>
             </div>
           </div>
