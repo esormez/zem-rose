@@ -846,7 +846,30 @@ export default function Home() {
 
               {/* AWS Career Timeline */}
               <div className="mb-8">
-                {/* Placeholder for career timeline content */}
+                <h3
+                  className="text-base font-medium uppercase mb-4"
+                  style={isOutlineMode ? {
+                    color: '#D5CBBA',
+                    textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
+                    WebkitFontSmoothing: 'antialiased',
+                  } : { color: 'var(--text-primary)' }}
+                >
+                  AWS Career
+                </h3>
+                <ul
+                  className="text-sm max-w-[550px] space-y-2"
+                  style={isOutlineMode ? {
+                    color: '#D5CBBA',
+                    textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
+                    WebkitFontSmoothing: 'antialiased',
+                  } : { color: 'var(--text-secondary)' }}
+                >
+                  <li>2016: Joined Amazon (BI Engineer, EHS)</li>
+                  <li>2017: Moved to AWS T&C (Sr. BI Engineer)</li>
+                  <li>2022: Promoted to Sr. TPM, BI & Analytics</li>
+                  <li>2024: Sr. TPM, Data & ML Engineering</li>
+                  <li>2025: Sr. TPM, AI-Native Engineering (current)</li>
+                </ul>
               </div>
 
               {/* AWS Certifications */}
