@@ -626,7 +626,7 @@ export default function Home() {
                   WebkitFontSmoothing: 'antialiased',
                 } : { color: 'var(--text-secondary)' }}
               >
-                Annualized Revenue Reclaimed
+                Annualized Infrastructure Cost Savings
               </div>
 
               <div
@@ -648,10 +648,79 @@ export default function Home() {
 
         {/* Card 5: Business Intelligence */}
         <Card href="/business-intelligence" isOutlineMode={isOutlineMode}>
-          <div className="h-full flex flex-col justify-between">
-            <div>
+          <div className="h-full flex flex-col relative overflow-hidden" style={{ padding: '60px' }}>
+            {/* Tech Stack Logos - vertically stacked, right aligned */}
+            <div
+              className="absolute flex flex-col gap-6 items-end"
+              style={{
+                right: '80px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                paddingRight: '16px',
+              }}
+            >
+              {/* BI Icons: use public SVGs (tableau, SQL, Python, RLang) */}
+              <div
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  padding: '8px',
+                  opacity: isOutlineMode ? 0.6 : 0.4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img src="/tableau.svg" alt="Tableau" style={{ width: '100%', height: '100%' }} />
+              </div>
+
+              <div
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  padding: '8px',
+                  opacity: isOutlineMode ? 0.6 : 0.4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img src="/Sql.svg" alt="SQL" style={{ width: '100%', height: '100%' }} />
+              </div>
+
+              <div
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  padding: '8px',
+                  opacity: isOutlineMode ? 0.6 : 0.4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img src="/Python.svg" alt="Python" style={{ width: '100%', height: '100%' }} />
+              </div>
+
+              <div
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  padding: '8px',
+                  opacity: isOutlineMode ? 0.6 : 0.4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img src="/RLang.svg" alt="R" style={{ width: '100%', height: '100%' }} />
+              </div>
+            </div>
+
+            {/* Content - top section */}
+            <div className="relative z-10">
               <h2
-                className="text-3xl font-bold mb-4"
+                className="text-[2.75rem] font-bold leading-tight mb-3 max-w-[550px]"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
@@ -660,49 +729,89 @@ export default function Home() {
               >
                 Business Intelligence
               </h2>
+
               <p
-                className="text-base mb-8"
+                className="text-base font-medium mb-8 max-w-[550px]"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
                 } : { color: 'var(--text-secondary)' }}
               >
-                Self-service analytics and data democratization.
+                VP Metrics Automation & Data Governance Framework
               </p>
+
+              {/* Key Deliverables */}
+              <div className="space-y-3 max-w-[600px]">
+                <div
+                  className="text-sm"
+                  style={isOutlineMode ? {
+                    color: '#D5CBBA',
+                    textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
+                    WebkitFontSmoothing: 'antialiased',
+                  } : { color: 'var(--text-primary)' }}
+                >
+                  VP Executive Metrics: Automated 400+ KPI consolidation for executive velocity
+                </div>
+                <div
+                  className="text-sm"
+                  style={isOutlineMode ? {
+                    color: '#D5CBBA',
+                    textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
+                    WebkitFontSmoothing: 'antialiased',
+                  } : { color: 'var(--text-primary)' }}
+                >
+                  Tableau & Redshift Architecture: Global dashboards with standardized patterns
+                </div>
+                <div
+                  className="text-sm"
+                  style={isOutlineMode ? {
+                    color: '#D5CBBA',
+                    textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
+                    WebkitFontSmoothing: 'antialiased',
+                  } : { color: 'var(--text-primary)' }}
+                >
+                  BI Governance: CI/CD processes and standards framework for data products
+                </div>
+              </div>
             </div>
 
-            <div>
+            {/* Content - metrics section */}
+            <div className="relative z-10 mt-auto" style={{ paddingTop: '165px' }}>
               <div
-                className="text-4xl font-mono font-bold mb-2"
+                className="text-[4.5rem] font-mono font-bold leading-none"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-accent)' }}
+                  marginBottom: '16px',
+                } : { color: 'var(--text-accent)', marginBottom: '16px' }}
               >
-                [Key Metric]
+                $1.5M+
               </div>
               <div
-                className="text-xs uppercase tracking-wider mb-8"
+                className="text-xs uppercase tracking-widest mb-14"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
                 } : { color: 'var(--text-secondary)' }}
               >
-                Enterprise BI Transformation
+                OPEX Reclaimed
               </div>
 
               <div
-                className="text-sm"
+                className="text-sm flex items-center gap-2"
                 style={isOutlineMode ? {
                   color: '#D5CBBA',
                   textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
                   WebkitFontSmoothing: 'antialiased',
-                } : { color: 'var(--text-accent)' }}
+                } : { color: 'var(--text-primary)' }}
               >
-                View Case Study →
+                View Case Study
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M 6 3 L 6 5 L 17.59375 5 L 3.75 18.84375 L 5.15625 20.25 L 19 6.40625 L 19 18 L 21 18 L 21 3 Z"/>
+                </svg>
               </div>
             </div>
           </div>
