@@ -1,0 +1,7 @@
+2026-02-10 | brainstorm | Use stacked text format (like Card 2) for deliverables | Matches existing portfolio pattern, clean "Title: Description" format
+2026-02-10 | brainstorm | Replace Hadoop with AWS Redshift | Hadoop icon too complex, Redshift more accurate to AWS-native architecture
+2026-02-10 | brainstorm | Source icons from AWS Architecture Icons | Consistent professional quality from single official source
+2026-02-10 | brainstorm | Standardize viewBox to 512×512 | Ensures consistent scaling across all icons
+2026-02-10 | brainstorm | Keep AWS-centric tech stack (Lake Formation, Redshift, Glue, Airflow) | Accurately represents the actual architecture of Ac/Dc project
+2026-02-10 | scope | Single feature scope (4 tasks) | Small, focused update to one card component
+2026-02-10 | finalize | Beads created and test specs written | Epic zem-rose-ypu with 1 feature and 4 tasks
