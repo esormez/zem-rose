@@ -1,91 +1,148 @@
 phases:
   - id: phase-1
-    title: "Phase 1: Data Engineering Card Enhancement"
-    description: "Update Card 4 to match professional quality of Cards 1-3"
-    duration: "1 session"
+    title: "Phase 1: About Card Implementation"
+    description: "Add professional about card showcasing AWS career, certifications, and education"
+    duration: "2-3 sessions"
 
     features:
       - id: feature-1.1
-        title: "Feature 1.1: Enhanced Data Engineering Card"
-        priority: 2
-        user_story: "As a portfolio viewer, I want to see specific deliverables and professional tech stack icons on the Data Engineering card so that I can quickly understand the scope and impact of the work"
+        title: "Feature 1.1: About card with AWS career and certifications"
+        priority: 1
+        user_story: "As a portfolio visitor, I want to see the professional background, AWS career trajectory, and verifiable certifications so that I can understand the expertise behind the project work"
         acceptance_criteria:
-          - "Card 4 displays three deliverables in stacked text format matching Card 2 style"
-          - "Tech stack shows 4 AWS-centric icons (Lake Formation, Redshift, Glue, Airflow) with consistent visual quality"
-          - "Icons use standardized viewBox (512×512), consistent styling, and match Cards 2-3 quality"
-          - "Deliverables text is scannable with 'Title: Description' format"
-          - "Visual consistency across all 4 cards (1-4)"
+          - "Card 6 displays About section with clear title and structure"
+          - "AWS career timeline shows 3-4 key milestones from 2016-present"
+          - "4 AWS certification badges are displayed and clickable to Credly verification"
+          - "Education section lists degree and specializations"
+          - "Design is consistent with portfolio aesthetic (fonts, colors, hover effects)"
         tracer_strategy:
-          minimal_flow: "Add deliverables → Replace Hadoop icon → Standardize all icons → Verify consistency"
-          layers: "Content layer (JSX text) → Visual layer (SVG icons) → Styling layer (consistency)"
-          expansion: "Additional metrics, interactive elements (deferred)"
+          minimal_flow: "Replace Card 6 → Add vertical sections → Add content → Integrate Credly → Apply styling"
+          layers: "Structure layer (layout) → Content layer (timeline/education) → Integration layer (Credly script) → Styling layer (design system)"
+          expansion: "Skills section (deferred if space tight), additional certifications (future)"
 
         tasks:
-          - title: "Add deliverables content in Card 2 format"
+          - title: "Replace Card 6 with vertical section layout"
             priority: 1
-            tracer: "Content layer - proves deliverables are visible and scannable"
+            tracer: "Foundation - proves new layout pattern works, different from project cards"
             description: |
-              - Add {/* Key Deliverables */} section after h2 title
-              - Use space-y-3 max-w-[600px] container
-              - Add three text-sm font-medium divs:
-                1. "1P Data Migration & Integration: 9 first-party service pipelines with bulk validation"
-                2. "Data Lake Rearchitecture: Lake Formation with secure tagging & self-service analytics"
-                3. "Development Catalogs: PII-redacted prod-grade data for lower environments"
-              - Match Card 2 styling exactly (isOutlineMode support)
-            deliverable: "Deliverables visible on Card 4 with proper formatting"
-            reference: "src/app/page.tsx lines 156-180 (Card 2 deliverables)"
+              - Locate Card 6 placeholder at line 820 in page.tsx
+              - Replace with new card structure using vertical sections
+              - Add About title (h2) and subtitle
+              - Create section containers for timeline, certifications, education
+              - Maintain 60px padding, 875×525px dimensions
+              - No tech logos on right, no metrics at bottom
+            deliverable: "Card 6 with empty vertical sections and About header"
+            reference: "Cards 2-5 for consistent styling patterns, but different layout"
             tdd: false
+            estimated_time: "30 min"
 
-          - title: "Source and prepare AWS Architecture Icons"
+          - title: "Add AWS career timeline content"
             priority: 1
-            tracer: "Icon sourcing - proves we have professional quality SVGs"
+            depends_on: ["Replace Card 6 with vertical section layout"]
+            tracer: "Content layer - proves timeline section works with proper spacing"
             description: |
-              - Download AWS Architecture Icons package or source from official AWS
-              - Extract: Lake Formation, Redshift, Glue SVG files
-              - Source Apache Airflow from official Apache project or Devicon
-              - Process SVGs:
-                * Standardize viewBox to "0 0 512 512"
-                * Set fill="#534C44"
-                * Remove unnecessary metadata/carrier groups
-                * Ensure width="100%" height="100%" for scaling
-              - Test rendering at 100px size for clarity
-            deliverable: "4 clean, standardized SVG files ready for integration"
-            reference: "https://aws.amazon.com/architecture/icons/"
+              - Add "AWS Career" section heading
+              - Add 3-4 key career milestones from resume:
+                * 2016: Joined Amazon (BI Engineer, EHS)
+                * 2017: Moved to AWS T&C (Sr. BI Engineer)
+                * 2022: Promoted to Sr. TPM, BI & Analytics
+                * 2024: Sr. TPM, Data & ML Engineering
+                * 2025: Sr. TPM, AI-Native Engineering (current)
+              - Use bullet list (ul/li) with proper semantic HTML
+              - Apply text-sm class, max-w constraints
+              - Test spacing with outline mode toggle
+            deliverable: "Timeline section with 3-4 career milestones, properly styled"
+            reference: "Resume-2026-01-26.md for career history"
             tdd: false
+            estimated_time: "20 min"
 
-          - title: "Replace tech stack icons in Card 4"
-            priority: 2
-            depends_on: ["Source and prepare AWS Architecture Icons"]
-            tracer: "Visual layer - proves icons are consistent with Cards 2-3"
+          - title: "Add education content section"
+            priority: 1
+            depends_on: ["Add AWS career timeline content"]
+            tracer: "Content layer - proves education section fits with timeline"
             description: |
-              - Replace AWS Glue icon (lines 451-474) with new standardized version
-              - Replace Airflow icon (lines 476-496) with new standardized version
-              - Replace Spark icon (lines 498-518) with AWS Lake Formation
-              - Replace Hadoop icon (lines 519-548) with AWS Redshift
-              - Ensure all containers use:
-                * width: 100px, height: 100px
-                * padding: 8px
-                * opacity: 0.4 (normal) / 0.6 (outline mode)
-              - Remove size inconsistency (110px → 100px for all)
-              - Test in both normal and outline modes
-            deliverable: "Card 4 displays AWS-centric tech stack with visual consistency"
-            reference: "src/app/page.tsx lines 438-613 (Card 4 current implementation)"
+              - Add "Education" section heading
+              - Add education items from resume:
+                * BS in EHS Engineering - IUP (2013)
+                * Specialization, Big Data - UC San Diego (2019)
+                * Specialization, Strategic Leadership - Dartmouth (2025)
+                * Specialization, Systems Engineering - UC Boulder (2026)
+                * Amazon ML University - 31 hours GenAI (2025)
+              - Use bullet list (ul/li) with proper semantic HTML
+              - Apply text-sm class, consistent spacing
+              - Verify total height fits in 405px usable space
+            deliverable: "Education section with degree and specializations, properly spaced"
+            reference: "Resume-2026-01-26.md lines 288-309"
             tdd: false
+            estimated_time: "20 min"
 
-          - title: "Verify visual consistency across cards"
-            priority: 2
-            depends_on: ["Add deliverables content in Card 2 format", "Replace tech stack icons in Card 4"]
-            tracer: "Validation layer - proves Card 4 matches Cards 1-3 quality"
+          - title: "Integrate Credly certification badges"
+            priority: 1
+            depends_on: ["Add education content section"]
+            tracer: "Integration layer - proves external script works, badges render correctly"
             description: |
-              - Visual inspection:
-                * Compare icon clarity across Cards 2, 3, 4
-                * Verify deliverables formatting matches Card 2
-                * Check spacing and alignment
-                * Test outline mode toggle
-              - Regression check:
-                * Verify Cards 1-3 unchanged
-                * Check responsive behavior
-                * Test metric display still works
-              - Browser testing (Chrome, Safari, Firefox)
-            deliverable: "Card 4 meets professional quality standard of Cards 1-3"
+              - Add "AWS Certifications" section heading above education
+              - Create 4 badge divs with data attributes:
+                * data-share-badge-id (unique per certification)
+                * data-iframe-width="150"
+                * data-iframe-height="270"
+                * data-share-badge-host="https://www.credly.com"
+              - Layout badges in horizontal row (flex with gap)
+              - Add next/script component at end of page:
+                * src="https://cdn.credly.com/assets/utilities/embed.js"
+                * strategy="lazyOnload"
+              - Test badge loading in dev mode
+              - Add fallback text if script fails to load
+            deliverable: "4 Credly badges rendering in horizontal row with verification links"
+            reference: "User-provided embed code, architecture.md for badge IDs"
             tdd: false
+            estimated_time: "30 min"
+            notes: |
+              BLOCKER: Need 3 additional Credly badge IDs:
+              - AWS Solutions Architect Associate
+              - AWS Data Engineer Associate
+              - AWS ML Engineer Associate
+              (GenAI Professional ID already provided: 4890a175-8a9e-4d6c-9a37-2c8625295e39)
+
+          - title: "Apply design system and outline mode styling"
+            priority: 1
+            depends_on: ["Integrate Credly certification badges"]
+            tracer: "Styling layer - proves consistency with existing cards"
+            description: |
+              - Apply isOutlineMode conditional styling to all text elements:
+                * Title, subtitle, section headings, body text
+                * Outline style: color #D5CBBA, text-shadow, antialiasing
+                * Normal style: color var(--text-primary)
+              - Apply consistent typography:
+                * h2: text-[2.75rem] font-bold
+                * h3 (sections): text-base font-medium uppercase
+                * Body: text-sm
+              - Apply color system:
+                * Primary text: #000 / #D5CBBA (outline)
+                * Secondary text: #534C44
+                * Accent: #42784F (if needed)
+              - Test hover effects if card has href
+              - Verify spacing, alignment with other cards
+              - Test in both outline and normal modes
+            deliverable: "Fully styled about card consistent with portfolio design system"
+            reference: "Cards 2-5 for styling patterns, globals.css for color variables"
+            tdd: false
+            estimated_time: "30 min"
+
+          - title: "Polish spacing and verify responsiveness"
+            priority: 2
+            depends_on: ["Apply design system and outline mode styling"]
+            tracer: "Verification layer - proves card works across modes and fits height"
+            description: |
+              - Measure total content height, ensure < 405px usable space
+              - Adjust section spacing (mb-6, mb-8, mb-12) if needed
+              - Verify Credly badges don't overflow (270px + content)
+              - Test horizontal scrolling to Card 6
+              - Test keyboard navigation (arrow keys)
+              - Verify outline mode toggle works correctly
+              - Check for any visual inconsistencies
+              - Consider adding optional skills section if space allows
+            deliverable: "Polished about card with verified spacing and responsiveness"
+            reference: "HorizontalScroll.tsx for scroll behavior"
+            tdd: false
+            estimated_time: "20 min"

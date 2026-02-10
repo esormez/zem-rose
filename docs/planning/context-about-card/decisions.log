@@ -1,0 +1,16 @@
+2026-02-10 | brainstorm | Single card approach - replace Card 6 | Natural fit for existing placeholder, maintains portfolio flow, minimal complexity vs multi-card approach
+2026-02-10 | brainstorm | Certifications as primary focus | Verifiable credentials establish credibility, Credly badges are interactive/visual, differentiate from project cards
+2026-02-10 | brainstorm | Use Credly embed script over API | Official integration method, provides verification links, auto-updates, no custom badge rendering needed
+2026-02-10 | brainstorm | Vertical section layout vs project card pattern | About content requires different structure - no tech logos, no metrics, hierarchical sections
+2026-02-10 | brainstorm | Content priority: Certs > Timeline > Edu > Skills | Space-constrained (405px usable), certifications most impactful, skills can be minimal or omitted
+2026-02-10 | brainstorm | Hardcode content in page.tsx | Consistent with existing card pattern, no data abstraction, maintains simplicity
+2026-02-10 | brainstorm | Use next/script with lazyOnload strategy | Non-blocking async load, optimizes page performance, standard Next.js pattern
+2026-02-10 | brainstorm | 4 badges in horizontal row | Fits width (630px in 755px usable), fits height (270px in 405px), better than 2×2 grid
+2026-02-10 | scope | 6-task breakdown following tracer strategy | Vertical slices through layers: structure → content → integration → styling → verification
+2026-02-10 | scope | Task ordering: layout → timeline → education → badges → styling → polish | Dependencies flow naturally, Credly integration after content structure ready
+2026-02-10 | scope | Horizontal badge row layout over 2×2 grid | Fits height constraint (270px in 405px usable), badges at 150×270 dimensions
+2026-02-10 | scope | Feature scope: single feature, 6 tasks | Clear user-observable outcome, appropriate for 2-3 session implementation
+2026-02-10 | scope | Noted blocker: 3 missing Credly badge IDs | Task 4 cannot complete without Solutions Architect, Data Engineer, ML Engineer badge IDs
+2026-02-10 | finalize | Created epic zem-rose-smw with 1 feature, 6 tasks | Matches menu plan structure, sequential task dependencies
+2026-02-10 | finalize | BDD spec with 7 acceptance scenarios | Covers all 5 acceptance criteria plus outline mode and height constraints
+2026-02-10 | finalize | No TDD specs needed | All tasks are UI implementation, no unit test-driven approach needed
