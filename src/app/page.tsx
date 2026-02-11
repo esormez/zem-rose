@@ -879,7 +879,30 @@ export default function Home() {
 
               {/* Education */}
               <div className="mb-8">
-                {/* Placeholder for education content */}
+                <h3
+                  className="text-base font-medium uppercase mb-4"
+                  style={isOutlineMode ? {
+                    color: '#D5CBBA',
+                    textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
+                    WebkitFontSmoothing: 'antialiased',
+                  } : { color: 'var(--text-primary)' }}
+                >
+                  Education
+                </h3>
+                <ul
+                  className="text-sm max-w-[550px] space-y-2"
+                  style={isOutlineMode ? {
+                    color: '#D5CBBA',
+                    textShadow: `-1px -1px 0 #534C44, 1px -1px 0 #534C44, -1px 1px 0 #534C44, 1px 1px 0 #534C44, 0 -1px 0 #534C44, 0 1px 0 #534C44, -1px 0 0 #534C44, 1px 0 0 #534C44`,
+                    WebkitFontSmoothing: 'antialiased',
+                  } : { color: 'var(--text-secondary)' }}
+                >
+                  <li>BS in EHS Engineering - IUP (2013)</li>
+                  <li>Specialization, Big Data - UC San Diego (2019)</li>
+                  <li>Specialization, Strategic Leadership - Dartmouth (2025)</li>
+                  <li>Specialization, Systems Engineering - UC Boulder (2026)</li>
+                  <li>Amazon ML University - 31 hours GenAI (2025)</li>
+                </ul>
               </div>
             </div>
           </div>
