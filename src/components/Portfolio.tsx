@@ -931,8 +931,9 @@ function ProjectCard({ p, index, onArchClick }: { p: Project; index: number; onA
 ═══════════════════════════════════════════════════ */
 
 function ArchDiagramRapida() {
+  // Centers: strategy=450, pillars=220/450/680, tools=205/375/545/715, measure=205/375/545/715
   return (
-    <svg width="100%" viewBox="0 0 860 440" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100%" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="pb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
         <marker id="pd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(228,228,231,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
@@ -940,61 +941,66 @@ function ArchDiagramRapida() {
       {([ ["STRATEGY",58],["PILLARS",168],["TOOLS",278],["MEASURE",388] ] as const).map(([l,y])=>(
         <text key={l} x="14" y={y} fill="rgba(228,228,231,0.15)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">{l}</text>
       ))}
-      {[100,210,320].map(y=><line key={y} x1="55" y1={y} x2="840" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
-      <rect x="310" y="24" width="240" height="56" fill="rgba(37,99,235,0.08)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.5"/>
-      {([[310,24],[550,24],[310,80],[550,80]] as const).map(([x,y],i)=>(
+      {[100,210,320].map(y=><line key={y} x1="100" y1={y} x2="880" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {/* Strategy box — center 450 */}
+      <rect x="330" y="24" width="240" height="56" fill="rgba(37,99,235,0.08)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.5"/>
+      {([[330,24],[570,24],[330,80],[570,80]] as const).map(([x,y],i)=>(
         <g key={i}><line x1={x} y1={y} x2={x+(i%2===0?6:-6)} y2={y} stroke="#2563EB" strokeWidth="1" opacity="0.6"/><line x1={x} y1={y} x2={x} y2={y+(i<2?6:-6)} stroke="#2563EB" strokeWidth="1" opacity="0.6"/></g>
       ))}
-      <text x="430" y="47" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Program Rapida</text>
-      <text x="430" y="63" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">220+ Engineers · 25 Teams</text>
-      <text x="430" y="77" textAnchor="middle" fill="rgba(37,99,235,0.7)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">30% YoY Capacity Target</text>
+      <text x="450" y="47" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Program Rapida</text>
+      <text x="450" y="63" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">220+ Engineers · 25 Teams</text>
+      <text x="450" y="77" textAnchor="middle" fill="rgba(37,99,235,0.7)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">30% YoY Capacity Target</text>
+      {/* Pillar boxes — centers at 220, 450, 680 */}
       {[
-        {x:80, label:"Pillar 1", sub:"AI Awareness", sub2:"& Adoption"},
-        {x:310, label:"Pillar 2", sub:"Agentic", sub2:"Framework"},
-        {x:540, label:"Pillar 3", sub:"AI-Driven Tools", sub2:"& Automation"},
-      ].map(({x,label,sub,sub2})=>(
-        <g key={x}>
-          <rect x={x} y="120" width="200" height="70" fill="rgba(37,99,235,0.06)" stroke="rgba(37,99,235,0.3)" strokeWidth="1"/>
-          <text x={x+100} y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">{label}</text>
-          <text x={x+100} y="159" textAnchor="middle" fill="rgba(228,228,231,0.45)" fontFamily="IBM Plex Mono,monospace" fontSize="9">{sub}</text>
-          <text x={x+100} y="173" textAnchor="middle" fill="rgba(228,228,231,0.45)" fontFamily="IBM Plex Mono,monospace" fontSize="9">{sub2}</text>
-          <path d={`M430 80 L${x+100} 120`} fill="none" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35" markerEnd="url(#pb)" strokeDasharray="5 4"/>
+        {cx:220, label:"Pillar 1", sub:"AI Awareness", sub2:"& Adoption"},
+        {cx:450, label:"Pillar 2", sub:"Agentic", sub2:"Framework"},
+        {cx:680, label:"Pillar 3", sub:"AI-Driven Tools", sub2:"& Automation"},
+      ].map(({cx,label,sub,sub2})=>(
+        <g key={cx}>
+          <rect x={cx-100} y="120" width="200" height="70" fill="rgba(37,99,235,0.06)" stroke="rgba(37,99,235,0.3)" strokeWidth="1"/>
+          <text x={cx} y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">{label}</text>
+          <text x={cx} y="159" textAnchor="middle" fill="rgba(228,228,231,0.45)" fontFamily="IBM Plex Mono,monospace" fontSize="9">{sub}</text>
+          <text x={cx} y="173" textAnchor="middle" fill="rgba(228,228,231,0.45)" fontFamily="IBM Plex Mono,monospace" fontSize="9">{sub2}</text>
+          <path d={`M450 80 L${cx} 120`} fill="none" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35" markerEnd="url(#pb)" strokeDasharray="5 4"/>
         </g>
       ))}
+      {/* Tool boxes — centers at 205, 375, 545, 715 */}
       {[
-        {x:80, t:"DevHelper", s:"IDE Agent"},
-        {x:250, t:"OpEx Asst.", s:"Ticket AI"},
-        {x:420, t:"DocEngine", s:"TPM Agent"},
-        {x:590, t:"Builder KB", s:"Context Layer"},
-      ].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="230" width="150" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.09)" strokeWidth="1"/>
-          <text x={x+75} y="253" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+75} y="269" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
-          <line x1={x+75} y1="230" x2={x+75} y2="210" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#pd)" strokeDasharray="4 3"/>
+        {cx:205, t:"DevHelper", s:"IDE Agent"},
+        {cx:375, t:"OpEx Asst.", s:"Ticket AI"},
+        {cx:545, t:"DocEngine", s:"TPM Agent"},
+        {cx:715, t:"Builder KB", s:"Context Layer"},
+      ].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-75} y="230" width="150" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.09)" strokeWidth="1"/>
+          <text x={cx} y="253" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="269" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <line x1={cx} y1="230" x2={cx} y2="210" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#pd)" strokeDasharray="4 3"/>
         </g>
       ))}
+      {/* Measure boxes — centers at 205, 375, 545, 715 */}
       {[
-        {x:80, t:"SDU Metric", s:"Delivery Units"},
-        {x:290, t:"CTS-SW", s:"Cost-to-Serve"},
-        {x:500, t:"Three-Signal", s:"Triangulation"},
-        {x:700, t:"PI Index", s:"59.3% Gain"},
-      ].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="350" width="150" height="50" fill="rgba(37,99,235,0.04)" stroke="rgba(37,99,235,0.18)" strokeWidth="1"/>
-          <text x={x+75} y="372" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+75} y="387" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
-          <line x1={x+75} y1="350" x2={x+75} y2="330" stroke="rgba(37,99,235,0.25)" strokeWidth="1" markerEnd="url(#pb)" strokeDasharray="4 3"/>
+        {cx:205, t:"SDU Metric", s:"Delivery Units"},
+        {cx:375, t:"CTS-SW", s:"Cost-to-Serve"},
+        {cx:545, t:"Three-Signal", s:"Triangulation"},
+        {cx:715, t:"PI Index", s:"59.3% Gain"},
+      ].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-75} y="350" width="150" height="50" fill="rgba(37,99,235,0.04)" stroke="rgba(37,99,235,0.18)" strokeWidth="1"/>
+          <text x={cx} y="372" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="387" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <line x1={cx} y1="350" x2={cx} y2="320" stroke="rgba(37,99,235,0.25)" strokeWidth="1" markerEnd="url(#pb)" strokeDasharray="4 3"/>
         </g>
       ))}
-      <text x="430" y="415" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="2">OUTCOME: $28M+ CAPACITY RECOVERED · 90.6% ADOPTION · 55.2 DEV-YRS</text>
+      <text x="450" y="418" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="2">OUTCOME: $28M+ CAPACITY RECOVERED · 90.6% ADOPTION · 55.2 DEV-YRS</text>
     </svg>
   );
 }
 
 function ArchDiagramOpEx() {
+  // Three columns at centers: 220, 450, 680. Analysis engine centered at 450.
   return (
-    <svg width="100%" viewBox="0 0 860 400" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100%" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="ob" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
         <marker id="od" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(228,228,231,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
@@ -1002,48 +1008,52 @@ function ArchDiagramOpEx() {
       {([ ["INGEST",58],["ANALYSIS",178],["OUTPUT",308] ] as const).map(([l,y])=>(
         <text key={l} x="14" y={y} fill="rgba(228,228,231,0.15)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">{l}</text>
       ))}
-      {[110,240].map(y=><line key={y} x1="55" y1={y} x2="840" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
-      {[{x:70,t:"Ticket Created",s:"77,789 total"},{x:250,t:"AI-Assisted",s:"68% adoption"},{x:430,t:"Non-AI",s:"Baseline pool"}].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="24" width="160" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.09)" strokeWidth="1"/>
-          <text x={x+80} y="50" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+80} y="66" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+      {[110,240].map(y=><line key={y} x1="100" y1={y} x2="880" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {/* Ingest boxes — centers at 220, 450, 680 */}
+      {[{cx:220,t:"Ticket Created",s:"77,789 total"},{cx:450,t:"AI-Assisted",s:"68% adoption"},{cx:680,t:"Non-AI",s:"Baseline pool"}].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-85} y="24" width="170" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.09)" strokeWidth="1"/>
+          <text x={cx} y="50" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="66" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
         </g>
       ))}
-      <rect x="180" y="130" width="240" height="80" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
-      {([[180,130],[420,130],[180,210],[420,210]] as const).map(([x,y],i)=>(
+      {/* Dashed lines from each ingest center down to analysis box — left/right angle inward */}
+      <line x1={450} y1={86} x2={450} y2={130} stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#od)" strokeDasharray="4 3"/>
+      <path d="M220 86 L220 108 L310 130" fill="none" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#od)" strokeDasharray="4 3"/>
+      <path d="M680 86 L680 108 L590 130" fill="none" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#od)" strokeDasharray="4 3"/>
+      {/* Analysis engine — centered at 450 */}
+      <rect x="310" y="130" width="280" height="80" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
+      {([[310,130],[590,130],[310,210],[590,210]] as const).map(([x,y],i)=>(
         <g key={i}><line x1={x} y1={y} x2={x+(i%2===0?6:-6)} y2={y} stroke="#2563EB" strokeWidth="1" opacity="0.6"/><line x1={x} y1={y} x2={x} y2={y+(i<2?6:-6)} stroke="#2563EB" strokeWidth="1" opacity="0.6"/></g>
       ))}
-      <text x="300" y="160" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Semantic Similarity Engine</text>
-      <text x="300" y="176" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">Title matching · Resolver group control</text>
-      <text x="300" y="192" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">12,117 matched pairs · 33 resolver groups</text>
-      <text x="300" y="207" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Pooled all-time baseline methodology</text>
-      {[70,250,430].map(x=>(
-        <line key={x} x1={x+80} y1="86" x2={x+80 > 300 ? 420 : 180} y2="130" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#od)" strokeDasharray="4 3"/>
-      ))}
+      <text x="450" y="160" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Semantic Similarity Engine</text>
+      <text x="450" y="176" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">Title matching · Resolver group control</text>
+      <text x="450" y="192" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">12,117 matched pairs · 33 resolver groups</text>
+      <text x="450" y="207" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Pooled all-time baseline methodology</text>
+      {/* Output boxes — centers at 220, 450, 680; fan-out from analysis */}
       {[
-        {x:70, t:"All-time Cross", s:"-23.3hrs MTTR", v:"87.4 BY"},
-        {x:300, t:"Quarter-Only", s:"-25.7hrs MTTR", v:"96.4 BY"},
-        {x:530, t:"Pooled Baseline", s:"-26.0hrs MTTR", v:"97.3 BY"},
-      ].map(({x,t,s,v})=>(
-        <g key={x}>
-          <rect x={x} y="260" width="190" height="76" fill="rgba(37,99,235,0.04)" stroke="rgba(37,99,235,0.2)" strokeWidth="1"/>
-          <text x={x+95} y="283" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+95} y="299" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
-          <text x={x+95} y="318" textAnchor="middle" fill="#2563EB" fontFamily="IBM Plex Mono,monospace" fontSize="13" fontWeight="500">{v}</text>
-          <text x={x+95} y="330" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="7">Builder-Years Saved</text>
-          <path d="M300 210 L300 240" fill="none" stroke="rgba(228,228,231,0.15)" strokeWidth="1"/>
-          <path d={`M300 240 L${x+95} 240 L${x+95} 260`} fill="none" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#od)"/>
+        {cx:220, t:"All-time Cross", s:"-23.3hrs MTTR", v:"87.4 BY"},
+        {cx:450, t:"Quarter-Only", s:"-25.7hrs MTTR", v:"96.4 BY"},
+        {cx:680, t:"Pooled Baseline", s:"-26.0hrs MTTR", v:"97.3 BY"},
+      ].map(({cx,t,s,v})=>(
+        <g key={cx}>
+          <rect x={cx-95} y="260" width="190" height="76" fill="rgba(37,99,235,0.04)" stroke="rgba(37,99,235,0.2)" strokeWidth="1"/>
+          <text x={cx} y="283" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="299" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <text x={cx} y="318" textAnchor="middle" fill="#2563EB" fontFamily="IBM Plex Mono,monospace" fontSize="13" fontWeight="500">{v}</text>
+          <text x={cx} y="330" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="7">Builder-Years Saved</text>
+          <path d={`M450 210 L450 235 L${cx} 235 L${cx} 260`} fill="none" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#od)"/>
         </g>
       ))}
-      <text x="430" y="380" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="2">VALIDATED: p &lt; 0.001 · THREE METHODS CONVERGE ON 87–97 BUILDER-YEARS Q1 2026</text>
+      <text x="450" y="380" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="2">VALIDATED: p &lt; 0.001 · THREE METHODS CONVERGE ON 87–97 BUILDER-YEARS Q1 2026</text>
     </svg>
   );
 }
 
 function ArchDiagramSynapse() {
+  // Three columns at centers: 220, 450, 680
   return (
-    <svg width="100%" viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100%" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="sb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
         <marker id="sd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(228,228,231,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
@@ -1051,99 +1061,119 @@ function ArchDiagramSynapse() {
       {([ ["CONTENT",58],["PLATFORM",178],["CONSUMERS",308] ] as const).map(([l,y])=>(
         <text key={l} x="14" y={y} fill="rgba(228,228,231,0.15)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">{l}</text>
       ))}
-      {[110,240].map(y=><line key={y} x1="55" y1={y} x2="840" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
-      {[{x:70,t:"Course Content",s:"Docs & curricula"},{x:270,t:"Cloud Docs",s:"AWS documentation"},{x:470,t:"Assessment Data",s:"Exam content"}].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="24" width="170" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
-          <text x={x+85} y="47" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+85} y="63" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+      {[110,240].map(y=><line key={y} x1="100" y1={y} x2="880" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {/* Content boxes — centers at 220, 450, 680 */}
+      {[{cx:220,t:"Course Content",s:"Docs & curricula"},{cx:450,t:"Cloud Docs",s:"AWS documentation"},{cx:680,t:"Assessment Data",s:"Exam content"}].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-95} y="24" width="190" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
+          <text x={cx} y="47" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="63" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
         </g>
       ))}
+      {/* Platform boxes — centers at 220, 450, 680 */}
       {[
-        {x:60, t:"Vector Search", s:"RAG Retrieval", s2:"<200ms · dual embed"},
-        {x:300, t:"Eval Service", s:"LLM Quality Framework", s2:"Correctness/Compliance/Complete"},
-        {x:540, t:"Content Portal", s:"Self-Service Analysis", s2:"81% CSAT · 0 sec findings"},
-      ].map(({x,t,s,s2})=>(
-        <g key={x}>
-          <rect x={x} y="130" width="220" height="80" fill="rgba(37,99,235,0.07)" stroke="rgba(37,99,235,0.4)" strokeWidth="1"/>
-          {([[x,130],[x+220,130],[x,210],[x+220,210]] as [number,number][]).map(([px,py],i)=>(
+        {cx:220, t:"Vector Search", s:"RAG Retrieval", s2:"<200ms · dual embed"},
+        {cx:450, t:"Eval Service", s:"LLM Quality Framework", s2:"Correctness/Compliance/Complete"},
+        {cx:680, t:"Content Portal", s:"Self-Service Analysis", s2:"81% CSAT · 0 sec findings"},
+      ].map(({cx,t,s,s2})=>(
+        <g key={cx}>
+          <rect x={cx-110} y="130" width="220" height="80" fill="rgba(37,99,235,0.07)" stroke="rgba(37,99,235,0.4)" strokeWidth="1"/>
+          {([[cx-110,130],[cx+110,130],[cx-110,210],[cx+110,210]] as [number,number][]).map(([px,py],i)=>(
             <g key={i}><line x1={px} y1={py} x2={px+(i%2===0?5:-5)} y2={py} stroke="#2563EB" strokeWidth="0.75" opacity="0.5"/><line x1={px} y1={py} x2={px} y2={py+(i<2?5:-5)} stroke="#2563EB" strokeWidth="0.75" opacity="0.5"/></g>
           ))}
-          <text x={x+110} y="154" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">{t}</text>
-          <text x={x+110} y="170" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
-          <text x={x+110} y="185" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s2}</text>
-          <text x={x+110} y="201" textAnchor="middle" fill="rgba(37,99,235,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">PRODUCTION · Dec 2025</text>
-          <line x1={x+110} y1="80" x2={x+110} y2="130" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#sd)" strokeDasharray="4 3"/>
+          <text x={cx} y="154" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">{t}</text>
+          <text x={cx} y="170" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <text x={cx} y="185" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s2}</text>
+          <text x={cx} y="201" textAnchor="middle" fill="rgba(37,99,235,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">PRODUCTION · Dec 2025</text>
+          {/* Vertical connector from content to platform */}
+          <line x1={cx} y1="80" x2={cx} y2="130" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#sd)" strokeDasharray="4 3"/>
         </g>
       ))}
+      {/* Consumer boxes — 4 evenly spaced, fan out from platform layer */}
       {[
-        {x:70,t:"Learning Asst.",s:"Conversational AI"},{x:240,t:"Skill Tracks",s:"Personalized paths"},
-        {x:410,t:"Search Agent",s:"Query refinement"},{x:580,t:"Knowledge Agent",s:"Course Q&A"},
-      ].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="260" width="160" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
-          <text x={x+80} y="283" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+80} y="299" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
-          <line x1={x+80} y1="260" x2={x+80} y2="240" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#sd)" strokeDasharray="4 3"/>
+        {cx:200,t:"Learning Asst.",s:"Conversational AI"},
+        {cx:370,t:"Skill Tracks",s:"Personalized paths"},
+        {cx:540,t:"Search Agent",s:"Query refinement"},
+        {cx:710,t:"Knowledge Agent",s:"Course Q&A"},
+      ].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-80} y="260" width="160" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
+          <text x={cx} y="283" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="299" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <line x1={cx} y1="260" x2={cx} y2="240" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#sd)" strokeDasharray="4 3"/>
         </g>
       ))}
-      <rect x="240" y="340" width="380" height="44" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.2)" strokeWidth="1"/>
-      <text x="430" y="359" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">500K+ Learners Served</text>
-      <text x="430" y="375" textAnchor="middle" fill="rgba(37,99,235,0.7)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">Launched December 2025 · Zero post-launch security findings</text>
+      <rect x="260" y="340" width="380" height="44" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.2)" strokeWidth="1"/>
+      <text x="450" y="359" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">500K+ Learners Served</text>
+      <text x="450" y="375" textAnchor="middle" fill="rgba(37,99,235,0.7)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">Launched December 2025 · Zero post-launch security findings</text>
     </svg>
   );
 }
 
 function ArchDiagramTPM() {
+  // Integration centers: 205, 375, 545, 715. Layers centered at 460, width 500 (210-710).
   return (
-    <svg width="100%" viewBox="0 0 860 440" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100%" viewBox="0 0 900 530" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="tb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
         <marker id="td" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(228,228,231,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
       </defs>
-      {([ ["INTEGRATIONS",50],["LAYER 1",160],["LAYER 2",275],["LAYER 3",385] ] as const).map(([l,y])=>(
+      {([ ["INTEGRATIONS",50],["LAYER 1",160],["LAYER 2",275],["LAYER 3",385],["OUTPUT",480] ] as const).map(([l,y])=>(
         <text key={l} x="14" y={y} fill="rgba(228,228,231,0.15)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">{l}</text>
       ))}
-      {[100,210,320].map(y=><line key={y} x1="55" y1={y} x2="840" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {[100,210,320,430].map(y=><line key={y} x1="100" y1={y} x2="880" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {/* Integration boxes — 5 evenly spaced, centers at 170, 310, 460, 610, 750 */}
       {[
-        {x:70,t:"Code Repos",s:"Wikis · Docs"},{x:240,t:"Goal Tracking",s:"Program Mgmt"},
-        {x:410,t:"Email",s:"Stakeholder comms"},{x:580,t:"Jira",s:"Project data"},
-      ].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="18" width="160" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1" strokeDasharray="4 3"/>
-          <text x={x+80} y="42" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+80} y="57" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
-          <text x={x+80} y="70" textAnchor="middle" fill="rgba(228,228,231,0.22)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1">MCP</text>
+        {cx:170,t:"Code Repos",s:"Wikis · Docs"},{cx:310,t:"Goal Tracking",s:"Program Mgmt"},
+        {cx:460,t:"Slack",s:"Team comms"},{cx:610,t:"Email",s:"Stakeholder comms"},{cx:750,t:"Jira",s:"Project data"},
+      ].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-65} y="18" width="130" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1" strokeDasharray="4 3"/>
+          <text x={cx} y="42" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="57" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <text x={cx} y="70" textAnchor="middle" fill="rgba(228,228,231,0.22)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1">MCP</text>
         </g>
       ))}
-      <rect x="180" y="118" width="500" height="72" fill="rgba(37,99,235,0.05)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
-      <text x="430" y="142" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Layer 1 — Data Pipeline</text>
-      <text x="430" y="158" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">NL → validated query · External pagination (32K→500 tokens) · DuckDB</text>
-      <text x="430" y="174" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Mandatory field schema verification · Data quality checks</text>
-      {[150,320,490,660].map(x=>(
-        <line key={x} x1={x} y1="74" x2={x} y2="118" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#td)" strokeDasharray="4 3"/>
-      ))}
-      <rect x="180" y="228" width="500" height="72" fill="rgba(37,99,235,0.05)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
-      <text x="430" y="252" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Layer 2 — SQL Analysis</text>
-      <text x="430" y="268" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Dependency · Hierarchy · Timeline · Resource analysis</text>
-      <text x="430" y="284" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">SQL-first · Reproducible · Cross-join capable</text>
-      <line x1="430" y1="190" x2="430" y2="228" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4" markerEnd="url(#tb)" strokeDasharray="5 4"/>
-      <rect x="180" y="338" width="500" height="72" fill="rgba(37,99,235,0.05)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
-      {([[180,338],[680,338],[180,410],[680,410]] as const).map(([x,y],i)=>(
+      {/* Connectors from integrations to Layer 1 — inner three straight, outer two angled */}
+      <line x1={310} y1={74} x2={310} y2={118} stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#td)" strokeDasharray="4 3"/>
+      <line x1={460} y1={74} x2={460} y2={118} stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#td)" strokeDasharray="4 3"/>
+      <line x1={610} y1={74} x2={610} y2={118} stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#td)" strokeDasharray="4 3"/>
+      <path d="M170 74 L170 96 L210 118" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#td)" strokeDasharray="4 3"/>
+      <path d="M750 74 L750 96 L710 118" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#td)" strokeDasharray="4 3"/>
+      {/* Layer 1 — centered at 460, x=210 to 710 */}
+      <rect x="210" y="118" width="500" height="72" fill="rgba(37,99,235,0.05)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
+      <text x="460" y="142" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Layer 1 — Data Pipeline</text>
+      <text x="460" y="158" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">NL → validated query · External pagination (32K→500 tokens) · DuckDB</text>
+      <text x="460" y="174" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Mandatory field schema verification · Data quality checks</text>
+      <line x1="460" y1="190" x2="460" y2="228" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4" markerEnd="url(#tb)" strokeDasharray="5 4"/>
+      {/* Layer 2 */}
+      <rect x="210" y="228" width="500" height="72" fill="rgba(37,99,235,0.05)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
+      <text x="460" y="252" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Layer 2 — SQL Analysis</text>
+      <text x="460" y="268" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Dependency · Hierarchy · Timeline · Resource analysis</text>
+      <text x="460" y="284" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">SQL-first · Reproducible · Cross-join capable</text>
+      <line x1="460" y1="300" x2="460" y2="338" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4" markerEnd="url(#tb)" strokeDasharray="5 4"/>
+      {/* Layer 3 */}
+      <rect x="210" y="338" width="500" height="72" fill="rgba(37,99,235,0.05)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
+      {([[210,338],[710,338],[210,410],[710,410]] as const).map(([x,y],i)=>(
         <g key={i}><line x1={x} y1={y} x2={x+(i%2===0?6:-6)} y2={y} stroke="#2563EB" strokeWidth="1" opacity="0.6"/><line x1={x} y1={y} x2={x} y2={y+(i<2?6:-6)} stroke="#2563EB" strokeWidth="1" opacity="0.6"/></g>
       ))}
-      <text x="430" y="362" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Layer 3 — Strategic Scenario Planning</text>
-      <text x="430" y="378" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Feature estimation · Capacity constraints · &quot;What slides?&quot; requirement</text>
-      <text x="430" y="394" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Deprioritization scenarios · Risk concentration detection</text>
-      <text x="430" y="408" textAnchor="middle" fill="rgba(228,228,231,0.28)" fontFamily="IBM Plex Mono,monospace" fontSize="8">553 invocations Q1 2026 · ORG STANDARD</text>
-      <line x1="430" y1="300" x2="430" y2="338" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4" markerEnd="url(#tb)" strokeDasharray="5 4"/>
+      <text x="460" y="362" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Layer 3 — Strategic Scenario Planning</text>
+      <text x="460" y="378" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Feature estimation · Capacity constraints · &quot;What slides?&quot; requirement</text>
+      <text x="460" y="394" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Deprioritization scenarios · Risk concentration detection</text>
+      <text x="460" y="408" textAnchor="middle" fill="rgba(228,228,231,0.28)" fontFamily="IBM Plex Mono,monospace" fontSize="8">553 invocations Q1 2026 · ORG STANDARD</text>
+      {/* Output — Risk Intelligence */}
+      <line x1="460" y1="410" x2="460" y2="448" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4" markerEnd="url(#tb)" strokeDasharray="5 4"/>
+      <rect x="210" y="448" width="500" height="56" fill="rgba(37,99,235,0.08)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.5"/>
+      <text x="460" y="472" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Risk Intelligence Output</text>
+      <text x="460" y="490" textAnchor="middle" fill="rgba(37,99,235,0.7)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">14 Production SOPs · 95% acceptance · 87% no-modification rate</text>
     </svg>
   );
 }
 
 function ArchDiagramDataPlatform() {
+  // Centers: before=230/480/730, migration=205/375/545/715, after=205/375/545/715
   return (
-    <svg width="100%" viewBox="0 0 860 400" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100%" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="dpb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
         <marker id="dpd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(228,228,231,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
@@ -1151,56 +1181,58 @@ function ArchDiagramDataPlatform() {
       {([ ["BEFORE",58],["MIGRATION",168],["AFTER",300] ] as const).map(([l,y])=>(
         <text key={l} x="14" y={y} fill="rgba(228,228,231,0.15)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">{l}</text>
       ))}
-      {[100,235].map(y=><line key={y} x1="55" y1={y} x2="840" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
-      <rect x="70" y="22" width="220" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
-      <text x="180" y="46" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">Monolithic Platform</text>
-      <text x="180" y="62" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">200+ schemas · petabyte scale</text>
-      <text x="180" y="76" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">2–4 week wait times · ~22 tickets/mo</text>
-      <rect x="340" y="22" width="220" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
-      <text x="450" y="46" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">8 Data Engineers</text>
-      <text x="450" y="62" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Supporting 20+ BI Engineers</text>
-      <text x="450" y="76" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">20% capacity on support tasks</text>
-      <rect x="610" y="22" width="220" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
-      <text x="720" y="46" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">$420K/yr Infra Cost</text>
-      <text x="720" y="62" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Legacy system overhead</text>
-      <text x="720" y="76" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Suboptimal resource allocation</text>
+      {[100,235].map(y=><line key={y} x1="100" y1={y} x2="880" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {/* Before boxes — centers at 230, 480, 730 */}
       {[
-        {x:70, t:"CDK Constructs", s:"8 AWS service types"},
-        {x:260, t:"Lake Formation", s:"Tag-based access control"},
-        {x:450, t:"BI Onboarding", s:"4 groups · 5-step process"},
-        {x:640, t:"AppSec Review", s:"Zero findings · Formal review"},
-      ].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="118" width="175" height="56" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.25)" strokeWidth="1"/>
-          <text x={x+87} y="141" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+87} y="157" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+        {cx:230,t:"Monolithic Platform",s:"200+ schemas · petabyte scale",s2:"2–4 week wait times · ~22 tickets/mo"},
+        {cx:480,t:"8 Data Engineers",s:"Supporting 20+ BI Engineers",s2:"20% capacity on support tasks"},
+        {cx:730,t:"$420K/yr Infra Cost",s:"Legacy system overhead",s2:"Suboptimal resource allocation"},
+      ].map(({cx,t,s,s2})=>(
+        <g key={cx}>
+          <rect x={cx-110} y="22" width="220" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
+          <text x={cx} y="46" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="62" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <text x={cx} y="76" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s2}</text>
+          <line x1={cx} y1="84" x2={cx} y2="118" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#dpd)" strokeDasharray="4 3"/>
         </g>
       ))}
-      {[180,450,720].map(x=>(
-        <line key={x} x1={x} y1="84" x2={x} y2="118" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#dpd)" strokeDasharray="4 3"/>
-      ))}
+      {/* Migration boxes — centers at 205, 375, 545, 715 */}
       {[
-        {x:70, t:"Self-Service BI", s:"20+ engineers unblocked", v:"80% same-day"},
-        {x:300, t:"Infra Savings", s:"Legacy decommissioned", v:"$870K+ annual"},
-        {x:530, t:"Support Tickets", s:"30% reduction", v:"≤15/month"},
-        {x:680, t:"Security", s:"Post-launch", v:"ZERO findings"},
-      ].map(({x,t,s,v})=>(
-        <g key={x}>
-          <rect x={x} y="252" width="160" height="72" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
-          <text x={x+80} y="275" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+80} y="291" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
-          <text x={x+80} y="311" textAnchor="middle" fill="#2563EB" fontFamily="IBM Plex Mono,monospace" fontSize="12" fontWeight="500">{v}</text>
-          <line x1={x+80} y1="235" x2={x+80} y2="252" stroke="rgba(37,99,235,0.3)" strokeWidth="1" markerEnd="url(#dpb)"/>
+        {cx:205, t:"CDK Constructs", s:"8 AWS service types"},
+        {cx:375, t:"Lake Formation", s:"Tag-based access control"},
+        {cx:545, t:"BI Onboarding", s:"4 groups · 5-step process"},
+        {cx:715, t:"AppSec Review", s:"Zero findings · Formal review"},
+      ].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-87} y="118" width="175" height="56" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.25)" strokeWidth="1"/>
+          <text x={cx} y="141" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="157" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <line x1={cx} y1="174" x2={cx} y2="252" stroke="rgba(37,99,235,0.3)" strokeWidth="1" markerEnd="url(#dpb)" strokeDasharray="4 3"/>
         </g>
       ))}
-      <text x="430" y="368" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="2">TOTAL ANNUALIZED VALUE: $870K+ · 91 SPRINTS · 5 WORKSTREAMS · ZERO HEADCOUNT ADDED</text>
+      {/* After boxes — centers at 205, 375, 545, 715 */}
+      {[
+        {cx:205, t:"Self-Service BI", s:"20+ engineers unblocked", v:"80% same-day"},
+        {cx:375, t:"Infra Savings", s:"Legacy decommissioned", v:"$870K+ annual"},
+        {cx:545, t:"Support Tickets", s:"30% reduction", v:"≤15/month"},
+        {cx:715, t:"Security", s:"Post-launch", v:"ZERO findings"},
+      ].map(({cx,t,s,v})=>(
+        <g key={cx}>
+          <rect x={cx-80} y="252" width="160" height="72" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35"/>
+          <text x={cx} y="275" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="291" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+          <text x={cx} y="311" textAnchor="middle" fill="#2563EB" fontFamily="IBM Plex Mono,monospace" fontSize="12" fontWeight="500">{v}</text>
+        </g>
+      ))}
+      <text x="460" y="368" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="2">TOTAL ANNUALIZED VALUE: $870K+ · 91 SPRINTS · 5 WORKSTREAMS · ZERO HEADCOUNT ADDED</text>
     </svg>
   );
 }
 
 function ArchDiagramDataSense() {
+  // Sources centers: 205, 375, 545, 715. Knowledge centers: 240, 510, 770. Agent/Interface at 460.
   return (
-    <svg width="100%" viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100%" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="dsb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
         <marker id="dsd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(228,228,231,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
@@ -1208,50 +1240,61 @@ function ArchDiagramDataSense() {
       {([ ["SOURCES",50],["KNOWLEDGE",165],["AGENT",295],["INTERFACE",385] ] as const).map(([l,y])=>(
         <text key={l} x="14" y={y} fill="rgba(228,228,231,0.15)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">{l}</text>
       ))}
-      {[100,220,340].map(y=><line key={y} x1="55" y1={y} x2="840" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {[100,220,340].map(y=><line key={y} x1="100" y1={y} x2="880" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+      {/* Source boxes — centers at 205, 375, 545, 715 */}
       {[
-        {x:70,t:"Production DBs",s:"Redshift · RDS"},{x:260,t:"Data Models",s:"Schemas · lineage"},
-        {x:450,t:"Service Metadata",s:"AwsTcDataSense*"},{x:640,t:"Relationships",s:"Table · Column level"},
-      ].map(({x,t,s})=>(
-        <g key={x}>
-          <rect x={x} y="18" width="175" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
-          <text x={x+87} y="42" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
-          <text x={x+87} y="58" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
+        {cx:205,t:"Production DBs",s:"Redshift · RDS"},{cx:375,t:"Data Models",s:"Schemas · lineage"},
+        {cx:545,t:"Service Metadata",s:"AwsTcDataSense*"},{cx:715,t:"Relationships",s:"Table · Column level"},
+      ].map(({cx,t,s})=>(
+        <g key={cx}>
+          <rect x={cx-87} y="18" width="175" height="56" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
+          <text x={cx} y="42" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">{t}</text>
+          <text x={cx} y="58" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8">{s}</text>
         </g>
       ))}
-      <rect x="70" y="118" width="240" height="76" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
-      <text x="190" y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Knowledge Vault</text>
-      <text x="190" y="159" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">DynamoDB + OpenSearch</text>
-      <text x="190" y="175" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Entity metadata · Relationships</text>
-      <text x="190" y="187" textAnchor="middle" fill="rgba(37,99,235,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">John&apos;s contribution</text>
-      <rect x="340" y="118" width="240" height="76" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
-      <text x="460" y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Lineage Graph</text>
-      <text x="460" y="159" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Neptune LPG</text>
-      <text x="460" y="175" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">~20K nodes · edges tracking flow</text>
-      <text x="460" y="187" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Table + column level lineage</text>
-      <rect x="610" y="118" width="220" height="76" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.08)" strokeWidth="1"/>
-      <text x="720" y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">OpenSearch Index</text>
-      <text x="720" y="159" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Semantic · Lexical · Hybrid</text>
-      <text x="720" y="175" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Metadata filtering</text>
-      <text x="720" y="187" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">~500MB index</text>
-      {[157,460,727].map(x=>(
-        <line key={x} x1={x} y1="74" x2={x} y2="118" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#dsd)" strokeDasharray="4 3"/>
+      {/* Connectors from sources to knowledge — angled to reach knowledge centers */}
+      {/* Production DBs (205) → Knowledge Vault (240) */}
+      <path d="M205 74 L205 96 L240 118" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#dsd)" strokeDasharray="4 3"/>
+      {/* Data Models (375) → Knowledge Vault (240) — angle left */}
+      <path d="M375 74 L375 96 L360 118" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#dsd)" strokeDasharray="4 3"/>
+      {/* Service Metadata (545) → Lineage Graph (510) — angle left */}
+      <path d="M545 74 L545 96 L510 118" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#dsd)" strokeDasharray="4 3"/>
+      {/* Relationships (715) → OpenSearch Index (770) — angle right */}
+      <path d="M715 74 L715 96 L770 118" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#dsd)" strokeDasharray="4 3"/>
+      {/* Knowledge boxes — centers at 240, 510, 770 — uniform blue styling */}
+      <rect x="120" y="118" width="240" height="76" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
+      <text x="240" y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Knowledge Vault</text>
+      <text x="240" y="159" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">DynamoDB + OpenSearch</text>
+      <text x="240" y="175" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Entity metadata · Relationships</text>
+      <text x="240" y="187" textAnchor="middle" fill="rgba(37,99,235,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">John&apos;s contribution</text>
+      <rect x="390" y="118" width="240" height="76" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
+      <text x="510" y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Lineage Graph</text>
+      <text x="510" y="159" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Neptune LPG</text>
+      <text x="510" y="175" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">~20K nodes · edges tracking flow</text>
+      <text x="510" y="187" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Table + column level lineage</text>
+      <rect x="650" y="118" width="240" height="76" fill="rgba(37,99,235,0.06)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
+      <text x="770" y="143" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">OpenSearch Index</text>
+      <text x="770" y="159" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Semantic · Lexical · Hybrid</text>
+      <text x="770" y="175" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Metadata filtering</text>
+      <text x="770" y="187" textAnchor="middle" fill="rgba(228,228,231,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="8">~500MB index</text>
+      {/* Dashed lines from knowledge centers down to agent box */}
+      {[240,510,770].map(cx=>(
+        <line key={cx} x1={cx} y1="194" x2={cx} y2="238" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35" markerEnd="url(#dsb)" strokeDasharray="5 4"/>
       ))}
-      <rect x="180" y="238" width="500" height="76" fill="rgba(37,99,235,0.07)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.5"/>
-      {([[180,238],[680,238],[180,314],[680,314]] as const).map(([x,y],i)=>(
+      {/* Agent box — centered at 490, x=120 to 860 to cover all knowledge centers */}
+      <rect x="120" y="238" width="740" height="76" fill="rgba(37,99,235,0.07)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.5"/>
+      {([[120,238],[860,238],[120,314],[860,314]] as const).map(([x,y],i)=>(
         <g key={i}><line x1={x} y1={y} x2={x+(i%2===0?6:-6)} y2={y} stroke="#2563EB" strokeWidth="1" opacity="0.6"/><line x1={x} y1={y} x2={x} y2={y+(i<2?6:-6)} stroke="#2563EB" strokeWidth="1" opacity="0.6"/></g>
       ))}
-      <text x="430" y="262" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">LangChain Agent — NLP-to-SQL</text>
-      <text x="430" y="278" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Bedrock · Natural language → SQL execution against production data</text>
-      <text x="430" y="294" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Metadata discovery · Lineage traversal · Auto-documentation generation</text>
-      <text x="430" y="308" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">John: prototype KB · arch design · agent impl · security guardian</text>
-      {[190,460,720].map(x=>(
-        <line key={x} x1={x} y1="194" x2={x} y2="238" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.35" markerEnd="url(#dsb)" strokeDasharray="5 4"/>
-      ))}
-      <rect x="240" y="352" width="380" height="44" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.2)" strokeWidth="1"/>
-      <text x="430" y="371" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">Self-Service Interface</text>
-      <text x="430" y="387" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">96 hours → minutes · Data Scientists · BI Engineers · PMs · Developers</text>
-      <line x1="430" y1="314" x2="430" y2="352" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4" markerEnd="url(#dsb)" strokeDasharray="5 4"/>
+      <text x="460" y="262" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">LangChain Agent — NLP-to-SQL</text>
+      <text x="460" y="278" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Bedrock · Natural language → SQL execution against production data</text>
+      <text x="460" y="294" textAnchor="middle" fill="rgba(228,228,231,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="8">Metadata discovery · Lineage traversal · Auto-documentation generation</text>
+      <text x="460" y="308" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">John: prototype KB · arch design · agent impl · security guardian</text>
+      {/* Interface box */}
+      <line x1="490" y1="314" x2="490" y2="348" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4" markerEnd="url(#dsb)" strokeDasharray="5 4"/>
+      <rect x="120" y="348" width="740" height="52" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.2)" strokeWidth="1"/>
+      <text x="490" y="369" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="10" fontWeight="500">Self-Service Interface</text>
+      <text x="490" y="387" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">96 hours → minutes · Data Scientists · BI Engineers · PMs · Developers</text>
     </svg>
   );
 }
@@ -1657,6 +1700,7 @@ function Contact({ onChatOpen }: { onChatOpen: () => void }) {
             {[
               { k:"EMAIL",      v:"john@zemrose.me",                    href:"mailto:john@zemrose.me" },
               { k:"LINKEDIN",   v:"linkedin.com/in/esormez",             href:"https://www.linkedin.com/in/esormez/" },
+              { k:"GITHUB",     v:"github.com/esormez",                  href:"https://github.com/esormez" },
               { k:"COMPANY",    v:"intralytics.com",                     href:"https://www.intralytics.com/" },
               { k:"STATUS",     v:"OPEN_TO_CONVERSATION",                href:null },
             ].map(({ k, v, href }) => (
