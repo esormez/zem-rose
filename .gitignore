@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# knowledge base (proprietary content)
+/kb/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

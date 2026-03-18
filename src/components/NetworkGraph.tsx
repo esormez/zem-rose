@@ -7,10 +7,10 @@ interface Node extends d3.SimulationNodeDatum {
   id: number;
   cluster: number;
   radius: number;
-  color: string;
+  baseRadius: number;
   opacity: number;
   connections: number;
-  driftOffset: number;
+  phase: number; // unique phase offset for animation
 }
 
 interface Link {
@@ -30,83 +30,95 @@ export default function NetworkGraph() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    // --- Offscreen canvas for static link layer ---
+    const linkCanvas = document.createElement('canvas');
+    const linkCtx = linkCanvas.getContext('2d');
+    if (!linkCtx) return;
+
+    let dpr = window.devicePixelRatio || 1;
+    let needsLinkRedraw = true;
+
     const updateSize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-      ctx.scale(dpr, dpr);
+      dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      linkCanvas.width = width * dpr;
+      linkCanvas.height = height * dpr;
+      linkCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      needsLinkRedraw = true;
     };
     updateSize();
+
     window.addEventListener('resize', updateSize);
 
-    // Create cluster centers around the edges/perimeter
-    const numClusters = 8;
+    // --- Create cluster centers around perimeter ---
     const margin = 150;
     const clusterCenters = [
-      // Top edge
-      { x: window.innerWidth * 0.25, y: margin },
-      { x: window.innerWidth * 0.75, y: margin },
-      // Right edge
-      { x: window.innerWidth - margin, y: window.innerHeight * 0.33 },
-      { x: window.innerWidth - margin, y: window.innerHeight * 0.66 },
-      // Bottom edge
-      { x: window.innerWidth * 0.25, y: window.innerHeight - margin },
-      { x: window.innerWidth * 0.75, y: window.innerHeight - margin },
-      // Left edge
-      { x: margin, y: window.innerHeight * 0.33 },
-      { x: margin, y: window.innerHeight * 0.66 },
+      { x: width * 0.25, y: margin },
+      { x: width * 0.75, y: margin },
+      { x: width - margin, y: height * 0.33 },
+      { x: width - margin, y: height * 0.66 },
+      { x: width * 0.25, y: height - margin },
+      { x: width * 0.75, y: height - margin },
+      { x: margin, y: height * 0.33 },
+      { x: margin, y: height * 0.66 },
     ];
+    const numClusters = clusterCenters.length;
 
-    // Create many nodes with clustering
+    // --- Create nodes ---
     const nodes: Node[] = [];
     const totalNodes = 800;
-
-    // Rose palette - burgundy nodes
-    const nodeColor = '#8D152C';
+    const nodeColor = '#8B2942';
 
     for (let i = 0; i < totalNodes; i++) {
       const cluster = Math.floor(Math.random() * numClusters);
-      const clusterCenter = clusterCenters[cluster];
-
-      // Distribute nodes around cluster centers with some randomness
+      const center = clusterCenters[cluster];
       const angle = Math.random() * Math.PI * 2;
       const distance = Math.random() * 200;
+      const r = Math.random() * 1.5 + 1.5;
 
       nodes.push({
         id: i,
         cluster,
-        radius: Math.random() * 1.5 + 1.5,
-        color: nodeColor,
+        radius: r,
+        baseRadius: r,
         opacity: 0.5 + Math.random() * 0.3,
         connections: 0,
-        x: clusterCenter.x + Math.cos(angle) * distance,
-        y: clusterCenter.y + Math.sin(angle) * distance,
-        driftOffset: Math.random() * Math.PI * 2
+        phase: Math.random() * Math.PI * 2,
+        x: center.x + Math.cos(angle) * distance,
+        y: center.y + Math.sin(angle) * distance,
       });
     }
 
-    // Create dense interconnections
+    // --- Create links ---
     const links: Link[] = [];
     const maxDistance = 120;
 
-    // Connect nodes within clusters more heavily
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const dx = (nodes[i].x || 0) - (nodes[j].x || 0);
         const dy = (nodes[i].y || 0) - (nodes[j].y || 0);
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        const dist = Math.sqrt(dx * dx + dy * dy);
 
         const sameCluster = nodes[i].cluster === nodes[j].cluster;
-        const connectionChance = sameCluster ? 0.7 : 0.25;
+        const chance = sameCluster ? 0.7 : 0.25;
 
-        if (distance < maxDistance && Math.random() < connectionChance) {
+        if (dist < maxDistance && Math.random() < chance) {
           links.push({
             source: nodes[i],
             target: nodes[j],
-            opacity: 0.08 + Math.random() * 0.12
+            opacity: 0.08 + Math.random() * 0.12,
           });
           nodes[i].connections++;
           nodes[j].connections++;
@@ -114,19 +126,22 @@ export default function NetworkGraph() {
       }
     }
 
-    // Create some hub nodes with extra connections
-    const hubNodes = nodes.filter(n => n.connections > 8);
-    hubNodes.forEach(hub => {
-      hub.radius = hub.radius * 1.5;
-      hub.opacity = Math.min(1, hub.opacity * 1.2);
+    // Mark hub nodes
+    nodes.forEach((n) => {
+      if (n.connections > 8) {
+        n.baseRadius *= 1.5;
+        n.radius = n.baseRadius;
+        n.opacity = Math.min(1, n.opacity * 1.2);
+      }
     });
 
-    // D3 force simulation with clustering
-    const simulation = d3.forceSimulation<Node>(nodes)
+    // --- D3 simulation (settle then stop) ---
+    const simulation = d3
+      .forceSimulation<Node>(nodes)
       .force('charge', d3.forceManyBody().strength(-20))
       .force('link', d3.forceLink<Node, Link>(links).distance(50).strength(0.5))
       .force('cluster', () => {
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           const center = clusterCenters[node.cluster];
           if (node.x && node.y) {
             node.vx = (node.vx || 0) + (center.x - node.x) * 0.01;
@@ -134,81 +149,105 @@ export default function NetworkGraph() {
           }
         });
       })
-      .force('collision', d3.forceCollide<Node>().radius(d => d.radius * 2))
+      .force('collision', d3.forceCollide<Node>().radius((d) => d.baseRadius * 2))
       .alphaDecay(0.015)
       .velocityDecay(0.7);
 
-    // Animation loop (minimal movement)
+    simulation.tick(200);
+    simulation.stop();
+
+    // Snapshot settled positions for animation baseline
+    const settled = nodes.map((n) => ({ x: n.x || 0, y: n.y || 0 }));
+
+    // --- Draw static links once (redrawn only on resize) ---
+    function drawLinks() {
+      if (!linkCtx) return;
+      linkCtx.clearRect(0, 0, width, height);
+      for (const link of links) {
+        const sx = settled[link.source.id].x;
+        const sy = settled[link.source.id].y;
+        const tx = settled[link.target.id].x;
+        const ty = settled[link.target.id].y;
+
+        linkCtx.strokeStyle = `rgba(83, 76, 68, ${link.opacity})`;
+        linkCtx.lineWidth = 0.5;
+        linkCtx.beginPath();
+        linkCtx.moveTo(sx, sy);
+        linkCtx.lineTo(tx, ty);
+        linkCtx.stroke();
+      }
+      needsLinkRedraw = false;
+    }
+
+    // --- Animation loop ---
     let time = 0;
+
     const animate = () => {
-      time += 0.0008;
+      time += 0.015;
 
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      // Redraw link layer only when needed
+      if (needsLinkRedraw) drawLinks();
 
-      // Draw connections with consistent blueprint color
-      links.forEach(link => {
-        const source = link.source as Node;
-        const target = link.target as Node;
+      ctx.clearRect(0, 0, width, height);
 
-        if (source.x && source.y && target.x && target.y) {
-          // Very subtle movement (barely perceptible)
-          const sourceX = source.x + Math.sin(time + source.driftOffset) * 0.3;
-          const sourceY = source.y + Math.cos(time + source.driftOffset) * 0.3;
-          const targetX = target.x + Math.sin(time + target.driftOffset) * 0.3;
-          const targetY = target.y + Math.cos(time + target.driftOffset) * 0.3;
+      // Composite static link layer (source is DPR-scaled, draw into logical coords)
+      ctx.drawImage(linkCanvas, 0, 0, linkCanvas.width, linkCanvas.height, 0, 0, width, height);
 
-          ctx.strokeStyle = `rgba(83, 76, 68, ${link.opacity})`;
-          ctx.lineWidth = 0.5;
-          ctx.beginPath();
-          ctx.moveTo(sourceX, sourceY);
-          ctx.lineTo(targetX, targetY);
-          ctx.stroke();
-        }
-      });
+      // Traveling pulse: a wave that sweeps across the canvas
+      const pulseX = ((time * 0.08) % 1.4 - 0.2) * width;
+      const pulseRadius = 300;
 
-      // Draw nodes
-      nodes.forEach(node => {
-        if (!node.x || !node.y) return;
+      // Draw animated nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        const base = settled[i];
 
-        // Very subtle drift animation
-        const driftX = Math.sin(time + node.driftOffset) * 0.3;
-        const driftY = Math.cos(time + node.driftOffset) * 0.3;
+        // Floating motion — visible drift on unique sine paths
+        const floatX = Math.sin(time * 0.4 + node.phase) * 8;
+        const floatY = Math.cos(time * 0.3 + node.phase * 1.3) * 8;
 
-        const x = node.x + driftX;
-        const y = node.y + driftY;
+        const x = base.x + floatX;
+        const y = base.y + floatY;
 
-        // Draw subtle glow for hub nodes
+        // Pulse brightness boost
+        const distToPulse = Math.abs(x - pulseX);
+        const pulseBoost = distToPulse < pulseRadius
+          ? (1 - distToPulse / pulseRadius) * 0.5
+          : 0;
+
+        // Breathing radius
+        const breathe = 1 + Math.sin(time * 0.8 + node.phase) * 0.25;
+        const r = node.baseRadius * breathe;
+
+        const alpha = Math.min(1, node.opacity + pulseBoost);
+
+        // Glow for hub nodes
         if (node.connections > 8) {
-          const gradient = ctx.createRadialGradient(x, y, 0, x, y, node.radius * 4);
-          gradient.addColorStop(0, `${node.color}20`);
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
+          gradient.addColorStop(0, `rgba(139, 41, 66, ${0.2 + pulseBoost * 0.4})`);
           gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
           ctx.fillStyle = gradient;
           ctx.beginPath();
-          ctx.arc(x, y, node.radius * 4, 0, Math.PI * 2);
+          ctx.arc(x, y, r * 5, 0, Math.PI * 2);
           ctx.fill();
         }
 
-        // Draw node
-        ctx.fillStyle = `${node.color}${Math.floor(node.opacity * 255).toString(16).padStart(2, '0')}`;
+        // Node dot — draw solid, no alpha blending issues
+        ctx.fillStyle = `rgba(139, 41, 66, ${alpha})`;
         ctx.beginPath();
-        ctx.arc(x, y, node.radius, 0, Math.PI * 2);
+        ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.fill();
-      });
+      }
 
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    // Run simulation for a bit to settle, then stop it
-    simulation.tick(200);
-    simulation.stop(); // Stop simulation to improve performance
-    animate();
+    drawLinks();
+    animationRef.current = requestAnimationFrame(animate);
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', updateSize);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
       simulation.stop();
     };
   }, []);

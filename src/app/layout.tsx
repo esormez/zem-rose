@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import NetworkGraph from "@/components/NetworkGraph";
+import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "John Zemrose",
-  description: "Principal TPM specializing in AI-native engineering, ML systems, and data platforms. 210+ engineers led, $870K+ value delivered.",
-  keywords: ["Principal TPM", "AI Engineering", "Machine Learning", "Data Engineering", "AWS", "Technical Program Management"],
+  title: "John Zemrose — Principal AI Architect",
+  description: "I build AI systems and the organizations to run them.",
 };
 
 export default function RootLayout({
@@ -17,10 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
-      >
-        <NetworkGraph />
+      <head>
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#0A0A0B" />
+      </head>
+      <body className={`${ibmPlexMono.variable}`} style={{ margin: 0, padding: 0, background: "#0A0A0B" }}>
         {children}
       </body>
     </html>

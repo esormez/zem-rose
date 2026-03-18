@@ -25,7 +25,7 @@ export default function ProgressIndicator({
   const boxLeftOffset = (boxWidth / 2) + progress * (totalWidth - boxWidth);
 
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+    <div>
       {/* Progress lines */}
       <div className="relative flex items-center gap-2 px-4 py-4">
         {/* Smooth sliding box */}
