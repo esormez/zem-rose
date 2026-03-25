@@ -3,9 +3,9 @@ import { ImageResponse } from "@vercel/og";
 export const runtime = "edge";
 
 const FONT_REGULAR_URL =
-  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q131nj-o.woff2";
+  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n5ig.ttf";
 const FONT_MEDIUM_URL =
-  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJwlBFgsAXHNk.woff2";
+  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJ8lc.ttf";
 
 export async function GET() {
   const [fontRegular, fontMedium] = await Promise.all([
