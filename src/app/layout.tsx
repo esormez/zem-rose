@@ -48,10 +48,10 @@ export const metadata: Metadata = {
     description: "I build AI systems and the organizations to run them.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/api/og",
         width: 1200,
         height: 630,
-        alt: "John Zemrose — Principal AI Architect · AI Systems · Context Architecture · Agentic AI",
+        alt: "John Zemrose — Principal AI Architect",
       },
     ],
     locale: "en_US",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "John Zemrose — Principal AI Architect",
     description: "I build AI systems and the organizations to run them.",
-    images: ["/og-image.png"],
+    images: ["/api/og"],
   },
 
   robots: {
