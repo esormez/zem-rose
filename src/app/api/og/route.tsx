@@ -2,7 +2,16 @@ import { ImageResponse } from "@vercel/og";
 
 export const runtime = "edge";
 
+const FONT_REGULAR_URL =
+  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q131nj-o.woff2";
+const FONT_MEDIUM_URL =
+  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJwlBFgsAXHNk.woff2";
+
 export async function GET() {
+  const [fontRegular, fontMedium] = await Promise.all([
+    fetch(FONT_REGULAR_URL).then((r) => r.arrayBuffer()),
+    fetch(FONT_MEDIUM_URL).then((r) => r.arrayBuffer()),
+  ]);
   return new ImageResponse(
     (
       <div
@@ -297,34 +306,17 @@ export async function GET() {
       fonts: [
         {
           name: "IBM Plex Mono",
-          data: await fetchFont("IBM+Plex+Mono", 400),
+          data: fontRegular,
           style: "normal" as const,
           weight: 400 as const,
         },
         {
           name: "IBM Plex Mono",
-          data: await fetchFont("IBM+Plex+Mono", 500),
+          data: fontMedium,
           style: "normal" as const,
           weight: 500 as const,
         },
       ],
     }
   );
-}
-
-async function fetchFont(
-  family: string,
-  weight: number
-): Promise<ArrayBuffer> {
-  const url = `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}&display=swap`;
-  const css = await fetch(url, {
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    },
-  }).then((r) => r.text());
-
-  const fontUrl = css.match(/src: url\((.+?)\) format/)?.[1];
-  if (!fontUrl) throw new Error(`Font URL not found for ${family}:${weight}`);
-  return fetch(fontUrl).then((r) => r.arrayBuffer());
 }
