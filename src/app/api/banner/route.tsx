@@ -47,36 +47,38 @@ export async function GET() {
           }}
         />
 
-        {/* Grid via SVG — Satori can't render 1px-height divs reliably */}
-        <svg
-          width="1584"
-          height="396"
-          viewBox="0 0 1584 396"
-          style={{ position: "absolute", top: 0, left: 0 }}
-        >
-          {Array.from({ length: 10 }).map((_, i) => (
-            <line
-              key={`h${i}`}
-              x1="0"
-              y1={i * 40}
-              x2="1584"
-              y2={i * 40}
-              stroke="rgba(228,228,231,0.08)"
-              strokeWidth="1"
-            />
-          ))}
-          {Array.from({ length: 40 }).map((_, i) => (
-            <line
-              key={`v${i}`}
-              x1={i * 40}
-              y1="0"
-              x2={i * 40}
-              y2="396"
-              stroke="rgba(228,228,231,0.08)"
-              strokeWidth="1"
-            />
-          ))}
-        </svg>
+        {/* Grid — vertical lines (1px wide divs — works in Satori) */}
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div
+            key={`v${i}`}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: `${i * 40}px`,
+              width: "1px",
+              height: "396px",
+              background: "rgba(228,228,231,0.08)",
+              display: "flex",
+            }}
+          />
+        ))}
+        {/* Grid — horizontal lines (1px wide divs rotated 90deg) */}
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div
+            key={`h${i}`}
+            style={{
+              position: "absolute",
+              top: `${i * 40}px`,
+              left: "792px",
+              width: "1px",
+              height: "1584px",
+              background: "rgba(228,228,231,0.08)",
+              transform: "rotate(90deg)",
+              transformOrigin: "0 0",
+              display: "flex",
+            }}
+          />
+        ))}
 
         {/* Right blue border */}
         <div
