@@ -2,16 +2,17 @@ import { ImageResponse } from "@vercel/og";
 
 export const runtime = "edge";
 
-const FONT_REGULAR_URL =
+const FONT_MONO_URL =
   "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n5ig.ttf";
-const FONT_MEDIUM_URL =
-  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJ8lc.ttf";
+const FONT_SANS_BOLD_URL =
+  "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf";
 
 export async function GET() {
-  const [fontRegular, fontMedium] = await Promise.all([
-    fetch(FONT_REGULAR_URL).then((r) => r.arrayBuffer()),
-    fetch(FONT_MEDIUM_URL).then((r) => r.arrayBuffer()),
+  const [fontMono, fontSansBold] = await Promise.all([
+    fetch(FONT_MONO_URL).then((r) => r.arrayBuffer()),
+    fetch(FONT_SANS_BOLD_URL).then((r) => r.arrayBuffer()),
   ]);
+
   return new ImageResponse(
     (
       <div
@@ -20,10 +21,10 @@ export async function GET() {
           height: "630px",
           background: "#0A0A0B",
           display: "flex",
-          alignItems: "center",
+          flexDirection: "column",
           justifyContent: "center",
+          padding: "60px 80px",
           position: "relative",
-          fontFamily: "'IBM Plex Mono', monospace",
           overflow: "hidden",
         }}
       >
@@ -58,7 +59,7 @@ export async function GET() {
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(37,99,235,0.06) 0%, transparent 100%)",
+              "radial-gradient(ellipse 60% 60% at 30% 50%, rgba(37,99,235,0.04) 0%, transparent 100%)",
             display: "flex",
           }}
         />
@@ -77,225 +78,164 @@ export async function GET() {
           }}
         />
 
-        {/* Right blue border */}
+        {/* Corner bracket — TL */}
         <div
           style={{
             position: "absolute",
-            right: 0,
-            top: 0,
-            width: "4px",
-            height: "630px",
-            background: "#2563EB",
-            opacity: 0.7,
+            top: "40px",
+            left: "56px",
+            width: "18px",
+            height: "18px",
+            borderTop: "1px solid rgba(37,99,235,0.4)",
+            borderLeft: "1px solid rgba(37,99,235,0.4)",
             display: "flex",
           }}
         />
 
-        {/* Outer frame */}
+        {/* Corner bracket — BR */}
         <div
           style={{
             position: "absolute",
-            top: "24px",
-            left: "24px",
-            right: "24px",
-            bottom: "24px",
-            border: "1px solid rgba(228,228,231,0.05)",
+            bottom: "40px",
+            right: "56px",
+            width: "18px",
+            height: "18px",
+            borderBottom: "1px solid rgba(37,99,235,0.4)",
+            borderRight: "1px solid rgba(37,99,235,0.4)",
             display: "flex",
           }}
         />
 
-        {/* Corner brackets — TL */}
-        <div
-          style={{
-            position: "absolute",
-            top: "23px",
-            left: "23px",
-            width: "16px",
-            height: "16px",
-            borderTop: "1px solid rgba(37,99,235,0.45)",
-            borderLeft: "1px solid rgba(37,99,235,0.45)",
-            display: "flex",
-          }}
-        />
-        {/* Corner brackets — TR */}
-        <div
-          style={{
-            position: "absolute",
-            top: "23px",
-            right: "23px",
-            width: "16px",
-            height: "16px",
-            borderTop: "1px solid rgba(37,99,235,0.45)",
-            borderRight: "1px solid rgba(37,99,235,0.45)",
-            display: "flex",
-          }}
-        />
-        {/* Corner brackets — BL */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "23px",
-            left: "23px",
-            width: "16px",
-            height: "16px",
-            borderBottom: "1px solid rgba(37,99,235,0.45)",
-            borderLeft: "1px solid rgba(37,99,235,0.45)",
-            display: "flex",
-          }}
-        />
-        {/* Corner brackets — BR */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "23px",
-            right: "23px",
-            width: "16px",
-            height: "16px",
-            borderBottom: "1px solid rgba(37,99,235,0.45)",
-            borderRight: "1px solid rgba(37,99,235,0.45)",
-            display: "flex",
-          }}
-        />
-
-        {/* Center content */}
+        {/* Content */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "0px",
             zIndex: 1,
           }}
         >
           {/* SYSTEM: ACTIVE label */}
           <div
             style={{
-              fontSize: "11px",
+              fontFamily: "'IBM Plex Mono'",
+              fontSize: "10px",
               color: "#2563EB",
               letterSpacing: "0.28em",
-              marginBottom: "28px",
+              marginBottom: "24px",
               display: "flex",
             }}
           >
             SYSTEM: ACTIVE // 2025–2026
           </div>
 
-          {/* Role label */}
+          {/* Title — Principal AI Architect */}
           <div
             style={{
-              fontSize: "14px",
-              color: "rgba(37,99,235,0.85)",
-              letterSpacing: "0.32em",
-              marginBottom: "20px",
               display: "flex",
+              flexDirection: "column",
+              fontFamily: "Inter",
+              fontWeight: 700,
+              fontSize: "106px",
+              letterSpacing: "-0.04em",
+              lineHeight: 0.92,
             }}
           >
-            PRINCIPAL AI ARCHITECT
+            <span style={{ color: "#E4E4E7", display: "flex" }}>
+              Principal
+            </span>
+            <span
+              style={{
+                color: "rgba(228,228,231,0.22)",
+                display: "flex",
+              }}
+            >
+              AI
+            </span>
+            <span style={{ color: "#E4E4E7", display: "flex" }}>
+              Architect
+            </span>
           </div>
 
-          {/* Blueprint Blue rule */}
+          {/* Description */}
           <div
             style={{
-              width: "520px",
-              height: "1px",
-              background: "rgba(37,99,235,0.4)",
-              marginBottom: "24px",
-              display: "flex",
-            }}
-          />
-
-          {/* Name */}
-          <div
-            style={{
-              fontSize: "72px",
-              fontWeight: 500,
-              color: "#E4E4E7",
-              letterSpacing: "-0.03em",
-              lineHeight: 1,
-              marginBottom: "24px",
-              display: "flex",
-            }}
-          >
-            John Zemrose
-          </div>
-
-          {/* Divider */}
-          <div
-            style={{
-              width: "520px",
-              height: "1px",
-              background: "rgba(228,228,231,0.06)",
-              marginBottom: "24px",
-              display: "flex",
-            }}
-          />
-
-          {/* Tagline */}
-          <div
-            style={{
+              fontFamily: "Inter",
               fontSize: "15px",
-              color: "rgba(228,228,231,0.4)",
-              letterSpacing: "0.04em",
-              marginBottom: "32px",
+              color: "rgba(228,228,231,0.42)",
+              lineHeight: 1.75,
+              marginTop: "44px",
+              maxWidth: "580px",
               display: "flex",
             }}
           >
-            I build AI systems and the organizations to run them.
+            Principal AI Architect at Intralytics. I build AI systems and the
+            organizations to run them.
           </div>
+        </div>
 
-          {/* Specialties */}
-          <div
-            style={{
-              fontSize: "11px",
-              color: "rgba(228,228,231,0.3)",
-              letterSpacing: "0.22em",
-              marginBottom: "10px",
-              display: "flex",
-            }}
-          >
-            AI SYSTEMS · CONTEXT ARCHITECTURE · AGENTIC AI
-          </div>
-          <div
-            style={{
-              fontSize: "11px",
-              color: "rgba(228,228,231,0.3)",
-              letterSpacing: "0.22em",
-              marginBottom: "40px",
-              display: "flex",
-            }}
-          >
-            DATA PLATFORMS · ORGANIZATIONAL TRANSFORMATION
-          </div>
-
-          {/* Footer */}
+        {/* Bottom bar */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "48px",
+            left: "80px",
+            right: "80px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {/* Logo area */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "10px",
             }}
           >
+            {/* Blue square icon */}
             <div
               style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: "#2563EB",
-                opacity: 0.7,
+                width: "24px",
+                height: "24px",
+                border: "1px solid #2563EB",
                 display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
+            >
+              <div
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  background: "#2563EB",
+                  display: "flex",
+                }}
+              />
+            </div>
             <div
               style={{
+                fontFamily: "'IBM Plex Mono'",
                 fontSize: "11px",
-                color: "rgba(228,228,231,0.22)",
-                letterSpacing: "0.18em",
+                color: "rgba(228,228,231,0.4)",
+                letterSpacing: "0.12em",
                 display: "flex",
               }}
             >
-              zemrose.me
+              JOHN ZEMROSE
             </div>
+          </div>
+
+          <div
+            style={{
+              fontFamily: "'IBM Plex Mono'",
+              fontSize: "11px",
+              color: "rgba(228,228,231,0.22)",
+              letterSpacing: "0.12em",
+              display: "flex",
+            }}
+          >
+            zemrose.me
           </div>
         </div>
       </div>
@@ -306,15 +246,15 @@ export async function GET() {
       fonts: [
         {
           name: "IBM Plex Mono",
-          data: fontRegular,
+          data: fontMono,
           style: "normal" as const,
           weight: 400 as const,
         },
         {
-          name: "IBM Plex Mono",
-          data: fontMedium,
+          name: "Inter",
+          data: fontSansBold,
           style: "normal" as const,
-          weight: 500 as const,
+          weight: 700 as const,
         },
       ],
     }
