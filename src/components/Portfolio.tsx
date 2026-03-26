@@ -1498,15 +1498,18 @@ function Architecture() {
             </div>
           )}
           <div style={{ overflowX: isMobile ? "auto" : "visible", WebkitOverflowScrolling:"touch" }}>
-          <svg width={isMobile ? "860px" : "100%"} viewBox="0 0 860 500" xmlns="http://www.w3.org/2000/svg">
+          <svg width={isMobile ? "1060px" : "100%"} viewBox="0 0 1060 580" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <marker id="a-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
               <marker id="a-dim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(228,228,231,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
+              <marker id="a-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(34,197,94,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></marker>
             </defs>
-            {([ ["USER",58],["EDGE",158],["API",268],["AI",378],["STORE",468] ] as const).map(([l,y])=>(
+            {([ ["USER",58],["EDGE",158],["API",268],["AI",378],["STORE",548] ] as const).map(([l,y])=>(
               <text key={l} x="14" y={y} fill="rgba(228,228,231,0.15)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">{l}</text>
             ))}
-            {[100,210,320,430].map(y=><line key={y} x1="55" y1={y} x2="840" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+            {[100,210,320,430,510].map(y=><line key={y} x1="55" y1={y} x2="1040" y2={y} stroke="rgba(228,228,231,0.04)" strokeWidth="1"/>)}
+
+            {/* ── LEFT SIDE: RAG CHATBOT ── */}
 
             {/* Portfolio Site */}
             <rect x="70" y="24" width="155" height="62" fill="rgba(37,99,235,0.07)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.4"/>
@@ -1550,41 +1553,105 @@ function Architecture() {
             <path d="M332 234 L332 220 L240 220" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#a-dim)" strokeDasharray="4 3"/>
             <text x="284" y="215" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1">top-5 chunks</text>
 
-            {/* Claude Haiku */}
+            {/* Claude Sonnet (chat) */}
             <rect x="163" y="344" width="155" height="62" fill="rgba(37,99,235,0.07)" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.5"/>
-            {([[163,344],[318,344],[163,406],[318,406]] as const).map(([x,y],i)=>(<g key={i}><line x1={x} y1={y} x2={x+(i%2===0?5:-5)} y2={y} stroke="#2563EB" strokeWidth="1" opacity="0.7"/><line x1={x} y1={y} x2={x} y2={y+(i<2?5:-5)} stroke="#2563EB" strokeWidth="1" opacity="0.7"/></g>))}
-            <text x="240" y="368" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Claude Haiku</text>
-            <text x="240" y="384" textAnchor="middle" fill="rgba(228,228,231,0.38)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">claude-haiku-4-5</text>
+            {([[163,344],[318,344],[163,406],[318,406]] as const).map(([x,y],i)=>(<g key={`c${i}`}><line x1={x} y1={y} x2={x+(i%2===0?5:-5)} y2={y} stroke="#2563EB" strokeWidth="1" opacity="0.7"/><line x1={x} y1={y} x2={x} y2={y+(i<2?5:-5)} stroke="#2563EB" strokeWidth="1" opacity="0.7"/></g>))}
+            <text x="240" y="368" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Claude Sonnet</text>
+            <text x="240" y="384" textAnchor="middle" fill="rgba(228,228,231,0.38)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">claude-sonnet-4</text>
             <text x="240" y="398" textAnchor="middle" fill="rgba(37,99,235,0.65)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">context → reply</text>
             <path d="M240 296 L240 344" fill="none" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.5" markerEnd="url(#a-blue)" strokeDasharray="6 4" style={{animation:inView?"flow-dash 1.2s linear infinite":"none"}}/>
             <text x="258" y="324" fill="rgba(37,99,235,0.5)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1">context + prompt</text>
 
+            {/* Telemetry line from /api/chat to Redis */}
+            <path d="M318 155 L440 155 L440 540 L540 540" fill="none" stroke="rgba(34,197,94,0.25)" strokeWidth="1" markerEnd="url(#a-green)" strokeDasharray="4 3"/>
+            <text x="448" y="350" fill="rgba(34,197,94,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1" transform="rotate(90,448,350)">retrieval telemetry</text>
+
+            {/* ── DIVIDER ── */}
+            <line x1="470" y1="20" x2="470" y2="500" stroke="rgba(228,228,231,0.04)" strokeWidth="1" strokeDasharray="3 6"/>
+            <text x="470" y="16" textAnchor="middle" fill="rgba(228,228,231,0.12)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="3">CHATBOT                                          EVAL + OBSERVABILITY</text>
+
+            {/* ── RIGHT SIDE: EVAL SYSTEM ── */}
+
+            {/* Eval Portal */}
+            <rect x="510" y="24" width="155" height="62" fill="rgba(34,197,94,0.06)" stroke="rgba(34,197,94,0.35)" strokeWidth="1"/>
+            {([[510,24],[665,24],[510,86],[665,86]] as const).map(([x,y],i)=>(<g key={`e${i}`}><line x1={x} y1={y} x2={x+(i%2===0?5:-5)} y2={y} stroke="rgba(34,197,94,0.5)" strokeWidth="1"/><line x1={x} y1={y} x2={x} y2={y+(i<2?5:-5)} stroke="rgba(34,197,94,0.5)" strokeWidth="1"/></g>))}
+            <text x="587" y="48" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Eval Portal</text>
+            <text x="587" y="64" textAnchor="middle" fill="rgba(228,228,231,0.38)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">/eval</text>
+            <text x="587" y="78" textAnchor="middle" fill="rgba(34,197,94,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">Admin Dashboard</text>
+
+            {/* MFA Gate */}
+            <rect x="700" y="24" width="140" height="62" fill="rgba(251,146,60,0.05)" stroke="rgba(251,146,60,0.3)" strokeWidth="1"/>
+            <text x="770" y="48" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">TOTP MFA</text>
+            <text x="770" y="64" textAnchor="middle" fill="rgba(228,228,231,0.38)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">Password + OTP</text>
+            <text x="770" y="78" textAnchor="middle" fill="rgba(251,146,60,0.5)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">Google Auth</text>
+            <line x1="665" y1="55" x2="700" y2="55" stroke="rgba(251,146,60,0.3)" strokeWidth="1" markerEnd="url(#a-dim)"/>
+
+            {/* Eval Runner /api/judge */}
+            <rect x="510" y="124" width="155" height="62" fill="rgba(34,197,94,0.04)" stroke="rgba(34,197,94,0.25)" strokeWidth="1"/>
+            <text x="587" y="148" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Eval Runner</text>
+            <text x="587" y="164" textAnchor="middle" fill="rgba(228,228,231,0.38)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">19 questions</text>
+            <text x="587" y="178" textAnchor="middle" fill="rgba(34,197,94,0.55)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">auto-publish scores</text>
+            <path d="M587 86 L587 124" fill="none" stroke="rgba(34,197,94,0.3)" strokeWidth="1" markerEnd="url(#a-green)" strokeDasharray="6 4" style={{animation:inView?"flow-dash 1.2s linear infinite":"none"}}/>
+
+            {/* Arrow from Eval Runner to /api/chat */}
+            <path d="M510 155 L440 155" fill="none" stroke="rgba(34,197,94,0.2)" strokeWidth="1" markerEnd="url(#a-green)" strokeDasharray="4 3"/>
+            <text x="475" y="148" textAnchor="middle" fill="rgba(34,197,94,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="6" letterSpacing="1">test</text>
+
+            {/* Claude Judge */}
+            <rect x="700" y="124" width="140" height="62" fill="rgba(168,85,247,0.06)" stroke="rgba(168,85,247,0.3)" strokeWidth="1"/>
+            {([[700,124],[840,124],[700,186],[840,186]] as const).map(([x,y],i)=>(<g key={`j${i}`}><line x1={x} y1={y} x2={x+(i%2===0?5:-5)} y2={y} stroke="rgba(168,85,247,0.4)" strokeWidth="1"/><line x1={x} y1={y} x2={x} y2={y+(i<2?5:-5)} stroke="rgba(168,85,247,0.4)" strokeWidth="1"/></g>))}
+            <text x="770" y="148" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Claude Judge</text>
+            <text x="770" y="164" textAnchor="middle" fill="rgba(228,228,231,0.38)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">/api/judge</text>
+            <text x="770" y="178" textAnchor="middle" fill="rgba(168,85,247,0.55)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">ACC · COMP · TONE</text>
+            <line x1="665" y1="155" x2="700" y2="155" stroke="rgba(168,85,247,0.3)" strokeWidth="1" markerEnd="url(#a-dim)"/>
+            <text x="682" y="148" textAnchor="middle" fill="rgba(168,85,247,0.3)" fontFamily="IBM Plex Mono,monospace" fontSize="6" letterSpacing="1">score</text>
+
+            {/* KB Health */}
+            <rect x="510" y="234" width="155" height="62" fill="rgba(34,197,94,0.04)" stroke="rgba(34,197,94,0.2)" strokeWidth="1"/>
+            <text x="587" y="258" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">KB Health</text>
+            <text x="587" y="274" textAnchor="middle" fill="rgba(228,228,231,0.38)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">/api/kb/health</text>
+            <text x="587" y="288" textAnchor="middle" fill="rgba(34,197,94,0.5)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">scores · sources · dist</text>
+            <path d="M587 186 L587 234" fill="none" stroke="rgba(34,197,94,0.2)" strokeWidth="1" markerEnd="url(#a-green)"/>
+
             {/* KB Docs (offline) */}
-            <rect x="510" y="234" width="155" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.07)" strokeWidth="1" strokeDasharray="4 3"/>
-            <text x="587" y="258" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">KB Documents</text>
-            <text x="587" y="274" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">26 .md files · local</text>
-            <text x="587" y="288" textAnchor="middle" fill="rgba(228,228,231,0.22)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">One-time run</text>
+            <rect x="700" y="234" width="140" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.07)" strokeWidth="1" strokeDasharray="4 3"/>
+            <text x="770" y="258" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">KB Documents</text>
+            <text x="770" y="274" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">26 .md files</text>
+            <text x="770" y="288" textAnchor="middle" fill="rgba(228,228,231,0.22)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">local ingest</text>
 
             {/* Ingest Script */}
-            <rect x="510" y="344" width="155" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.07)" strokeWidth="1" strokeDasharray="4 3"/>
-            <text x="587" y="368" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Ingest Script</text>
-            <text x="587" y="384" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">scripts/ingest.ts</text>
-            <text x="587" y="398" textAnchor="middle" fill="rgba(228,228,231,0.22)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">chunk→embed→upsert</text>
-            <path d="M587 296 L587 344" fill="none" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#a-dim)"/>
-            <path d="M510 376 L430 376 L430 265 L410 265" fill="none" stroke="rgba(228,228,231,0.12)" strokeWidth="1" markerEnd="url(#a-dim)" strokeDasharray="4 3"/>
-            <text x="587" y="222" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">OFFLINE</text>
-            <line x1="480" y1="228" x2="694" y2="228" stroke="rgba(228,228,231,0.05)" strokeWidth="1" strokeDasharray="3 4"/>
+            <rect x="700" y="344" width="140" height="62" fill="rgba(228,228,231,0.02)" stroke="rgba(228,228,231,0.07)" strokeWidth="1" strokeDasharray="4 3"/>
+            <text x="770" y="368" textAnchor="middle" fill="#E4E4E7" fontFamily="IBM Plex Mono,monospace" fontSize="11" fontWeight="500">Ingest Script</text>
+            <text x="770" y="384" textAnchor="middle" fill="rgba(228,228,231,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">scripts/ingest.ts</text>
+            <text x="770" y="398" textAnchor="middle" fill="rgba(228,228,231,0.22)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="1">chunk→embed→upsert</text>
+            <path d="M770 296 L770 344" fill="none" stroke="rgba(228,228,231,0.15)" strokeWidth="1" markerEnd="url(#a-dim)"/>
+            <text x="770" y="222" textAnchor="middle" fill="rgba(228,228,231,0.18)" fontFamily="IBM Plex Mono,monospace" fontSize="8" letterSpacing="3">OFFLINE</text>
+            <line x1="690" y1="228" x2="850" y2="228" stroke="rgba(228,228,231,0.05)" strokeWidth="1" strokeDasharray="3 4"/>
+
+            {/* ── STORAGE LAYER ── */}
 
             {/* Pinecone store */}
-            <rect x="70" y="444" width="240" height="44" fill="rgba(228,228,231,0.01)" stroke="rgba(228,228,231,0.06)" strokeWidth="1"/>
-            <text x="190" y="463" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="9" fontWeight="500">Pinecone Serverless</text>
-            <text x="190" y="479" textAnchor="middle" fill="rgba(228,228,231,0.2)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1.5">us-east-1 · cosine · 1024d · free tier</text>
-            <path d="M332 296 L332 432 L190 432 L190 444" fill="none" stroke="rgba(228,228,231,0.08)" strokeWidth="1" strokeDasharray="3 4"/>
+            <rect x="70" y="524" width="240" height="44" fill="rgba(228,228,231,0.01)" stroke="rgba(228,228,231,0.06)" strokeWidth="1"/>
+            <text x="190" y="543" textAnchor="middle" fill="rgba(228,228,231,0.4)" fontFamily="IBM Plex Mono,monospace" fontSize="9" fontWeight="500">Pinecone Serverless</text>
+            <text x="190" y="559" textAnchor="middle" fill="rgba(228,228,231,0.2)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1.5">us-east-1 · cosine · 1024d · free tier</text>
+            <path d="M332 296 L332 500 L190 500 L190 524" fill="none" stroke="rgba(228,228,231,0.08)" strokeWidth="1" strokeDasharray="3 4"/>
+            {/* Ingest to Pinecone */}
+            <path d="M700 376 L380 376 L380 500 L310 500 L310 524" fill="none" stroke="rgba(228,228,231,0.08)" strokeWidth="1" markerEnd="url(#a-dim)" strokeDasharray="4 3"/>
+
+            {/* Upstash Redis */}
+            <rect x="540" y="524" width="240" height="44" fill="rgba(34,197,94,0.04)" stroke="rgba(34,197,94,0.2)" strokeWidth="1"/>
+            <text x="660" y="543" textAnchor="middle" fill="rgba(34,197,94,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="9" fontWeight="500">Upstash Redis</text>
+            <text x="660" y="559" textAnchor="middle" fill="rgba(34,197,94,0.35)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1.5">retrieval log · eval scores · KB metrics</text>
+            {/* KB Health reads from Redis */}
+            <path d="M587 296 L587 440 L660 440 L660 524" fill="none" stroke="rgba(34,197,94,0.2)" strokeWidth="1" markerEnd="url(#a-green)" strokeDasharray="4 3"/>
+            {/* Eval publish writes to Redis */}
+            <path d="M665 170 L890 170 L890 440 L760 440 L760 524" fill="none" stroke="rgba(168,85,247,0.2)" strokeWidth="1" markerEnd="url(#a-dim)" strokeDasharray="4 3"/>
+            <text x="898" y="310" fill="rgba(168,85,247,0.25)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="1" transform="rotate(90,898,310)">publish scores</text>
 
             {/* Cost */}
-            <rect x="620" y="444" width="210" height="44" fill="rgba(34,197,94,0.04)" stroke="rgba(34,197,94,0.18)" strokeWidth="1"/>
-            <text x="725" y="462" textAnchor="middle" fill="rgba(34,197,94,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="2">~500 SESSIONS/MO</text>
-            <text x="725" y="479" textAnchor="middle" fill="#22c55e" fontFamily="IBM Plex Mono,monospace" fontSize="12" fontWeight="500">$2–4 / MONTH</text>
+            <rect x="860" y="524" width="180" height="44" fill="rgba(34,197,94,0.04)" stroke="rgba(34,197,94,0.18)" strokeWidth="1"/>
+            <text x="950" y="542" textAnchor="middle" fill="rgba(34,197,94,0.6)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="2">~500 SESSIONS/MO</text>
+            <text x="950" y="559" textAnchor="middle" fill="#22c55e" fontFamily="IBM Plex Mono,monospace" fontSize="12" fontWeight="500">$2–4 / MONTH</text>
 
             {/* Crosshair */}
             <line x1="233" y1="183" x2="247" y2="183" stroke="rgba(37,99,235,0.2)" strokeWidth="0.75"/>
