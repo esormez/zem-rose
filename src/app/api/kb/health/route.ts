@@ -7,8 +7,22 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const raw = await redis.lrange("retrieval-log", 0, 99);
-  const log = raw.map(r => typeof r === "string" ? JSON.parse(r) : r);
+  const range = req.nextUrl.searchParams.get("range") || "all"; // 1h, 24h, 7d, 30d, all
+
+  const raw = await redis.lrange("retrieval-log", 0, 199);
+  const allLog = raw.map(r => typeof r === "string" ? JSON.parse(r) : r);
+
+  // Time-filter
+  const now = Date.now();
+  const cutoffs: Record<string, number> = {
+    "1h": now - 3600_000,
+    "24h": now - 86400_000,
+    "7d": now - 604800_000,
+    "30d": now - 2592000_000,
+  };
+  const cutoff = cutoffs[range] ?? 0;
+  const log = cutoff ? allLog.filter(r => new Date(r.timestamp).getTime() >= cutoff) : allLog;
+
   const totalLogged = await redis.llen("retrieval-log");
 
   const avgTopScore = log.length
@@ -45,6 +59,22 @@ export async function GET(req: NextRequest) {
     .slice(0, 8)
     .map(([source, count]) => ({ source, count }));
 
+  // Fetch judge scores
+  const judgeRaw = await redis.lrange("judge-log", 0, 199);
+  const judgeLog = judgeRaw.map(r => typeof r === "string" ? JSON.parse(r) : r);
+  const filteredJudge = cutoff
+    ? judgeLog.filter(r => new Date(r.timestamp).getTime() >= cutoff)
+    : judgeLog;
+
+  // Build a map of query → judge scores for matching
+  const judgeMap: Record<string, { accuracy: number; completeness: number; tone: number; flag: string; note: string }> = {};
+  filteredJudge.forEach(j => {
+    judgeMap[j.query + "|" + j.timestamp?.slice(0, 16)] = {
+      accuracy: j.accuracy, completeness: j.completeness, tone: j.tone,
+      flag: j.flag, note: j.note,
+    };
+  });
+
   let indexStats = null;
   try { indexStats = await getPineconeStats(); } catch {}
 
@@ -52,18 +82,32 @@ export async function GET(req: NextRequest) {
     index: indexStats,
     documents: 48,
     queriesLogged: totalLogged,
+    queriesInRange: log.length,
+    range,
     avgTopScore,
     avgScore,
     missRate,
     avgChunksPerQuery: avgChunks,
     distribution,
     topSources,
-    recentQueries: log.slice(0, 10).map(r => ({
-      query: r.query,
-      topScore: r.topScore,
-      chunks: r.aboveThreshold,
-      miss: r.miss,
-      timestamp: r.timestamp,
-    })),
+    recentQueries: log.map(r => {
+      const key = r.query + "|" + r.timestamp?.slice(0, 16);
+      const judge = judgeMap[key] ?? null;
+      return {
+        query: r.query,
+        topScore: r.topScore,
+        chunks: r.aboveThreshold,
+        miss: r.miss,
+        timestamp: r.timestamp,
+        judge,
+      };
+    }),
+    judgeStats: filteredJudge.length ? {
+      count: filteredJudge.length,
+      avgAccuracy: Number((filteredJudge.reduce((a, j) => a + j.accuracy, 0) / filteredJudge.length).toFixed(1)),
+      avgTone: Number((filteredJudge.reduce((a, j) => a + j.tone, 0) / filteredJudge.length).toFixed(1)),
+      warnings: filteredJudge.filter(j => j.flag === "warning").length,
+      critical: filteredJudge.filter(j => j.flag === "critical").length,
+    } : null,
   });
 }

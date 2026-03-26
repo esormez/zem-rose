@@ -128,9 +128,42 @@ export async function POST(req: NextRequest) {
     });
 
     const reply = response.content.find((b) => b.type === "text")?.text ?? "No response.";
+
+    // Fire-and-forget: async judge scoring for live visitor queries
+    scoreVisitorQuery(question, reply).catch(() => {});
+
     return NextResponse.json({ content: reply });
   } catch (error) {
     console.error("Chat error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
+}
+
+async function scoreVisitorQuery(question: string, response: string) {
+  try {
+    const judgeResult = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 200,
+      system: `You are a quality evaluator for a portfolio chatbot. Score this response 0-100 on:
+ACCURACY: Is it factually grounded and not hallucinating?
+COMPLETENESS: Does it address the question?
+TONE: Professional, concise, first-person?
+Return ONLY valid JSON: {"accuracy": N, "completeness": N, "tone": N, "flag": "ok|warning|critical", "note": "one sentence"}
+Use "warning" if the response seems weak or off-topic. Use "critical" if it hallucinates or reveals off-limits info.`,
+      messages: [{ role: "user", content: `Question: ${question}\n\nResponse: ${response}` }],
+    });
+    const text = judgeResult.content.find((b) => b.type === "text")?.text ?? "{}";
+    const scores = JSON.parse(text.replace(/```json|```/g, "").trim());
+    await redis.lpush("judge-log", JSON.stringify({
+      timestamp: new Date().toISOString(),
+      query: question.slice(0, 80),
+      response: response.slice(0, 300),
+      accuracy: scores.accuracy ?? 0,
+      completeness: scores.completeness ?? 0,
+      tone: scores.tone ?? 0,
+      flag: scores.flag ?? "ok",
+      note: scores.note ?? "",
+    }));
+    await redis.ltrim("judge-log", 0, 199);
+  } catch {}
 }

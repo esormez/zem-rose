@@ -181,30 +181,48 @@ function ScoreDist({ dist, total }: { dist: Record<string, number>; total: numbe
 /* ═══════════════════════════════════════════════════
    KB HEALTH TAB
 ═══════════════════════════════════════════════════ */
+interface JudgeScore { accuracy: number; completeness: number; tone: number; flag: string; note: string }
+interface KbQuery { query: string; topScore: number; chunks: number; miss: boolean; timestamp: string; judge: JudgeScore | null }
 interface KbHealthData {
   index: { totalVectors: number; fullness: number } | null;
   documents: number;
   queriesLogged: number;
+  queriesInRange: number;
+  range: string;
   avgTopScore: number | null;
   avgScore: number | null;
   missRate: number | null;
   avgChunksPerQuery: number | null;
   distribution: Record<string, number>;
   topSources: { source: string; count: number }[];
-  recentQueries: { query: string; topScore: number; chunks: number; miss: boolean; timestamp: string }[];
+  recentQueries: KbQuery[];
+  judgeStats: { count: number; avgAccuracy: number; avgTone: number; warnings: number; critical: number } | null;
 }
+
+const RANGES = [
+  { key: "1h", label: "1 HOUR" },
+  { key: "24h", label: "24 HOURS" },
+  { key: "7d", label: "7 DAYS" },
+  { key: "30d", label: "30 DAYS" },
+  { key: "all", label: "ALL" },
+];
 
 function KbTab({ secret }: { secret: string }) {
   const [data, setData] = useState<KbHealthData | null>(null);
   const [busy, setBusy] = useState(true);
+  const [range, setRange] = useState("all");
+  const [expandedQ, setExpandedQ] = useState<number | null>(null);
 
-  useEffect(() => {
-    fetch("/api/kb/health", { headers: { "x-eval-secret": secret } })
-      .then(r => r.json()).then(d => { setData(d); setBusy(false); })
+  const load = (r: string) => {
+    setBusy(true);
+    fetch(`/api/kb/health?range=${r}`, { headers: { "x-eval-secret": secret } })
+      .then(res => res.json()).then(d => { setData(d); setBusy(false); })
       .catch(() => setBusy(false));
-  }, [secret]);
+  };
 
-  if (busy) return <div style={{ padding: "80px", textAlign: "center", fontSize: 9, color: "rgba(228,228,231,0.2)", letterSpacing: "0.2em" }}>LOADING KB HEALTH...</div>;
+  useEffect(() => { load(range); }, [secret, range]);
+
+  if (busy && !data) return <div style={{ padding: "80px", textAlign: "center", fontSize: 9, color: "rgba(228,228,231,0.2)", letterSpacing: "0.2em" }}>LOADING KB HEALTH...</div>;
   if (!data) return <div style={{ padding: "80px", textAlign: "center", fontSize: 9, color: "#ef4444", letterSpacing: "0.2em" }}>FAILED TO LOAD — CHECK x-eval-secret</div>;
 
   const scoreColor = !data.avgTopScore ? "rgba(228,228,231,0.5)" : data.avgTopScore >= 0.80 ? "#22c55e" : data.avgTopScore >= 0.65 ? "#2563EB" : "#fb923c";
@@ -215,17 +233,34 @@ function KbTab({ secret }: { secret: string }) {
     { label: "VECTORS", value: data.index?.totalVectors ?? "—", color: "rgba(228,228,231,0.7)" },
     { label: "AVG RETRIEVAL", value: data.avgTopScore?.toFixed(2) ?? "—", color: scoreColor },
     { label: "MISS RATE", value: data.missRate != null ? data.missRate + "%" : "—", color: missColor },
-    { label: "AVG CHUNKS", value: data.avgChunksPerQuery?.toFixed(1) ?? "—", color: "rgba(228,228,231,0.7)" },
+    { label: "QUERIES", value: data.queriesInRange, color: "rgba(228,228,231,0.7)" },
     { label: "INDEX FULLNESS", value: data.index?.fullness != null ? (data.index.fullness * 100).toFixed(1) + "%" : "—", color: "#2563EB" },
   ];
 
+  const js = data.judgeStats;
+
   return (
     <div style={{ padding: 28 }}>
-      <div style={{ borderBottom: "1px solid rgba(228,228,231,0.06)", paddingBottom: 18, marginBottom: 24 }}>
-        <div style={{ fontSize: 9, color: "#2563EB", letterSpacing: "0.28em", marginBottom: 8 }}>KNOWLEDGE BASE // HEALTH REPORT</div>
-        <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.02em" }}>KB Health</div>
-        <div style={{ fontSize: 9, color: "rgba(228,228,231,0.28)", letterSpacing: "0.1em", marginTop: 5 }}>
-          PINECONE · {data.index?.totalVectors ?? "—"} VECTORS · {data.documents} DOCUMENTS · {data.queriesLogged} QUERIES LOGGED
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "1px solid rgba(228,228,231,0.06)", paddingBottom: 18, marginBottom: 24 }}>
+        <div>
+          <div style={{ fontSize: 9, color: "#2563EB", letterSpacing: "0.28em", marginBottom: 8 }}>KNOWLEDGE BASE // HEALTH REPORT</div>
+          <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.02em" }}>KB Health</div>
+          <div style={{ fontSize: 9, color: "rgba(228,228,231,0.28)", letterSpacing: "0.1em", marginTop: 5 }}>
+            PINECONE · {data.index?.totalVectors ?? "—"} VECTORS · {data.documents} DOCUMENTS · {data.queriesLogged} TOTAL QUERIES
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 4 }}>
+          {RANGES.map(({ key, label }) => (
+            <button key={key} onClick={() => setRange(key)} className="ev-btn"
+              style={{
+                fontSize: 8, letterSpacing: "0.12em", padding: "5px 10px", border: "1px solid",
+                background: range === key ? "rgba(37,99,235,0.12)" : "transparent",
+                borderColor: range === key ? "rgba(37,99,235,0.35)" : "rgba(228,228,231,0.08)",
+                color: range === key ? "#2563EB" : "rgba(228,228,231,0.3)",
+              }}>
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -238,15 +273,37 @@ function KbTab({ secret }: { secret: string }) {
         ))}
       </div>
 
+      {/* Judge Stats Strip */}
+      {js && (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1, border: "1px solid rgba(168,85,247,0.12)", marginBottom: 22 }}>
+          <div style={{ padding: "12px 16px", borderRight: "1px solid rgba(168,85,247,0.08)" }}>
+            <div style={{ fontSize: 8, color: "rgba(168,85,247,0.45)", letterSpacing: "0.14em", marginBottom: 5 }}>JUDGE SCORED</div>
+            <div style={{ fontSize: 20, fontWeight: 500, color: "rgba(168,85,247,0.7)" }}>{js.count}</div>
+          </div>
+          <div style={{ padding: "12px 16px", borderRight: "1px solid rgba(168,85,247,0.08)" }}>
+            <div style={{ fontSize: 8, color: "rgba(168,85,247,0.45)", letterSpacing: "0.14em", marginBottom: 5 }}>AVG ACCURACY</div>
+            <div style={{ fontSize: 20, fontWeight: 500, color: gc(js.avgAccuracy) }}>{js.avgAccuracy}</div>
+          </div>
+          <div style={{ padding: "12px 16px", borderRight: "1px solid rgba(168,85,247,0.08)" }}>
+            <div style={{ fontSize: 8, color: "rgba(168,85,247,0.45)", letterSpacing: "0.14em", marginBottom: 5 }}>WARNINGS</div>
+            <div style={{ fontSize: 20, fontWeight: 500, color: js.warnings > 0 ? "#fb923c" : "rgba(228,228,231,0.3)" }}>{js.warnings}</div>
+          </div>
+          <div style={{ padding: "12px 16px" }}>
+            <div style={{ fontSize: 8, color: "rgba(168,85,247,0.45)", letterSpacing: "0.14em", marginBottom: 5 }}>CRITICAL</div>
+            <div style={{ fontSize: 20, fontWeight: 500, color: js.critical > 0 ? "#ef4444" : "rgba(228,228,231,0.3)" }}>{js.critical}</div>
+          </div>
+        </div>
+      )}
+
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 22 }}>
         <div style={{ border: "1px solid rgba(228,228,231,0.05)", padding: 20 }}>
           <div style={{ fontSize: 9, color: "rgba(228,228,231,0.22)", letterSpacing: "0.2em", marginBottom: 16 }}>RETRIEVAL SCORE DISTRIBUTION</div>
           {data.distribution
-            ? <ScoreDist dist={data.distribution} total={data.queriesLogged} />
+            ? <ScoreDist dist={data.distribution} total={data.queriesInRange} />
             : <div style={{ fontSize: 9, color: "rgba(228,228,231,0.2)" }}>No data yet</div>
           }
           <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(228,228,231,0.04)", fontSize: 8, color: "rgba(228,228,231,0.18)", letterSpacing: "0.12em" }}>
-            DIMENSION: 1024 · METRIC: COSINE · THRESHOLD: 0.50
+            DIMENSION: 1024 · METRIC: COSINE · THRESHOLD: 0.45
           </div>
         </div>
 
@@ -268,19 +325,49 @@ function KbTab({ secret }: { secret: string }) {
         </div>
       </div>
 
+      {/* Query History Table */}
       <div style={{ border: "1px solid rgba(228,228,231,0.05)" }}>
-        <div style={{ padding: "12px 16px", borderBottom: "1px solid rgba(228,228,231,0.04)", display: "grid", gridTemplateColumns: "1fr 80px 60px 70px 110px", gap: 10, fontSize: 8, color: "rgba(228,228,231,0.2)", letterSpacing: "0.12em" }}>
-          <span>QUERY</span><span>TOP SCORE</span><span>CHUNKS</span><span>HIT/MISS</span><span>TIMESTAMP</span>
+        <div style={{ padding: "10px 16px", borderBottom: "1px solid rgba(228,228,231,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontSize: 9, color: "rgba(228,228,231,0.22)", letterSpacing: "0.2em" }}>QUERY HISTORY</span>
+          <span style={{ fontSize: 8, color: "rgba(228,228,231,0.15)", letterSpacing: "0.1em" }}>
+            {data.recentQueries?.length ?? 0} QUERIES · CLICK TO EXPAND
+          </span>
+        </div>
+        <div style={{ padding: "8px 16px", borderBottom: "1px solid rgba(228,228,231,0.04)", display: "grid", gridTemplateColumns: "1fr 70px 50px 55px 50px 50px 50px 100px", gap: 8, fontSize: 8, color: "rgba(228,228,231,0.2)", letterSpacing: "0.12em" }}>
+          <span>QUERY</span><span>SCORE</span><span>CHUNKS</span><span>STATUS</span>
+          <span style={{ color: "rgba(168,85,247,0.4)" }}>ACC</span>
+          <span style={{ color: "rgba(168,85,247,0.4)" }}>COMP</span>
+          <span style={{ color: "rgba(168,85,247,0.4)" }}>TONE</span>
+          <span>TIME</span>
         </div>
         {data.recentQueries?.length ? data.recentQueries.map((r, i) => {
           const sc = r.topScore >= 0.85 ? "#22c55e" : r.topScore >= 0.70 ? "#2563EB" : r.topScore >= 0.55 ? "#fb923c" : "#ef4444";
+          const isOpen = expandedQ === i;
+          const flagColor = r.judge?.flag === "critical" ? "#ef4444" : r.judge?.flag === "warning" ? "#fb923c" : "rgba(34,197,94,0.6)";
           return (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 80px 60px 70px 110px", gap: 10, padding: "10px 16px", borderBottom: "1px solid rgba(228,228,231,0.03)", fontSize: 9, alignItems: "center" }}>
-              <span style={{ color: "rgba(228,228,231,0.5)" }}>{r.query?.length > 55 ? r.query.slice(0, 55) + "…" : r.query}</span>
-              <span style={{ color: sc, fontWeight: 500 }}>{r.topScore?.toFixed(3)}</span>
-              <span style={{ color: "rgba(228,228,231,0.4)" }}>{r.chunks}</span>
-              <span style={{ color: r.miss ? "#ef4444" : "rgba(34,197,94,0.6)" }}>{r.miss ? "MISS" : "HIT"}</span>
-              <span style={{ color: "rgba(228,228,231,0.25)" }}>{r.timestamp ? new Date(r.timestamp).toLocaleTimeString() : "—"}</span>
+            <div key={i} style={{ borderBottom: "1px solid rgba(228,228,231,0.03)" }}>
+              <div className="ev-row-hdr" onClick={() => setExpandedQ(isOpen ? null : i)}
+                style={{ display: "grid", gridTemplateColumns: "1fr 70px 50px 55px 50px 50px 50px 100px", gap: 8, padding: "9px 16px", fontSize: 9, alignItems: "center" }}>
+                <span style={{ color: "rgba(228,228,231,0.5)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.query}</span>
+                <span style={{ color: sc, fontWeight: 500 }}>{r.topScore?.toFixed(3)}</span>
+                <span style={{ color: "rgba(228,228,231,0.4)" }}>{r.chunks}</span>
+                <span style={{ color: r.miss ? "#ef4444" : "rgba(34,197,94,0.6)", fontSize: 8 }}>{r.miss ? "MISS" : "HIT"}</span>
+                <span style={{ color: r.judge ? gc(r.judge.accuracy) : "rgba(228,228,231,0.12)", fontWeight: 500 }}>{r.judge?.accuracy ?? "—"}</span>
+                <span style={{ color: r.judge ? gc(r.judge.completeness) : "rgba(228,228,231,0.12)", fontWeight: 500 }}>{r.judge?.completeness ?? "—"}</span>
+                <span style={{ color: r.judge ? gc(r.judge.tone) : "rgba(228,228,231,0.12)", fontWeight: 500 }}>{r.judge?.tone ?? "—"}</span>
+                <span style={{ color: "rgba(228,228,231,0.25)", fontSize: 8 }}>{r.timestamp ? new Date(r.timestamp).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "—"}</span>
+              </div>
+              {isOpen && r.judge && (
+                <div style={{ padding: "12px 16px 16px", background: "rgba(168,85,247,0.02)", borderTop: "1px solid rgba(168,85,247,0.06)" }}>
+                  <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontSize: 8, color: "rgba(168,85,247,0.5)", letterSpacing: "0.14em" }}>JUDGE ASSESSMENT</span>
+                    <span style={{ fontSize: 8, padding: "2px 8px", border: `1px solid ${flagColor}40`, color: flagColor, letterSpacing: "0.1em" }}>
+                      {(r.judge.flag || "ok").toUpperCase()}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 10, color: "rgba(228,228,231,0.45)", lineHeight: 1.7, fontStyle: "italic" }}>{r.judge.note}</div>
+                </div>
+              )}
             </div>
           );
         }) : (
@@ -292,7 +379,7 @@ function KbTab({ secret }: { secret: string }) {
 
       <div style={{ marginTop: 24, paddingTop: 12, borderTop: "1px solid rgba(228,228,231,0.04)", display: "flex", justifyContent: "space-between", fontSize: 8, color: "rgba(228,228,231,0.12)", letterSpacing: "0.12em" }}>
         <span>ZEMROSE.AI // KB_HEALTH // PINECONE: zemrose-portfolio</span>
-        <span>{data.queriesLogged} QUERIES LOGGED · ROLLING WINDOW</span>
+        <span>{data.queriesLogged} TOTAL · {data.queriesInRange} IN RANGE · ASYNC JUDGE ENABLED</span>
       </div>
     </div>
   );
