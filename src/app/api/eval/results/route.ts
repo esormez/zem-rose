@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import * as fs from "fs";
-import * as path from "path";
+import { redis } from "@/lib/redis";
 
 export async function GET() {
   try {
-    const data = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "eval-results.json"), "utf-8"));
-    return NextResponse.json(data);
+    const data = await redis.get("eval-results");
+    if (data) return NextResponse.json(data);
+    return NextResponse.json({ lastRun: null, overall: { accuracy: null } });
   } catch {
     return NextResponse.json({ lastRun: null, overall: { accuracy: null } });
   }

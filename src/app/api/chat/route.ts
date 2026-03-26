@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Pinecone } from "@pinecone-database/pinecone";
 import Anthropic from "@anthropic-ai/sdk";
-import * as fs from "fs";
-import * as path from "path";
+import { redis } from "@/lib/redis";
 
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
@@ -106,12 +105,8 @@ export async function POST(req: NextRequest) {
           .filter(m => (m.score ?? 0) > 0.5)
           .map(m => ({ source: m.metadata?.source as string, score: m.score ?? 0 })),
       };
-      const logPath = path.join(process.cwd(), "data", "retrieval-log.json");
-      let log: unknown[] = [];
-      try { log = JSON.parse(fs.readFileSync(logPath, "utf-8")); } catch {}
-      log.unshift(retrievalStats);
-      if (log.length > 100) log = log.slice(0, 100);
-      fs.writeFileSync(logPath, JSON.stringify(log, null, 2));
+      await redis.lpush("retrieval-log", JSON.stringify(retrievalStats));
+      await redis.ltrim("retrieval-log", 0, 99);
     } catch {}
 
     // Build context from relevant chunks

@@ -1,18 +1,16 @@
 import { NextResponse } from "next/server";
-import * as fs from "fs";
-import * as path from "path";
+import { redis } from "@/lib/redis";
 
 export async function GET() {
   try {
-    const logPath = path.join(process.cwd(), "data", "retrieval-log.json");
-    let log: Record<string, unknown>[] = [];
-    try { log = JSON.parse(fs.readFileSync(logPath, "utf-8")); } catch {}
+    const raw = await redis.lrange("retrieval-log", 0, 49);
+    const recent = raw.map(r => typeof r === "string" ? JSON.parse(r) : r);
 
-    const evalPath = path.join(process.cwd(), "data", "eval-results.json");
-    let evalData: Record<string, unknown> = {};
-    try { evalData = JSON.parse(fs.readFileSync(evalPath, "utf-8")); } catch {}
+    const evalRaw = await redis.get("eval-results");
+    const evalData = evalRaw ? (typeof evalRaw === "string" ? JSON.parse(evalRaw) : evalRaw) as Record<string, unknown> : {};
 
-    const recent = log.slice(0, 50);
+    const totalLogged = await redis.llen("retrieval-log");
+
     const avgTopScore = recent.length
       ? Number((recent.reduce((a, r) => a + (r.topScore as number), 0) / recent.length).toFixed(2))
       : null;
@@ -31,8 +29,8 @@ export async function GET() {
       avgRetrievalScore: avgTopScore,
       missRate,
       avgChunksPerQuery: avgChunks,
-      queriesLogged: log.length,
-      lastQuery: (log[0] as Record<string, unknown>)?.timestamp ?? null,
+      queriesLogged: totalLogged,
+      lastQuery: recent[0]?.timestamp ?? null,
     });
   } catch {
     return NextResponse.json({ documents: 26, chunks: null, avgRetrievalScore: null, missRate: null });

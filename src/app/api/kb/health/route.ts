@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as fs from "fs";
-import * as path from "path";
+import { redis } from "@/lib/redis";
 import { getPineconeStats } from "@/lib/pineconeStats";
 
 export async function GET(req: NextRequest) {
@@ -8,9 +7,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const logPath = path.join(process.cwd(), "data", "retrieval-log.json");
-  let log: Record<string, unknown>[] = [];
-  try { log = JSON.parse(fs.readFileSync(logPath, "utf-8")); } catch {}
+  const raw = await redis.lrange("retrieval-log", 0, 99);
+  const log = raw.map(r => typeof r === "string" ? JSON.parse(r) : r);
+  const totalLogged = await redis.llen("retrieval-log");
 
   const avgTopScore = log.length
     ? Number((log.reduce((a, r) => a + (r.topScore as number), 0) / log.length).toFixed(3))
@@ -52,7 +51,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     index: indexStats,
     documents: 26,
-    queriesLogged: log.length,
+    queriesLogged: totalLogged,
     avgTopScore,
     avgScore,
     missRate,
