@@ -89,26 +89,6 @@ export async function POST(req: NextRequest) {
     const index = pinecone.index(process.env.PINECONE_INDEX!);
     const results = await index.query({ vector: queryVector, topK: 5, includeMetadata: true });
 
-    // Log retrieval stats
-    try {
-      const retrievalStats = {
-        timestamp: new Date().toISOString(),
-        query: question.slice(0, 80),
-        matchCount: results.matches.length,
-        topScore: results.matches[0]?.score ?? 0,
-        avgScore: results.matches.length
-          ? results.matches.reduce((a, m) => a + (m.score ?? 0), 0) / results.matches.length
-          : 0,
-        aboveThreshold: results.matches.filter(m => (m.score ?? 0) > 0.45).length,
-        miss: results.matches.filter(m => (m.score ?? 0) > 0.45).length === 0,
-        sources: results.matches
-          .filter(m => (m.score ?? 0) > 0.45)
-          .map(m => ({ source: m.metadata?.source as string, score: m.score ?? 0 })),
-      };
-      await redis.lpush("retrieval-log", JSON.stringify(retrievalStats));
-      await redis.ltrim("retrieval-log", 0, 99);
-    } catch {}
-
     // Build context from relevant chunks
     const context = results.matches
       .filter((m) => (m.score ?? 0) > 0.3)
@@ -129,7 +109,30 @@ export async function POST(req: NextRequest) {
 
     const reply = response.content.find((b) => b.type === "text")?.text ?? "No response.";
 
-    // Fire-and-forget: async judge scoring for live visitor queries
+    // Log retrieval stats + response, then async judge scoring
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      query: question.slice(0, 80),
+      response: reply.slice(0, 300),
+      matchCount: results.matches.length,
+      topScore: results.matches[0]?.score ?? 0,
+      avgScore: results.matches.length
+        ? results.matches.reduce((a, m) => a + (m.score ?? 0), 0) / results.matches.length
+        : 0,
+      aboveThreshold: results.matches.filter(m => (m.score ?? 0) > 0.45).length,
+      miss: results.matches.filter(m => (m.score ?? 0) > 0.45).length === 0,
+      sources: results.matches
+        .filter(m => (m.score ?? 0) > 0.45)
+        .map(m => ({ source: m.metadata?.source as string, score: m.score ?? 0 })),
+      judge: null as { accuracy: number; completeness: number; tone: number; flag: string; note: string } | null,
+    };
+
+    try {
+      await redis.lpush("retrieval-log", JSON.stringify(logEntry));
+      await redis.ltrim("retrieval-log", 0, 199);
+    } catch {}
+
+    // Fire-and-forget: async judge scoring updates the entry we just pushed
     scoreVisitorQuery(question, reply).catch(() => {});
 
     return NextResponse.json({ content: reply });
@@ -154,16 +157,24 @@ Use "warning" if the response seems weak or off-topic. Use "critical" if it hall
     });
     const text = judgeResult.content.find((b) => b.type === "text")?.text ?? "{}";
     const scores = JSON.parse(text.replace(/```json|```/g, "").trim());
-    await redis.lpush("judge-log", JSON.stringify({
-      timestamp: new Date().toISOString(),
-      query: question.slice(0, 80),
-      response: response.slice(0, 300),
+    const judge = {
       accuracy: scores.accuracy ?? 0,
       completeness: scores.completeness ?? 0,
       tone: scores.tone ?? 0,
       flag: scores.flag ?? "ok",
       note: scores.note ?? "",
-    }));
-    await redis.ltrim("judge-log", 0, 199);
+    };
+
+    // Update the most recent retrieval-log entry with judge scores
+    // Find the entry matching this query (scan recent entries)
+    const recent = await redis.lrange("retrieval-log", 0, 9);
+    for (let i = 0; i < recent.length; i++) {
+      const entry = typeof recent[i] === "string" ? JSON.parse(recent[i] as string) : recent[i];
+      if ((entry.query as string) === question.slice(0, 80) && !entry.judge) {
+        entry.judge = judge;
+        await redis.lset("retrieval-log", i, JSON.stringify(entry));
+        break;
+      }
+    }
   } catch {}
 }

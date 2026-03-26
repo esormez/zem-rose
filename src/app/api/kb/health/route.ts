@@ -59,21 +59,15 @@ export async function GET(req: NextRequest) {
     .slice(0, 8)
     .map(([source, count]) => ({ source, count }));
 
-  // Fetch judge scores
-  const judgeRaw = await redis.lrange("judge-log", 0, 199);
-  const judgeLog = judgeRaw.map(r => typeof r === "string" ? JSON.parse(r) : r);
-  const filteredJudge = cutoff
-    ? judgeLog.filter(r => new Date(r.timestamp).getTime() >= cutoff)
-    : judgeLog;
-
-  // Build a map of query → judge scores for matching
-  const judgeMap: Record<string, { accuracy: number; completeness: number; tone: number; flag: string; note: string }> = {};
-  filteredJudge.forEach(j => {
-    judgeMap[j.query + "|" + j.timestamp?.slice(0, 16)] = {
-      accuracy: j.accuracy, completeness: j.completeness, tone: j.tone,
-      flag: j.flag, note: j.note,
-    };
-  });
+  // Judge stats from inline judge scores in retrieval-log entries
+  const judged = log.filter(r => r.judge);
+  const judgeStats = judged.length ? {
+    count: judged.length,
+    avgAccuracy: Number((judged.reduce((a, r) => a + (r.judge.accuracy as number), 0) / judged.length).toFixed(1)),
+    avgTone: Number((judged.reduce((a, r) => a + (r.judge.tone as number), 0) / judged.length).toFixed(1)),
+    warnings: judged.filter(r => r.judge.flag === "warning").length,
+    critical: judged.filter(r => r.judge.flag === "critical").length,
+  } : null;
 
   let indexStats = null;
   try { indexStats = await getPineconeStats(); } catch {}
@@ -97,25 +91,16 @@ export async function GET(req: NextRequest) {
     avgChunksPerQuery: avgChunks,
     distribution,
     topSources,
-    recentQueries: log.map(r => {
-      const key = r.query + "|" + r.timestamp?.slice(0, 16);
-      const judge = judgeMap[key] ?? null;
-      return {
-        query: r.query,
-        topScore: r.topScore,
-        chunks: r.aboveThreshold,
-        miss: r.miss,
-        timestamp: r.timestamp,
-        judge,
-      };
-    }),
-    judgeStats: filteredJudge.length ? {
-      count: filteredJudge.length,
-      avgAccuracy: Number((filteredJudge.reduce((a, j) => a + j.accuracy, 0) / filteredJudge.length).toFixed(1)),
-      avgTone: Number((filteredJudge.reduce((a, j) => a + j.tone, 0) / filteredJudge.length).toFixed(1)),
-      warnings: filteredJudge.filter(j => j.flag === "warning").length,
-      critical: filteredJudge.filter(j => j.flag === "critical").length,
-    } : null,
+    recentQueries: log.map(r => ({
+      query: r.query,
+      topScore: r.topScore,
+      chunks: r.aboveThreshold,
+      miss: r.miss,
+      timestamp: r.timestamp,
+      response: r.response ?? null,
+      judge: r.judge ?? null,
+    })),
+    judgeStats,
     evalResults,
   });
 }
