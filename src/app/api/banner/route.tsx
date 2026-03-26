@@ -25,16 +25,36 @@ export async function GET() {
           overflow: "hidden",
         }}
       >
-        {/* Grid background — matching site */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            backgroundImage: `linear-gradient(rgba(228,228,231,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(228,228,231,0.12) 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
+        {/* Grid lines — horizontal */}
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div
+            key={`h${i}`}
+            style={{
+              position: "absolute",
+              left: 0,
+              top: `${i * 40}px`,
+              width: "1584px",
+              height: "1px",
+              background: "rgba(228,228,231,0.08)",
+              display: "flex",
+            }}
+          />
+        ))}
+        {/* Grid lines — vertical */}
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div
+            key={`v${i}`}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: `${i * 40}px`,
+              width: "1px",
+              height: "396px",
+              background: "rgba(228,228,231,0.08)",
+              display: "flex",
+            }}
+          />
+        ))}
 
         {/* Radial fade — subtle, edges only */}
         <div
