@@ -36,14 +36,14 @@ export async function GET() {
           }}
         />
 
-        {/* Radial fade — center bright, edges dark */}
+        {/* Radial fade — subtle, edges only */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
             background:
-              "radial-gradient(ellipse 80% 80% at 60% 50%, transparent 20%, #0A0A0B 100%)",
+              "radial-gradient(ellipse 120% 120% at 50% 50%, transparent 40%, #0A0A0B 100%)",
           }}
         />
 
@@ -212,37 +212,6 @@ export async function GET() {
             AI SYSTEMS · DATA ARCHITECTURE · ENGINEERING TRANSFORMATION
           </div>
 
-          {/* Footer */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              marginTop: "14px",
-            }}
-          >
-            <div
-              style={{
-                width: "5px",
-                height: "5px",
-                borderRadius: "50%",
-                background: "#2563EB",
-                opacity: 0.7,
-                display: "flex",
-              }}
-            />
-            <div
-              style={{
-                fontFamily: "'IBM Plex Mono'",
-                fontSize: "12px",
-                color: "rgba(228,228,231,0.35)",
-                letterSpacing: "2px",
-                display: "flex",
-              }}
-            >
-              ZEMROSE.ME
-            </div>
-          </div>
         </div>
       </div>
     ),
