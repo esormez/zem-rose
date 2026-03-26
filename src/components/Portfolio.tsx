@@ -1569,7 +1569,7 @@ function Architecture() {
             {/* ── DIVIDER ── */}
             <line x1="470" y1="20" x2="470" y2="500" stroke="rgba(228,228,231,0.04)" strokeWidth="1" strokeDasharray="3 6"/>
             <text x="240" y="16" textAnchor="middle" fill="rgba(228,228,231,0.12)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="3">CHATBOT</text>
-            <text x="750" y="16" textAnchor="middle" fill="rgba(228,228,231,0.12)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="3">EVAL + OBSERVABILITY</text>
+            <text x="680" y="16" textAnchor="middle" fill="rgba(228,228,231,0.12)" fontFamily="IBM Plex Mono,monospace" fontSize="7" letterSpacing="3">EVAL + OBSERVABILITY</text>
 
             {/* ── RIGHT SIDE: EVAL SYSTEM ── */}
 
