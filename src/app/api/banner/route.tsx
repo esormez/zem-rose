@@ -134,13 +134,13 @@ export async function GET() {
           }}
         />
 
-        {/* ── Architecture Diagram (left side, 580px wide) ── */}
+        {/* ── Architecture Diagram (left side, 640px wide) ── */}
         <div
           style={{
             position: "absolute",
             left: "44px",
-            top: "36px",
-            width: "560px",
+            top: "32px",
+            width: "640px",
             display: "flex",
             flexDirection: "column",
           }}
@@ -150,22 +150,22 @@ export async function GET() {
             style={{
               display: "flex",
               alignItems: "center",
-              marginBottom: "20px",
+              marginBottom: "16px",
             }}
           >
             <div
               style={{
-                border: "1px solid rgba(37,99,235,0.5)",
-                padding: "8px 16px",
+                border: "1.5px solid rgba(37,99,235,0.5)",
+                padding: "10px 20px",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "10px",
               }}
             >
               <div
                 style={{
-                  width: "6px",
-                  height: "6px",
+                  width: "8px",
+                  height: "8px",
                   borderRadius: "50%",
                   background: "#2563EB",
                   display: "flex",
@@ -174,9 +174,9 @@ export async function GET() {
               <div
                 style={{
                   fontFamily: "'IBM Plex Mono'",
-                  fontSize: "12px",
-                  color: "rgba(228,228,231,0.6)",
-                  letterSpacing: "2px",
+                  fontSize: "16px",
+                  color: "rgba(228,228,231,0.7)",
+                  letterSpacing: "3px",
                   display: "flex",
                 }}
               >
@@ -185,7 +185,7 @@ export async function GET() {
             </div>
             <div
               style={{
-                width: "40px",
+                width: "44px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -193,8 +193,8 @@ export async function GET() {
             >
               <div
                 style={{
-                  width: "28px",
-                  height: "1px",
+                  width: "32px",
+                  height: "2px",
                   background: "rgba(37,99,235,0.35)",
                   display: "flex",
                 }}
@@ -202,27 +202,27 @@ export async function GET() {
             </div>
             <div
               style={{
-                border: "1px solid rgba(228,228,231,0.15)",
-                padding: "8px 16px",
+                border: "1.5px solid rgba(228,228,231,0.18)",
+                padding: "10px 20px",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "10px",
               }}
             >
               <div
                 style={{
-                  width: "5px",
-                  height: "5px",
-                  background: "rgba(228,228,231,0.4)",
+                  width: "7px",
+                  height: "7px",
+                  background: "rgba(228,228,231,0.45)",
                   display: "flex",
                 }}
               />
               <div
                 style={{
                   fontFamily: "'IBM Plex Mono'",
-                  fontSize: "12px",
-                  color: "rgba(228,228,231,0.45)",
-                  letterSpacing: "2px",
+                  fontSize: "16px",
+                  color: "rgba(228,228,231,0.5)",
+                  letterSpacing: "3px",
                   display: "flex",
                 }}
               >
@@ -232,324 +232,214 @@ export async function GET() {
           </div>
 
           {/* Connector */}
-          <div style={{ display: "flex", marginLeft: "180px", marginBottom: "16px" }}>
+          <div style={{ display: "flex", marginLeft: "200px", marginBottom: "12px" }}>
             <div
               style={{
-                width: "1px",
-                height: "16px",
-                background: "rgba(228,228,231,0.12)",
+                width: "2px",
+                height: "18px",
+                background: "rgba(228,228,231,0.15)",
                 display: "flex",
               }}
             />
           </div>
 
           {/* Row 2: Three agents */}
-          <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
+          <div style={{ display: "flex", gap: "14px", marginBottom: "12px" }}>
             <div
               style={{
-                border: "1px solid rgba(228,228,231,0.1)",
-                padding: "10px 14px",
+                border: "1.5px solid rgba(228,228,231,0.12)",
+                padding: "12px 16px",
                 display: "flex",
-                flexDirection: "column",
-                gap: "6px",
+                alignItems: "center",
+                gap: "8px",
                 flex: 1,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <div
-                  style={{
-                    width: "5px",
-                    height: "5px",
-                    background: "#2563EB",
-                    opacity: 0.6,
-                    display: "flex",
-                  }}
-                />
-                <div
-                  style={{
-                    fontFamily: "'IBM Plex Mono'",
-                    fontSize: "11px",
-                    color: "rgba(37,99,235,0.7)",
-                    letterSpacing: "2px",
-                    display: "flex",
-                  }}
-                >
-                  RAG
-                </div>
-              </div>
+              <div
+                style={{
+                  width: "7px",
+                  height: "7px",
+                  background: "#2563EB",
+                  opacity: 0.6,
+                  display: "flex",
+                }}
+              />
               <div
                 style={{
                   fontFamily: "'IBM Plex Mono'",
-                  fontSize: "9px",
-                  color: "rgba(228,228,231,0.25)",
-                  letterSpacing: "1.5px",
+                  fontSize: "15px",
+                  color: "rgba(37,99,235,0.75)",
+                  letterSpacing: "2.5px",
                   display: "flex",
                 }}
               >
-                RETRIEVE · EMBED
+                RAG
               </div>
             </div>
 
             <div
               style={{
-                border: "1px solid rgba(228,228,231,0.1)",
-                padding: "10px 14px",
+                border: "1.5px solid rgba(228,228,231,0.12)",
+                padding: "12px 16px",
                 display: "flex",
-                flexDirection: "column",
-                gap: "6px",
+                alignItems: "center",
+                gap: "8px",
                 flex: 1,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <div
-                  style={{
-                    width: "5px",
-                    height: "5px",
-                    background: "#2563EB",
-                    opacity: 0.6,
-                    display: "flex",
-                  }}
-                />
-                <div
-                  style={{
-                    fontFamily: "'IBM Plex Mono'",
-                    fontSize: "11px",
-                    color: "rgba(37,99,235,0.7)",
-                    letterSpacing: "2px",
-                    display: "flex",
-                  }}
-                >
-                  LLM
-                </div>
-              </div>
+              <div
+                style={{
+                  width: "7px",
+                  height: "7px",
+                  background: "#2563EB",
+                  opacity: 0.6,
+                  display: "flex",
+                }}
+              />
               <div
                 style={{
                   fontFamily: "'IBM Plex Mono'",
-                  fontSize: "9px",
-                  color: "rgba(228,228,231,0.25)",
-                  letterSpacing: "1.5px",
+                  fontSize: "15px",
+                  color: "rgba(37,99,235,0.75)",
+                  letterSpacing: "2.5px",
                   display: "flex",
                 }}
               >
-                REASON · PLAN
+                LLM
               </div>
             </div>
 
             <div
               style={{
-                border: "1px solid rgba(228,228,231,0.1)",
-                padding: "10px 14px",
+                border: "1.5px solid rgba(228,228,231,0.12)",
+                padding: "12px 16px",
                 display: "flex",
-                flexDirection: "column",
-                gap: "6px",
+                alignItems: "center",
+                gap: "8px",
                 flex: 1,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <div
-                  style={{
-                    width: "5px",
-                    height: "5px",
-                    background: "#2563EB",
-                    opacity: 0.6,
-                    display: "flex",
-                  }}
-                />
-                <div
-                  style={{
-                    fontFamily: "'IBM Plex Mono'",
-                    fontSize: "11px",
-                    color: "rgba(37,99,235,0.7)",
-                    letterSpacing: "2px",
-                    display: "flex",
-                  }}
-                >
-                  TOOLS
-                </div>
-              </div>
+              <div
+                style={{
+                  width: "7px",
+                  height: "7px",
+                  background: "#2563EB",
+                  opacity: 0.6,
+                  display: "flex",
+                }}
+              />
               <div
                 style={{
                   fontFamily: "'IBM Plex Mono'",
-                  fontSize: "9px",
-                  color: "rgba(228,228,231,0.25)",
-                  letterSpacing: "1.5px",
+                  fontSize: "15px",
+                  color: "rgba(37,99,235,0.75)",
+                  letterSpacing: "2.5px",
                   display: "flex",
                 }}
               >
-                API · EXECUTE
+                TOOLS
               </div>
             </div>
           </div>
 
-          {/* Connectors down from agents */}
-          <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
+          {/* Connectors down */}
+          <div style={{ display: "flex", gap: "14px", marginBottom: "12px" }}>
             <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-              <div
-                style={{
-                  width: "1px",
-                  height: "16px",
-                  background: "rgba(228,228,231,0.1)",
-                  display: "flex",
-                }}
-              />
+              <div style={{ width: "2px", height: "18px", background: "rgba(228,228,231,0.12)", display: "flex" }} />
             </div>
             <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-              <div
-                style={{
-                  width: "1px",
-                  height: "16px",
-                  background: "rgba(228,228,231,0.1)",
-                  display: "flex",
-                }}
-              />
+              <div style={{ width: "2px", height: "18px", background: "rgba(228,228,231,0.12)", display: "flex" }} />
             </div>
             <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-              <div
-                style={{
-                  width: "1px",
-                  height: "16px",
-                  background: "rgba(228,228,231,0.1)",
-                  display: "flex",
-                }}
-              />
+              <div style={{ width: "2px", height: "18px", background: "rgba(228,228,231,0.12)", display: "flex" }} />
             </div>
           </div>
 
           {/* Row 3: Context layer */}
           <div
             style={{
-              border: "1px solid rgba(37,99,235,0.25)",
-              padding: "10px 16px",
+              border: "1.5px solid rgba(37,99,235,0.3)",
+              padding: "12px 20px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "16px",
+              gap: "12px",
+              marginBottom: "12px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div
-                style={{
-                  width: "6px",
-                  height: "6px",
-                  background: "#2563EB",
-                  opacity: 0.5,
-                  display: "flex",
-                }}
-              />
-              <div
-                style={{
-                  fontFamily: "'IBM Plex Mono'",
-                  fontSize: "12px",
-                  color: "rgba(37,99,235,0.6)",
-                  letterSpacing: "2px",
-                  display: "flex",
-                }}
-              >
-                CONTEXT LAYER
-              </div>
-            </div>
+            <div
+              style={{
+                width: "8px",
+                height: "8px",
+                background: "#2563EB",
+                opacity: 0.5,
+                display: "flex",
+              }}
+            />
             <div
               style={{
                 fontFamily: "'IBM Plex Mono'",
-                fontSize: "10px",
-                color: "rgba(228,228,231,0.25)",
-                letterSpacing: "1.5px",
+                fontSize: "16px",
+                color: "rgba(37,99,235,0.65)",
+                letterSpacing: "3px",
                 display: "flex",
               }}
             >
-              MEMORY · STATE · GUARDRAILS
+              CONTEXT LAYER
             </div>
           </div>
 
           {/* Connector */}
-          <div style={{ display: "flex", marginLeft: "180px", marginBottom: "16px" }}>
-            <div
-              style={{
-                width: "1px",
-                height: "16px",
-                background: "rgba(228,228,231,0.1)",
-                display: "flex",
-              }}
-            />
+          <div style={{ display: "flex", marginLeft: "200px", marginBottom: "12px" }}>
+            <div style={{ width: "2px", height: "18px", background: "rgba(228,228,231,0.1)", display: "flex" }} />
           </div>
 
           {/* Row 4: Output */}
           <div style={{ display: "flex", alignItems: "center" }}>
             <div
               style={{
-                border: "1px solid rgba(228,228,231,0.1)",
-                padding: "8px 16px",
+                border: "1.5px solid rgba(228,228,231,0.12)",
+                padding: "10px 20px",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "10px",
               }}
             >
-              <div
-                style={{
-                  width: "5px",
-                  height: "5px",
-                  borderRadius: "50%",
-                  background: "rgba(228,228,231,0.35)",
-                  display: "flex",
-                }}
-              />
+              <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "rgba(228,228,231,0.4)", display: "flex" }} />
               <div
                 style={{
                   fontFamily: "'IBM Plex Mono'",
-                  fontSize: "12px",
-                  color: "rgba(228,228,231,0.35)",
-                  letterSpacing: "2px",
+                  fontSize: "16px",
+                  color: "rgba(228,228,231,0.4)",
+                  letterSpacing: "3px",
                   display: "flex",
                 }}
               >
                 RESPONSE
               </div>
             </div>
-            <div
-              style={{
-                width: "28px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "18px",
-                  height: "1px",
-                  background: "rgba(228,228,231,0.12)",
-                  display: "flex",
-                }}
-              />
+            <div style={{ width: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: "20px", height: "2px", background: "rgba(228,228,231,0.12)", display: "flex" }} />
             </div>
             <div
               style={{
-                border: "1px solid rgba(228,228,231,0.07)",
-                padding: "8px 16px",
+                border: "1.5px solid rgba(228,228,231,0.08)",
+                padding: "10px 20px",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "10px",
               }}
             >
-              <div
-                style={{
-                  width: "5px",
-                  height: "5px",
-                  borderRadius: "50%",
-                  background: "rgba(228,228,231,0.25)",
-                  display: "flex",
-                }}
-              />
+              <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "rgba(228,228,231,0.3)", display: "flex" }} />
               <div
                 style={{
                   fontFamily: "'IBM Plex Mono'",
-                  fontSize: "12px",
-                  color: "rgba(228,228,231,0.25)",
-                  letterSpacing: "2px",
+                  fontSize: "16px",
+                  color: "rgba(228,228,231,0.3)",
+                  letterSpacing: "3px",
                   display: "flex",
                 }}
               >
-                EVAL · LOOP
+                EVAL
               </div>
             </div>
           </div>
