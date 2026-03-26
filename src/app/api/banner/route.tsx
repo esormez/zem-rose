@@ -31,7 +31,7 @@ export async function GET() {
             position: "absolute",
             inset: 0,
             display: "flex",
-            backgroundImage: `linear-gradient(rgba(228,228,231,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(228,228,231,0.04) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(rgba(228,228,231,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(228,228,231,0.12) 1px, transparent 1px)`,
             backgroundSize: "40px 40px",
           }}
         />
