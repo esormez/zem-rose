@@ -197,6 +197,7 @@ interface KbHealthData {
   topSources: { source: string; count: number }[];
   recentQueries: KbQuery[];
   judgeStats: { count: number; avgAccuracy: number; avgTone: number; warnings: number; critical: number } | null;
+  evalResults: { lastRun: string; overall: { accuracy: number; completeness: number; tone: number }; categories: Record<string, { accuracy: number; n: number; total: number }>; avgLatency: number } | null;
 }
 
 const RANGES = [
@@ -272,6 +273,39 @@ function KbTab({ secret }: { secret: string }) {
           </div>
         ))}
       </div>
+
+      {/* Last Eval Run */}
+      {data.evalResults && (
+        <div style={{ border: "1px solid rgba(34,197,94,0.12)", marginBottom: 22 }}>
+          <div style={{ padding: "10px 16px", borderBottom: "1px solid rgba(34,197,94,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: 9, color: "rgba(34,197,94,0.5)", letterSpacing: "0.2em" }}>LAST EVAL RUN // 19-QUESTION SUITE</span>
+            <span style={{ fontSize: 8, color: "rgba(228,228,231,0.2)", letterSpacing: "0.1em" }}>
+              {new Date(data.evalResults.lastRun).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+            </span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 1 }}>
+            <div style={{ padding: "12px 16px", borderRight: "1px solid rgba(34,197,94,0.06)" }}>
+              <div style={{ fontSize: 8, color: "rgba(37,99,235,0.5)", letterSpacing: "0.14em", marginBottom: 5 }}>ACCURACY</div>
+              <div style={{ fontSize: 24, fontWeight: 500, color: gc(data.evalResults.overall.accuracy) }}>{data.evalResults.overall.accuracy}</div>
+            </div>
+            <div style={{ padding: "12px 16px", borderRight: "1px solid rgba(34,197,94,0.06)" }}>
+              <div style={{ fontSize: 8, color: "rgba(34,197,94,0.5)", letterSpacing: "0.14em", marginBottom: 5 }}>COMPLETENESS</div>
+              <div style={{ fontSize: 24, fontWeight: 500, color: gc(data.evalResults.overall.completeness) }}>{data.evalResults.overall.completeness}</div>
+            </div>
+            <div style={{ padding: "12px 16px", borderRight: "1px solid rgba(34,197,94,0.06)" }}>
+              <div style={{ fontSize: 8, color: "rgba(168,85,247,0.5)", letterSpacing: "0.14em", marginBottom: 5 }}>TONE</div>
+              <div style={{ fontSize: 24, fontWeight: 500, color: gc(data.evalResults.overall.tone) }}>{data.evalResults.overall.tone}</div>
+            </div>
+            {Object.entries(data.evalResults.categories).map(([cat, val], i) => (
+              <div key={cat} style={{ padding: "12px 16px", borderRight: i < 3 ? "1px solid rgba(34,197,94,0.06)" : "none" }}>
+                <div style={{ fontSize: 8, color: (CAT_COLORS[cat] || "rgba(228,228,231,0.3)") + "88", letterSpacing: "0.14em", marginBottom: 5 }}>{cat}</div>
+                <div style={{ fontSize: 20, fontWeight: 500, color: val.accuracy ? gc(val.accuracy) : "rgba(228,228,231,0.2)" }}>{val.accuracy ?? "—"}</div>
+                <div style={{ fontSize: 8, color: "rgba(228,228,231,0.18)", marginTop: 3 }}>{val.n}/{val.total}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Judge Stats Strip */}
       {js && (

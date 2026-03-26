@@ -78,6 +78,13 @@ export async function GET(req: NextRequest) {
   let indexStats = null;
   try { indexStats = await getPineconeStats(); } catch {}
 
+  // Fetch last eval run results
+  let evalResults = null;
+  try {
+    const evalRaw = await redis.get("eval-results");
+    evalResults = evalRaw ? (typeof evalRaw === "string" ? JSON.parse(evalRaw) : evalRaw) : null;
+  } catch {}
+
   return NextResponse.json({
     index: indexStats,
     documents: 48,
@@ -109,5 +116,6 @@ export async function GET(req: NextRequest) {
       warnings: filteredJudge.filter(j => j.flag === "warning").length,
       critical: filteredJudge.filter(j => j.flag === "critical").length,
     } : null,
+    evalResults,
   });
 }
