@@ -1,0 +1,12 @@
+{
+  "lastRun": null,
+  "overall": { "accuracy": null, "completeness": null, "tone": null },
+  "categories": {
+    "FACTUAL":   { "accuracy": null, "n": 0, "total": 8 },
+    "REASONING": { "accuracy": null, "n": 0, "total": 4 },
+    "EDGE":      { "accuracy": null, "n": 0, "total": 4 },
+    "TONE":      { "accuracy": null, "n": 0, "total": 3 }
+  },
+  "avgLatency": null,
+  "judge": "claude-sonnet-4-20250514"
+}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import EvalStrip from "./EvalStrip";
+import KbStrip from "./KbStrip";
 
 /* ═══════════════════════════════════════════════════
    INTERSECTION OBSERVER HOOK
@@ -1828,6 +1830,8 @@ export default function Portfolio() {
         <Hero onChatOpen={() => setChatOpen(true)} />
         <Projects />
         <Architecture />
+        <EvalStrip />
+        <KbStrip />
         <Contact onChatOpen={() => setChatOpen(true)} />
       </div>
 

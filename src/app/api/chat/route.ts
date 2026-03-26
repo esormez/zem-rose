@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Pinecone } from "@pinecone-database/pinecone";
 import Anthropic from "@anthropic-ai/sdk";
+import * as fs from "fs";
+import * as path from "path";
 
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
@@ -81,6 +83,30 @@ export async function POST(req: NextRequest) {
     // Search Pinecone
     const index = pinecone.index(process.env.PINECONE_INDEX!);
     const results = await index.query({ vector: queryVector, topK: 5, includeMetadata: true });
+
+    // Log retrieval stats
+    try {
+      const retrievalStats = {
+        timestamp: new Date().toISOString(),
+        query: question.slice(0, 80),
+        matchCount: results.matches.length,
+        topScore: results.matches[0]?.score ?? 0,
+        avgScore: results.matches.length
+          ? results.matches.reduce((a, m) => a + (m.score ?? 0), 0) / results.matches.length
+          : 0,
+        aboveThreshold: results.matches.filter(m => (m.score ?? 0) > 0.5).length,
+        miss: results.matches.filter(m => (m.score ?? 0) > 0.5).length === 0,
+        sources: results.matches
+          .filter(m => (m.score ?? 0) > 0.5)
+          .map(m => ({ source: m.metadata?.source as string, score: m.score ?? 0 })),
+      };
+      const logPath = path.join(process.cwd(), "data", "retrieval-log.json");
+      let log: unknown[] = [];
+      try { log = JSON.parse(fs.readFileSync(logPath, "utf-8")); } catch {}
+      log.unshift(retrievalStats);
+      if (log.length > 100) log = log.slice(0, 100);
+      fs.writeFileSync(logPath, JSON.stringify(log, null, 2));
+    } catch {}
 
     // Build context from relevant chunks
     const context = results.matches
