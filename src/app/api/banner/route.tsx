@@ -19,13 +19,13 @@ export async function GET() {
         style={{
           width: "1584px",
           height: "396px",
-          background: "#060608",
+          background: "#0A0A0B",
           display: "flex",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Grid */}
+        {/* Grid background — matching site */}
         <div
           style={{
             position: "absolute",
@@ -36,155 +36,27 @@ export async function GET() {
           }}
         />
 
-        {/* Radial fade */}
+        {/* Radial fade — center bright, edges dark */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
             background:
-              "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 20%, #060608 100%)",
+              "radial-gradient(ellipse 80% 80% at 60% 50%, transparent 20%, #0A0A0B 100%)",
           }}
         />
 
-        {/* Blue atmosphere left */}
+        {/* Blue atmosphere glow behind text */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
             background:
-              "radial-gradient(ellipse 40% 80% at 15% 50%, rgba(37,99,235,0.07) 0%, transparent 100%)",
+              "radial-gradient(ellipse 50% 70% at 75% 50%, rgba(37,99,235,0.05) 0%, transparent 100%)",
           }}
         />
-
-        {/* Network graph — left side */}
-        {(() => {
-          // Deterministic seed-based random for consistent renders
-          const seed = (s: number) => {
-            let v = s;
-            return () => {
-              v = (v * 16807 + 0) % 2147483647;
-              return (v - 1) / 2147483646;
-            };
-          };
-          const rng = seed(42);
-
-          // Generate cluster centers on the left portion (0-600px wide, full height)
-          const clusters = [
-            { cx: 120, cy: 80 },
-            { cx: 280, cy: 60 },
-            { cx: 80, cy: 200 },
-            { cx: 220, cy: 180 },
-            { cx: 400, cy: 140 },
-            { cx: 160, cy: 320 },
-            { cx: 340, cy: 280 },
-            { cx: 480, cy: 240 },
-            { cx: 60, cy: 340 },
-            { cx: 420, cy: 350 },
-          ];
-
-          // Generate nodes around clusters
-          const nodes: { x: number; y: number; r: number; o: number }[] = [];
-          for (const c of clusters) {
-            const count = 5 + Math.floor(rng() * 6);
-            for (let i = 0; i < count; i++) {
-              const angle = rng() * Math.PI * 2;
-              const dist = rng() * 60 + 10;
-              nodes.push({
-                x: c.cx + Math.cos(angle) * dist,
-                y: c.cy + Math.sin(angle) * dist,
-                r: 1 + rng() * 1.5,
-                o: 0.15 + rng() * 0.25,
-              });
-            }
-          }
-
-          // Generate connections between nearby nodes
-          const lines: { x1: number; y1: number; x2: number; y2: number; o: number }[] = [];
-          for (let i = 0; i < nodes.length; i++) {
-            for (let j = i + 1; j < nodes.length; j++) {
-              const dx = nodes[i].x - nodes[j].x;
-              const dy = nodes[i].y - nodes[j].y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              if (dist < 70 && rng() < 0.5) {
-                lines.push({
-                  x1: nodes[i].x,
-                  y1: nodes[i].y,
-                  x2: nodes[j].x,
-                  y2: nodes[j].y,
-                  o: 0.06 + rng() * 0.08,
-                });
-              }
-            }
-          }
-
-          return (
-            <div
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                width: "600px",
-                height: "396px",
-                display: "flex",
-              }}
-            >
-              {/* Fade mask — fade out on right edge */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(90deg, transparent 0%, transparent 60%, #060608 100%)",
-                  zIndex: 2,
-                  display: "flex",
-                }}
-              />
-
-              {/* Connection lines as thin rotated divs */}
-              {lines.map((l, i) => {
-                const dx = l.x2 - l.x1;
-                const dy = l.y2 - l.y1;
-                const length = Math.sqrt(dx * dx + dy * dy);
-                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-                return (
-                  <div
-                    key={`l${i}`}
-                    style={{
-                      position: "absolute",
-                      left: `${l.x1}px`,
-                      top: `${l.y1}px`,
-                      width: `${length}px`,
-                      height: "1px",
-                      background: `rgba(228,228,231,${l.o})`,
-                      transform: `rotate(${angle}deg)`,
-                      transformOrigin: "0 0",
-                      display: "flex",
-                    }}
-                  />
-                );
-              })}
-
-              {/* Nodes as small circles */}
-              {nodes.map((n, i) => (
-                <div
-                  key={`n${i}`}
-                  style={{
-                    position: "absolute",
-                    left: `${n.x - n.r}px`,
-                    top: `${n.y - n.r}px`,
-                    width: `${n.r * 2}px`,
-                    height: `${n.r * 2}px`,
-                    borderRadius: "50%",
-                    background: `rgba(228,228,231,${n.o})`,
-                    display: "flex",
-                  }}
-                />
-              ))}
-            </div>
-          );
-        })()}
 
         {/* Right blue border */}
         <div
@@ -319,7 +191,7 @@ export async function GET() {
               color: "rgba(228,228,231,0.97)",
               letterSpacing: "-4px",
               lineHeight: 0.92,
-              marginBottom: "16px",
+              marginBottom: "20px",
               display: "flex",
             }}
           >
@@ -332,7 +204,7 @@ export async function GET() {
               fontFamily: "'IBM Plex Mono'",
               fontSize: "11px",
               fontWeight: 400,
-              color: "rgba(228,228,231,0.5)",
+              color: "rgba(228,228,231,0.45)",
               letterSpacing: "3px",
               display: "flex",
             }}
@@ -345,8 +217,8 @@ export async function GET() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "6px",
-              marginTop: "10px",
+              gap: "8px",
+              marginTop: "14px",
             }}
           >
             <div
@@ -362,13 +234,13 @@ export async function GET() {
             <div
               style={{
                 fontFamily: "'IBM Plex Mono'",
-                fontSize: "9px",
-                color: "rgba(228,228,231,0.22)",
+                fontSize: "12px",
+                color: "rgba(228,228,231,0.35)",
                 letterSpacing: "2px",
                 display: "flex",
               }}
             >
-              ZEMROSE.ME // TECHNICAL DRAFTSMAN // 2026
+              ZEMROSE.ME
             </div>
           </div>
         </div>
