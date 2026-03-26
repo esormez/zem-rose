@@ -6,24 +6,42 @@ import * as path from "path";
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
 const voyage = new VoyageAIClient({ apiKey: process.env.VOYAGE_API_KEY! });
 
-const CHUNK_SIZE = 800;
-const CHUNK_OVERLAP = 150;
 const KB_DIR = path.join(process.cwd(), "kb");
 const INDEX_NAME = process.env.PINECONE_INDEX!;
+const MAX_CHUNK_CHARS = 1500;
 
-function chunkText(text: string, filename: string) {
-  const chunks = [];
-  let i = 0, idx = 0;
-  while (i < text.length) {
-    chunks.push({ id: `${filename}-${idx}`, text: text.slice(i, i + CHUNK_SIZE), source: filename });
-    i += CHUNK_SIZE - CHUNK_OVERLAP;
-    idx++;
+function chunkByHeadings(text: string, filename: string) {
+  const chunks: { id: string; text: string; source: string }[] = [];
+  // Split on markdown headings (## or ###), keeping the heading with its content
+  const sections = text.split(/(?=^#{1,3} )/m).filter((s) => s.trim().length > 0);
+
+  let idx = 0;
+  let buffer = "";
+
+  for (const section of sections) {
+    // If adding this section would exceed max, flush the buffer first
+    if (buffer.length > 0 && buffer.length + section.length > MAX_CHUNK_CHARS) {
+      chunks.push({ id: `${filename}-${idx}`, text: buffer.trim(), source: filename });
+      idx++;
+      buffer = "";
+    }
+    buffer += (buffer ? "\n\n" : "") + section;
+    // If this single section already exceeds max, flush it as-is
+    if (buffer.length > MAX_CHUNK_CHARS) {
+      chunks.push({ id: `${filename}-${idx}`, text: buffer.trim(), source: filename });
+      idx++;
+      buffer = "";
+    }
+  }
+  // Flush remaining
+  if (buffer.trim().length > 0) {
+    chunks.push({ id: `${filename}-${idx}`, text: buffer.trim(), source: filename });
   }
   return chunks;
 }
 
 async function embedBatch(texts: string[]): Promise<number[][]> {
-  const res = await voyage.embed({ input: texts, model: "voyage-3-lite" });
+  const res = await voyage.embed({ input: texts, model: "voyage-3" });
   return res.data!.map((d) => d.embedding!);
 }
 
@@ -34,7 +52,7 @@ async function main() {
     console.log(`Creating index ${INDEX_NAME}...`);
     await pinecone.createIndex({
       name: INDEX_NAME,
-      dimension: 512,
+      dimension: 1024,
       metric: "cosine",
       spec: { serverless: { cloud: "aws", region: "us-east-1" } },
     });
@@ -48,7 +66,7 @@ async function main() {
   const allChunks: { id: string; text: string; source: string }[] = [];
   for (const file of files) {
     const content = fs.readFileSync(path.join(KB_DIR, file), "utf-8");
-    const chunks = chunkText(content, file);
+    const chunks = chunkByHeadings(content, file);
     allChunks.push(...chunks);
     console.log(`  ${file}: ${chunks.length} chunks`);
   }

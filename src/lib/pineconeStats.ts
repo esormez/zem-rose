@@ -6,7 +6,7 @@ export async function getPineconeStats() {
   const stats = await index.describeIndexStats();
   return {
     totalVectors: stats.totalRecordCount ?? 0,
-    dimension: 1024,
+    dimension: (stats as Record<string, unknown>).dimension ?? 1024,
     metric: "cosine",
     fullness: stats.indexFullness ?? 0,
   };

@@ -24,7 +24,7 @@ export async function GET() {
     const kb = evalData.kb as Record<string, unknown> | undefined;
 
     return NextResponse.json({
-      documents: 26,
+      documents: 48,
       chunks: kb?.totalVectors ?? null,
       avgRetrievalScore: avgTopScore,
       missRate,
@@ -33,6 +33,6 @@ export async function GET() {
       lastQuery: recent[0]?.timestamp ?? null,
     });
   } catch {
-    return NextResponse.json({ documents: 26, chunks: null, avgRetrievalScore: null, missRate: null });
+    return NextResponse.json({ documents: 48, chunks: null, avgRetrievalScore: null, missRate: null });
   }
 }

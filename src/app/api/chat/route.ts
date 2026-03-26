@@ -13,7 +13,7 @@ async function embedQuery(text: string): Promise<number[]> {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${process.env.VOYAGE_API_KEY}`,
     },
-    body: JSON.stringify({ input: [text], model: "voyage-3-lite" }),
+    body: JSON.stringify({ input: [text], model: "voyage-3" }),
   });
   const data = await res.json();
   return data.data[0].embedding;
@@ -99,10 +99,10 @@ export async function POST(req: NextRequest) {
         avgScore: results.matches.length
           ? results.matches.reduce((a, m) => a + (m.score ?? 0), 0) / results.matches.length
           : 0,
-        aboveThreshold: results.matches.filter(m => (m.score ?? 0) > 0.5).length,
-        miss: results.matches.filter(m => (m.score ?? 0) > 0.5).length === 0,
+        aboveThreshold: results.matches.filter(m => (m.score ?? 0) > 0.45).length,
+        miss: results.matches.filter(m => (m.score ?? 0) > 0.45).length === 0,
         sources: results.matches
-          .filter(m => (m.score ?? 0) > 0.5)
+          .filter(m => (m.score ?? 0) > 0.45)
           .map(m => ({ source: m.metadata?.source as string, score: m.score ?? 0 })),
       };
       await redis.lpush("retrieval-log", JSON.stringify(retrievalStats));

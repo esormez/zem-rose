@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     index: indexStats,
-    documents: 26,
+    documents: 48,
     queriesLogged: totalLogged,
     avgTopScore,
     avgScore,
