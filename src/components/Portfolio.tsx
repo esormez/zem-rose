@@ -109,35 +109,39 @@ const SUGGESTED_QUESTIONS = [
 ═══════════════════════════════════════════════════ */
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:',.<>?/~`";
 
-function useScramble(text: string, active: boolean, delay = 0, speed = 30) {
-  const [displayed, setDisplayed] = useState(() =>
-    text.split("").map(c => c === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join("")
-  );
-  const rafRef = useRef<number | null>(null);
+function scrambleStr(t: string) {
+  return t.split("").map(c => c === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join("");
+}
 
+function useScramble(text: string, active: boolean, delay = 0, speed = 30) {
+  const [displayed, setDisplayed] = useState(text); // real text for SSR
+  const rafRef = useRef<number | null>(null);
+  const mounted = useRef(false);
+  const hasDecoded = useRef(false);
+
+  // Client-side: immediately show scrambled text on mount
   useEffect(() => {
-    if (!active) return;
+    mounted.current = true;
+    setDisplayed(scrambleStr(text));
+  }, [text]);
+
+  // When active becomes true, start the decode animation
+  useEffect(() => {
+    if (!active || !mounted.current || hasDecoded.current) return;
+    hasDecoded.current = true;
 
     let resolved = 0;
-    let tick = 0;
     const startTime = performance.now() + delay;
 
     const animate = (now: number) => {
       if (now < startTime) {
-        // Show all scrambled before delay
-        setDisplayed(
-          text.split("").map(c => c === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join("")
-        );
+        setDisplayed(scrambleStr(text));
         rafRef.current = requestAnimationFrame(animate);
         return;
       }
 
-      tick++;
-      if (tick % 2 === 0) {
-        // Resolve one more character every `speed`ms worth of frames
-        const elapsed = now - startTime;
-        resolved = Math.min(text.length, Math.floor(elapsed / speed));
-      }
+      const elapsed = now - startTime;
+      resolved = Math.min(text.length, Math.floor(elapsed / speed));
 
       const result = text.split("").map((c, i) => {
         if (i < resolved) return c;
@@ -156,7 +160,7 @@ function useScramble(text: string, active: boolean, delay = 0, speed = 30) {
 
     rafRef.current = requestAnimationFrame(animate);
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, [text, active, delay, speed]);
+  }, [active, text, delay, speed]);
 
   return displayed;
 }
@@ -648,13 +652,6 @@ function Hero({ onChatOpen }: { onChatOpen: () => void }) {
   const [ref, inView] = useInView(0.1);
   const [time, setTime] = useState("");
   const isMobile = useIsMobile();
-  const [scrambleReady, setScrambleReady] = useState(false);
-
-  useEffect(() => {
-    // Small delay so component renders with scrambled text first, then decodes
-    const t = setTimeout(() => setScrambleReady(true), 100);
-    return () => clearTimeout(t);
-  }, []);
 
   useEffect(() => {
     const tick = () => setTime(new Date().toTimeString().slice(0,8));
@@ -814,8 +811,8 @@ function Hero({ onChatOpen }: { onChatOpen: () => void }) {
             {SKILLS.map((s, i) => (
               <div key={s.label} style={{ marginBottom:16 }}>
                 <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                  <ScrambleText text={s.label} active={scrambleReady && inView} delay={400 + i * 120} speed={35} style={{ fontSize:9, color:"rgba(228,228,231,0.42)", letterSpacing:"0.1em", fontFamily:"'IBM Plex Mono',monospace" }} />
-                  <ScrambleText text={String(s.pct)} active={scrambleReady && inView} delay={400 + i * 120} speed={50} style={{ fontSize:9, color:"#2563EB", fontFamily:"'IBM Plex Mono',monospace" }} />
+                  <ScrambleText text={s.label} active={inView} delay={400 + i * 120} speed={35} style={{ fontSize:9, color:"rgba(228,228,231,0.42)", letterSpacing:"0.1em", fontFamily:"'IBM Plex Mono',monospace" }} />
+                  <ScrambleText text={String(s.pct)} active={inView} delay={400 + i * 120} speed={50} style={{ fontSize:9, color:"#2563EB", fontFamily:"'IBM Plex Mono',monospace" }} />
                 </div>
                 <div style={{ height:1, background:"rgba(228,228,231,0.06)", position:"relative" }}>
                   <div style={{
@@ -841,8 +838,8 @@ function Hero({ onChatOpen }: { onChatOpen: () => void }) {
               ["SIGNAL",  "I build AI systems and the organizations to run them"],
             ].map(([k, v], i) => (
               <div key={k} style={{ display:"flex", gap:16, marginBottom:12, fontSize:11, fontFamily:"'IBM Plex Mono', monospace", flexWrap: isMobile ? "wrap" : "nowrap" }}>
-                <ScrambleText text={k} active={scrambleReady && inView} delay={300 + i * 100} speed={40} style={{ color:"rgba(228,228,231,0.22)", letterSpacing:"0.1em", minWidth:68, flexShrink:0 }} />
-                <ScrambleText text={v} active={scrambleReady && inView} delay={300 + i * 100} speed={25} style={{ color:"rgba(228,228,231,0.52)", wordBreak:"break-word" }} />
+                <ScrambleText text={k} active={inView} delay={300 + i * 100} speed={40} style={{ color:"rgba(228,228,231,0.22)", letterSpacing:"0.1em", minWidth:68, flexShrink:0 }} />
+                <ScrambleText text={v} active={inView} delay={300 + i * 100} speed={25} style={{ color:"rgba(228,228,231,0.52)", wordBreak:"break-word" }} />
               </div>
             ))}
           </div>
