@@ -105,6 +105,70 @@ const SUGGESTED_QUESTIONS = [
 ];
 
 /* ═══════════════════════════════════════════════════
+   SCRAMBLE TEXT EFFECT HOOK
+═══════════════════════════════════════════════════ */
+const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:',.<>?/~`";
+
+function useScramble(text: string, active: boolean, delay = 0, speed = 30) {
+  const [displayed, setDisplayed] = useState(text);
+  const frameRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!active) { setDisplayed(text); return; }
+
+    let resolved = 0;
+    let tick = 0;
+    const startTime = performance.now() + delay;
+
+    const animate = (now: number) => {
+      if (now < startTime) {
+        // Show all scrambled before delay
+        setDisplayed(
+          text.split("").map(c => c === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join("")
+        );
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      tick++;
+      if (tick % 2 === 0) {
+        // Resolve one more character every `speed`ms worth of frames
+        const elapsed = now - startTime;
+        resolved = Math.min(text.length, Math.floor(elapsed / speed));
+      }
+
+      const result = text.split("").map((c, i) => {
+        if (i < resolved) return c;
+        if (c === " ") return " ";
+        return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      }).join("");
+
+      setDisplayed(result);
+
+      if (resolved < text.length) {
+        rafRef.current = requestAnimationFrame(animate);
+      } else {
+        setDisplayed(text);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [text, active, delay, speed]);
+
+  return displayed;
+}
+
+function ScrambleText({ text, active, delay = 0, speed = 30, style }: {
+  text: string; active: boolean; delay?: number; speed?: number;
+  style?: React.CSSProperties;
+}) {
+  const displayed = useScramble(text, active, delay, speed);
+  return <span style={style}>{displayed}</span>;
+}
+
+/* ═══════════════════════════════════════════════════
    TYPEWRITER EFFECT HOOK
 ═══════════════════════════════════════════════════ */
 function useTypewriter(text: string, active: boolean, speed = 12) {
@@ -742,8 +806,8 @@ function Hero({ onChatOpen }: { onChatOpen: () => void }) {
             {SKILLS.map((s, i) => (
               <div key={s.label} style={{ marginBottom:16 }}>
                 <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                  <span className="mono" style={{ fontSize:9, color:"rgba(228,228,231,0.42)", letterSpacing:"0.1em" }}>{s.label}</span>
-                  <span className="mono" style={{ fontSize:9, color:"#2563EB" }}>{s.pct}</span>
+                  <ScrambleText text={s.label} active={inView} delay={400 + i * 120} speed={35} style={{ fontSize:9, color:"rgba(228,228,231,0.42)", letterSpacing:"0.1em", fontFamily:"'IBM Plex Mono',monospace" }} />
+                  <ScrambleText text={String(s.pct)} active={inView} delay={400 + i * 120} speed={50} style={{ fontSize:9, color:"#2563EB", fontFamily:"'IBM Plex Mono',monospace" }} />
                 </div>
                 <div style={{ height:1, background:"rgba(228,228,231,0.06)", position:"relative" }}>
                   <div style={{
@@ -767,10 +831,10 @@ function Hero({ onChatOpen }: { onChatOpen: () => void }) {
               ["PREV",    "AWS Training & Certification"],
               ["CERTS",   "GenAI-Pro // SA // MLE // DE"],
               ["SIGNAL",  "I build AI systems and the organizations to run them"],
-            ].map(([k, v]) => (
+            ].map(([k, v], i) => (
               <div key={k} style={{ display:"flex", gap:16, marginBottom:12, fontSize:11, fontFamily:"'IBM Plex Mono', monospace", flexWrap: isMobile ? "wrap" : "nowrap" }}>
-                <span style={{ color:"rgba(228,228,231,0.22)", letterSpacing:"0.1em", minWidth:68, flexShrink:0 }}>{k}</span>
-                <span style={{ color:"rgba(228,228,231,0.52)", wordBreak:"break-word" }}>{v}</span>
+                <ScrambleText text={k} active={inView} delay={300 + i * 100} speed={40} style={{ color:"rgba(228,228,231,0.22)", letterSpacing:"0.1em", minWidth:68, flexShrink:0 }} />
+                <ScrambleText text={v} active={inView} delay={300 + i * 100} speed={25} style={{ color:"rgba(228,228,231,0.52)", wordBreak:"break-word" }} />
               </div>
             ))}
           </div>
