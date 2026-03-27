@@ -686,7 +686,7 @@ function Hero({ onChatOpen }: { onChatOpen: () => void }) {
                   onMouseLeave={e => e.currentTarget.style.background="#2563EB"}
                 >
                   <div style={{ width:5, height:5, borderRadius:"50%", background:"rgba(228,228,231,0.7)", animation:"pulse-dot 2s infinite", color:"rgba(228,228,231,0.7)" }} />
-                  QUERY MY EXPERIENCE →
+                  ASK THE AI SYSTEM →
                 </button>
                 {!isMobile && (
                   <button onClick={() => document.getElementById("system")?.scrollIntoView({ behavior:"smooth" })} style={{
@@ -1761,7 +1761,7 @@ function Contact({ onChatOpen }: { onChatOpen: () => void }) {
                   width:5, height:5, borderRadius:"50%", background:"#2563EB",
                   animation:"pulse-dot 2s infinite", color:"#2563EB",
                 }} />
-                LAUNCH EXPERIENCE QUERY →
+                LAUNCH AI SYSTEM →
               </button>
             </div>
 
