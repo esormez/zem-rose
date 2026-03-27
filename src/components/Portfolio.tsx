@@ -287,7 +287,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
               ZEMROSE.AI
             </div>
             <div className="mono" style={{ fontSize:9, color:"rgba(37,99,235,0.7)", letterSpacing:"0.15em", marginTop:2 }}>
-              EXPERIENCE QUERY SYSTEM // ONLINE
+              EXPERIENCE AI SYSTEM // ONLINE
             </div>
           </div>
         </div>
@@ -505,7 +505,7 @@ function Nav({ chatOpen, onChatToggle }: { chatOpen: boolean; onChatToggle: () =
                 onMouseLeave={e => { if(!chatOpen){ e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="rgba(37,99,235,0.45)"; }}}
               >
                 <div style={{ width:6, height:6, borderRadius:"50%", background: chatOpen ? "#E4E4E7" : "#2563EB", animation:"pulse-dot 2s infinite", color: chatOpen ? "#E4E4E7" : "#2563EB" }} />
-                {chatOpen ? "CLOSE QUERY" : "QUERY SYSTEM"}
+                {chatOpen ? "CLOSE" : "AI SYSTEM"}
               </button>
             </div>
           )}
